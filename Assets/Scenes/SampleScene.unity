@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 42247870}
   - component: {fileID: 42247869}
   m_Layer: 0
-  m_Name: zones (7)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 83729218}
   - component: {fileID: 83729217}
   m_Layer: 0
-  m_Name: zones (1)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 108141777}
   - component: {fileID: 108141776}
   m_Layer: 0
-  m_Name: zones (20)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 178004741}
   - component: {fileID: 178004740}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -672,7 +672,7 @@ GameObject:
   - component: {fileID: 315839638}
   - component: {fileID: 315839637}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 363971113}
   - component: {fileID: 363971112}
   m_Layer: 0
-  m_Name: zones (5)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1198,7 +1198,7 @@ GameObject:
   - component: {fileID: 451905189}
   - component: {fileID: 451905188}
   m_Layer: 0
-  m_Name: zones (25)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1308,7 +1308,7 @@ GameObject:
   - component: {fileID: 522684441}
   - component: {fileID: 522684442}
   m_Layer: 0
-  m_Name: Car
+  m_Name: CubeCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1463,7 +1463,7 @@ GameObject:
   - component: {fileID: 576434331}
   - component: {fileID: 576434330}
   m_Layer: 0
-  m_Name: zones (6)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1603,7 +1603,7 @@ GameObject:
   - component: {fileID: 620486349}
   - component: {fileID: 620486348}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1711,7 +1711,7 @@ GameObject:
   - component: {fileID: 634700554}
   - component: {fileID: 634700553}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1819,7 +1819,7 @@ GameObject:
   - component: {fileID: 647349572}
   - component: {fileID: 647349571}
   m_Layer: 0
-  m_Name: zones (19)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1968,12 +1968,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674599530}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.22, y: 0.5, z: 30.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 29.699999, y: 0.5, z: 59.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1762607856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793484096
 GameObject:
@@ -1988,7 +1988,7 @@ GameObject:
   - component: {fileID: 793484098}
   - component: {fileID: 793484097}
   m_Layer: 0
-  m_Name: zones (4)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2145,7 +2145,7 @@ GameObject:
   - component: {fileID: 841429915}
   - component: {fileID: 841429914}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2294,12 +2294,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855213967}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.32, y: 0.5, z: 75.05}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -17.84, y: 0.5, z: 104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1762607856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915873563
 GameObject:
@@ -2314,7 +2314,7 @@ GameObject:
   - component: {fileID: 915873565}
   - component: {fileID: 915873564}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2531,7 +2531,7 @@ GameObject:
   - component: {fileID: 988372128}
   - component: {fileID: 988372127}
   m_Layer: 0
-  m_Name: zones (16)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2639,7 +2639,7 @@ GameObject:
   - component: {fileID: 1014670134}
   - component: {fileID: 1014670133}
   m_Layer: 0
-  m_Name: zones (8)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2747,7 +2747,7 @@ GameObject:
   - component: {fileID: 1060502322}
   - component: {fileID: 1060502321}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2855,7 +2855,7 @@ GameObject:
   - component: {fileID: 1065521395}
   - component: {fileID: 1065521394}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2963,7 +2963,7 @@ GameObject:
   - component: {fileID: 1069580427}
   - component: {fileID: 1069580426}
   m_Layer: 0
-  m_Name: zones (3)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3071,7 +3071,7 @@ GameObject:
   - component: {fileID: 1075841934}
   - component: {fileID: 1075841933}
   m_Layer: 0
-  m_Name: zones (10)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3179,7 +3179,7 @@ GameObject:
   - component: {fileID: 1165296404}
   - component: {fileID: 1165296403}
   m_Layer: 0
-  m_Name: zones (2)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3287,7 +3287,7 @@ GameObject:
   - component: {fileID: 1200805317}
   - component: {fileID: 1200805316}
   m_Layer: 0
-  m_Name: zones (11)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3436,12 +3436,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210933761}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.22, y: 0.5, z: 75.05}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 29.699999, y: 0.5, z: 104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1762607856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1212577319
 GameObject:
@@ -3456,7 +3456,7 @@ GameObject:
   - component: {fileID: 1212577322}
   - component: {fileID: 1212577321}
   m_Layer: 0
-  m_Name: zones (22)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3585,12 +3585,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220276817}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4, y: 0.5, z: 30.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.08, y: 0.5, z: 59.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1762607856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1220276820
 MonoBehaviour:
@@ -3625,7 +3625,7 @@ GameObject:
   - component: {fileID: 1244814901}
   - component: {fileID: 1244814900}
   m_Layer: 0
-  m_Name: zones (17)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3733,7 +3733,7 @@ GameObject:
   - component: {fileID: 1260057103}
   - component: {fileID: 1260057102}
   m_Layer: 0
-  m_Name: zones (18)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3841,7 +3841,7 @@ GameObject:
   - component: {fileID: 1263651270}
   - component: {fileID: 1263651269}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3949,7 +3949,7 @@ GameObject:
   - component: {fileID: 1357592254}
   - component: {fileID: 1357592253}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4057,7 +4057,7 @@ GameObject:
   - component: {fileID: 1574200168}
   - component: {fileID: 1574200167}
   m_Layer: 0
-  m_Name: zones (21)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4165,7 +4165,7 @@ GameObject:
   - component: {fileID: 1615744246}
   - component: {fileID: 1615744245}
   m_Layer: 0
-  m_Name: zones (24)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4260,6 +4260,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615744243}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1762607855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1762607856}
+  m_Layer: 0
+  m_Name: TurnTriggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1762607856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762607855}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.48, y: -0, z: -28.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1220276819}
+  - {fileID: 674599533}
+  - {fileID: 1210933764}
+  - {fileID: 855213970}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1786385919
 GameObject:
   m_ObjectHideFlags: 0
@@ -4302,7 +4337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1790598542}
   m_Layer: 0
-  m_Name: Zones
+  m_Name: Cubes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4368,7 +4403,7 @@ GameObject:
   - component: {fileID: 1861905346}
   - component: {fileID: 1861905345}
   m_Layer: 0
-  m_Name: zones (23)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4476,7 +4511,7 @@ GameObject:
   - component: {fileID: 1949906622}
   - component: {fileID: 1949906621}
   m_Layer: 0
-  m_Name: zones (9)
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4616,7 +4651,7 @@ GameObject:
   - component: {fileID: 2085006173}
   - component: {fileID: 2085006172}
   m_Layer: 0
-  m_Name: zones
+  m_Name: SideWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4985,115 +5020,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116509147289898304}
   m_Mesh: {fileID: 1550026729220326002, guid: 3131eb239467945468ca6245f35c2ba1, type: 3}
---- !u!1 &3638911070606396461
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3667211753869898166}
-  - component: {fileID: 3667211753869898169}
-  - component: {fileID: 3667211753869898168}
-  - component: {fileID: 3667211753869898167}
-  m_Layer: 0
-  m_Name: Simple Retro Car
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3667211753869898166
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638911070606396461}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.48, y: -0.00000023841858, z: -28.95}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3667211753869898167
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638911070606396461}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3667211753869898168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638911070606396461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab1600a82dd026b40b35d0a025eea3c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frontLeftWheel: {fileID: 0}
-  frontRightWheel: {fileID: 0}
-  rearLeftWheel: {fileID: 0}
-  rearRightWheel: {fileID: 0}
-  wheelRadius: 0.35
-  maxSteerAngle: 30
-  steerSpeed: 5
-  wheelRotationAxis: {x: 1, y: 0, z: 0}
-  wheelSteerAxis: {x: 0, y: 1, z: 0}
-  invertRotation: 0
-  enableSuspension: 1
-  suspensionHeight: 0.1
-  suspensionSpeed: 8
-  useCarControllerTilt: 1
-  additionalBodyTilt: 5
-  autoDetectWheels: 1
---- !u!114 &3667211753869898169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638911070606396461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d7edfad9771c9e479f082902edbf2b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 15
-  acceleration: 8
-  deceleration: 12
-  turnSpeed: 120
-  driftFactor: 0.9
-  turnSmoothness: 5
-  tiltAngle: 15
-  tiltSpeed: 3
 --- !u!1 &4576468817532570540
 GameObject:
   m_ObjectHideFlags: 0
@@ -5433,9 +5359,5 @@ SceneRoots:
   - {fileID: 522684440}
   - {fileID: 21161424}
   - {fileID: 1790598542}
-  - {fileID: 1220276819}
-  - {fileID: 674599533}
-  - {fileID: 1210933764}
-  - {fileID: 855213970}
-  - {fileID: 3667211753869898166}
+  - {fileID: 1762607856}
   - {fileID: 8367523790049932951}
