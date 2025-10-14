@@ -218,7 +218,6 @@ public class CarController : MonoBehaviour
     {
         Vector3 currentRotation = cachedTransform.localEulerAngles;
         cachedTransform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, 0f);
-        Debug.Log("Tilt reset");
     }
 
     /// <summary>
