@@ -5324,7 +5324,7 @@ MonoBehaviour:
   driftDeceleration: 8
   driftTurnSpeed: 200
   driftSlipAmount: 0.7
-  driftDuration: 0.5
+  driftDuration: 1
   driftSpeedBoost: 1.2
   tiltAngle: 15
   tiltSpeed: 3
