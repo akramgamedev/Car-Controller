@@ -265,4 +265,3 @@ public class TurnTrigger : MonoBehaviour
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(triggerWidth, triggerHeight, triggerLength));
     }
 }
-

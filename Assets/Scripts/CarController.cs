@@ -278,5 +278,3 @@ public class CarController : MonoBehaviour
         isTurnTriggerActive = false;
     }
 }
-
-
