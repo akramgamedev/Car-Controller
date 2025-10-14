@@ -1,10 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Turn trigger system that rotates the car to face a new direction
-/// The car smoothly transitions to the target direction when entering the trigger
-/// Once aligned, it continues straight in the new direction
-/// </summary>
 public class TurnTrigger : MonoBehaviour
 {
     [Header("Turn Settings")]
@@ -12,7 +7,7 @@ public class TurnTrigger : MonoBehaviour
     [SerializeField] private Vector3 targetDirection = Vector3.forward;
 
     [Tooltip("How quickly the car rotates to face the target direction")]
-    [SerializeField] private float rotationSpeed = 180f; // degrees per second
+    [SerializeField] private float rotationSpeed = 180f;
 
     [Header("Trigger Settings")]
     [SerializeField] private float triggerWidth = 5f;
@@ -21,17 +16,29 @@ public class TurnTrigger : MonoBehaviour
 
     [Header("Visual Helper")]
     [Tooltip("Use this to set turn direction easily: 0=Forward, 90=Right, -90=Left, 180=Backward")]
-    [SerializeField] private float targetAngle = 90f; // Helper to visualize direction
+    [SerializeField] private float targetAngle = 90f;
+
+    [Header("Drift Settings")]
+    [SerializeField] private bool enableDriftOnTrigger = true;
+    [SerializeField] private float driftTriggerIntensity = 1f; // 0-1, how intense the drift is
 
     [Header("Advanced")]
     [SerializeField] private bool requiresMovement = true;
-    [SerializeField] private float alignmentThreshold = 5f; // Degrees - when close enough, snap to target
+    [SerializeField] private float alignmentThreshold = 5f;
+
+    [Header("Debug & Customization")]
+    [SerializeField] private bool showTriggerVisuals = true;
+    [SerializeField] private Color triggerFillColor = new Color(0.2f, 0.8f, 1f, 0.3f);
+    [SerializeField] private Color triggerWireColor = new Color(0.2f, 0.8f, 1f, 0.8f);
+    [SerializeField] private Color arrowColor = Color.yellow;
+    [SerializeField] private Color selectedTriggerColor = Color.cyan;
 
     private BoxCollider triggerCollider;
     private CarController activeCar;
     private Transform carTransform;
     private bool isCarInTrigger;
     private bool hasCompletedTurn;
+    private bool hasDriftTriggered;
     private Quaternion targetRotation;
 
     void Awake()
@@ -42,13 +49,17 @@ public class TurnTrigger : MonoBehaviour
 
     void OnValidate()
     {
-        // Update target direction when angle changes in inspector
+        triggerWidth = Mathf.Max(0.1f, triggerWidth);
+        triggerHeight = Mathf.Max(0.1f, triggerHeight);
+        triggerLength = Mathf.Max(0.1f, triggerLength);
+        rotationSpeed = Mathf.Max(1f, rotationSpeed);
+        alignmentThreshold = Mathf.Max(0.1f, alignmentThreshold);
+        driftTriggerIntensity = Mathf.Clamp01(driftTriggerIntensity);
+
         UpdateTargetRotation();
+        UpdateTriggerSize();
     }
 
-    /// <summary>
-    /// Sets up the trigger collider automatically
-    /// </summary>
     private void SetupTrigger()
     {
         triggerCollider = GetComponent<BoxCollider>();
@@ -58,15 +69,19 @@ public class TurnTrigger : MonoBehaviour
         }
 
         triggerCollider.isTrigger = true;
-        triggerCollider.size = new Vector3(triggerWidth, triggerHeight, triggerLength);
+        UpdateTriggerSize();
     }
 
-    /// <summary>
-    /// Updates the target rotation based on the helper angle
-    /// </summary>
+    private void UpdateTriggerSize()
+    {
+        if (triggerCollider != null)
+        {
+            triggerCollider.size = new Vector3(triggerWidth, triggerHeight, triggerLength);
+        }
+    }
+
     private void UpdateTargetRotation()
     {
-        // Convert the angle to a world-space rotation
         targetRotation = transform.rotation * Quaternion.Euler(0f, targetAngle, 0f);
     }
 
@@ -79,8 +94,11 @@ public class TurnTrigger : MonoBehaviour
             carTransform = other.transform;
             isCarInTrigger = true;
             hasCompletedTurn = false;
+            hasDriftTriggered = false;
 
-            UpdateTargetRotation(); // Ensure we have the latest target
+            activeCar.SetTurnTriggerActive(true);
+
+            UpdateTargetRotation();
         }
     }
 
@@ -88,7 +106,6 @@ public class TurnTrigger : MonoBehaviour
     {
         if (activeCar != null && isCarInTrigger && !hasCompletedTurn)
         {
-            // Only rotate if car is moving
             if (!requiresMovement || activeCar.IsMoving())
             {
                 RotateCarTowardsTarget();
@@ -96,38 +113,46 @@ public class TurnTrigger : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Smoothly rotates the car towards the target direction
-    /// </summary>
     private void RotateCarTowardsTarget()
     {
-        // Calculate the angle difference
         float angleDifference = Quaternion.Angle(carTransform.rotation, targetRotation);
 
-        // If we're close enough, snap to target and mark as complete
+        // Trigger drift once when angle difference is significant
+        if (!hasDriftTriggered && enableDriftOnTrigger && angleDifference > 30f)
+        {
+            // Determine drift direction based on which way we need to turn
+            Vector3 cross = Vector3.Cross(carTransform.forward, targetRotation * Vector3.forward);
+            float driftDirection = Mathf.Sign(cross.y);
+            
+            activeCar.TriggerDrift(driftDirection * driftTriggerIntensity);
+            hasDriftTriggered = true;
+        }
+
         if (angleDifference < alignmentThreshold)
         {
-            carTransform.rotation = targetRotation;
+            // Force rotation to exact target
+            activeCar.ForceRotation(targetRotation);
+            activeCar.ResetTilt();
             hasCompletedTurn = true;
-            activeCar.SetTurnInput(0f); // Stop any turning input
+            activeCar.SetTurnInput(0f);
             return;
         }
 
         // Smoothly rotate towards target
-        carTransform.rotation = Quaternion.RotateTowards(
+        Quaternion newRotation = Quaternion.RotateTowards(
             carTransform.rotation,
             targetRotation,
             rotationSpeed * Time.deltaTime
         );
 
-        // Calculate turn direction for visual tilt effect (-1 to 1)
-        Vector3 cross = Vector3.Cross(carTransform.forward, targetRotation * Vector3.forward);
-        float turnDirection = Mathf.Sign(cross.y);
+        activeCar.ForceRotation(newRotation);
 
-        // Calculate turn intensity based on angle difference (0 to 1)
+        // Calculate turn direction for visual tilt effect
+        Vector3 cross2 = Vector3.Cross(carTransform.forward, targetRotation * Vector3.forward);
+        float turnDirection = Mathf.Sign(cross2.y);
+
         float turnIntensity = Mathf.Clamp01(angleDifference / 90f);
 
-        // Apply turn input for visual effects (tilt)
         activeCar.SetTurnInput(turnDirection * turnIntensity);
     }
 
@@ -136,35 +161,73 @@ public class TurnTrigger : MonoBehaviour
         CarController car = other.GetComponent<CarController>();
         if (car != null && car == activeCar)
         {
-            // Ensure car is facing the correct direction when exiting
             if (!hasCompletedTurn)
             {
-                carTransform.rotation = targetRotation;
+                activeCar.ForceRotation(targetRotation);
             }
 
-            // Reset turn input
+            activeCar.ResetTilt();
             activeCar.SetTurnInput(0f);
+            activeCar.SetTurnTriggerActive(false);
+
             activeCar = null;
             carTransform = null;
             isCarInTrigger = false;
             hasCompletedTurn = false;
+            hasDriftTriggered = false;
         }
     }
 
     /// <summary>
-    /// Visualize turn direction in Scene view
+    /// Public method to change trigger size at runtime
     /// </summary>
+    public void SetTriggerSize(float width, float height, float length)
+    {
+        triggerWidth = Mathf.Max(0.1f, width);
+        triggerHeight = Mathf.Max(0.1f, height);
+        triggerLength = Mathf.Max(0.1f, length);
+        UpdateTriggerSize();
+    }
+
+    /// <summary>
+    /// Public method to change target angle at runtime
+    /// </summary>
+    public void SetTargetAngle(float angle)
+    {
+        targetAngle = angle;
+        UpdateTargetRotation();
+    }
+
+    /// <summary>
+    /// Public method to change rotation speed at runtime
+    /// </summary>
+    public void SetRotationSpeed(float speed)
+    {
+        rotationSpeed = Mathf.Max(1f, speed);
+    }
+
+    /// <summary>
+    /// Get current trigger dimensions
+    /// </summary>
+    public Vector3 GetTriggerSize()
+    {
+        return new Vector3(triggerWidth, triggerHeight, triggerLength);
+    }
+
     void OnDrawGizmos()
     {
+        if (!showTriggerVisuals)
+            return;
+
         UpdateTargetRotation();
 
-        // Draw trigger box
-        Gizmos.color = new Color(0.2f, 0.8f, 1f, 0.3f);
+        // Draw trigger box fill
+        Gizmos.color = triggerFillColor;
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawCube(Vector3.zero, new Vector3(triggerWidth, triggerHeight, triggerLength));
 
-        // Draw wireframe
-        Gizmos.color = new Color(0.2f, 0.8f, 1f, 0.8f);
+        // Draw trigger box wireframe
+        Gizmos.color = triggerWireColor;
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(triggerWidth, triggerHeight, triggerLength));
 
         // Reset matrix for world-space drawing
@@ -176,7 +239,7 @@ public class TurnTrigger : MonoBehaviour
         Vector3 arrowEnd = arrowStart + arrowDirection * 3f;
 
         // Main arrow line
-        Gizmos.color = Color.yellow;
+        Gizmos.color = arrowColor;
         Gizmos.DrawLine(arrowStart, arrowEnd);
 
         // Arrow head
@@ -194,8 +257,12 @@ public class TurnTrigger : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
+        if (!showTriggerVisuals)
+            return;
+
+        Gizmos.color = selectedTriggerColor;
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(triggerWidth, triggerHeight, triggerLength));
     }
 }
+
