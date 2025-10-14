@@ -1446,14 +1446,14 @@ MonoBehaviour:
   acceleration: 8
   deceleration: 12
   turnSpeed: 120
-  driftFactor: 0.9
+  baseDriftFactor: 0.92
   turnSmoothness: 5
   driftAcceleration: 15
   driftDeceleration: 8
   driftTurnSpeed: 200
   driftSlipAmount: 0.7
-  driftDuration: 0.5
-  driftSpeedBoost: 1.2
+  driftRecoveryRate: 4
+  driftBoost: 1.25
   tiltAngle: 15
   tiltSpeed: 3
 --- !u!1 &576434329
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   targetAngle: 0
   enableDriftOnTrigger: 1
   driftTriggerIntensity: 1
-  requiresMovement: 1
+  requiresMovement: 0
   alignmentThreshold: 5
   showTriggerVisuals: 1
   triggerFillColor: {r: 0.2, g: 0.8, b: 1, a: 0.3}
@@ -2285,13 +2285,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDirection: {x: 0, y: 0, z: 1}
   rotationSpeed: 180
-  triggerWidth: 3.89
+  triggerWidth: 5
   triggerHeight: 3
-  triggerLength: 12.46
+  triggerLength: 10
   targetAngle: 0
   enableDriftOnTrigger: 1
   driftTriggerIntensity: 1
-  requiresMovement: 1
+  requiresMovement: 0
   alignmentThreshold: 5
   showTriggerVisuals: 1
   triggerFillColor: {r: 0.2, g: 0.8, b: 1, a: 0.3}
@@ -3434,13 +3434,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDirection: {x: 0, y: 0, z: 1}
   rotationSpeed: 180
-  triggerWidth: 12.3
+  triggerWidth: 5
   triggerHeight: 3
-  triggerLength: 4.75
+  triggerLength: 10
   targetAngle: -90
   enableDriftOnTrigger: 1
   driftTriggerIntensity: 1
-  requiresMovement: 1
+  requiresMovement: 0
   alignmentThreshold: 5
   showTriggerVisuals: 1
   triggerFillColor: {r: 0.2, g: 0.8, b: 1, a: 0.3}
@@ -3633,13 +3633,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDirection: {x: 0, y: 0, z: 1}
   rotationSpeed: 180
-  triggerWidth: 7.89
+  triggerWidth: 5
   triggerHeight: 3
-  triggerLength: 3.73
+  triggerLength: 10
   targetAngle: 90
   enableDriftOnTrigger: 1
   driftTriggerIntensity: 1
-  requiresMovement: 1
+  requiresMovement: 0
   alignmentThreshold: 5
   showTriggerVisuals: 1
   triggerFillColor: {r: 0.2, g: 0.8, b: 1, a: 0.3}
@@ -5318,14 +5318,14 @@ MonoBehaviour:
   acceleration: 8
   deceleration: 12
   turnSpeed: 120
-  driftFactor: 0.9
+  baseDriftFactor: 0.92
   turnSmoothness: 5
   driftAcceleration: 15
   driftDeceleration: 8
   driftTurnSpeed: 200
   driftSlipAmount: 0.7
-  driftDuration: 1
-  driftSpeedBoost: 1.2
+  driftRecoveryRate: 4
+  driftBoost: 1.25
   tiltAngle: 15
   tiltSpeed: 3
 --- !u!114 &8425267888876866240
