@@ -101,7 +101,7 @@ public class CarController : MonoBehaviour
             StartDrift(turnIntensity);
         }
         else if (!shouldDrift)
-        {
+        {  
             isDrifting = false;
         }
 

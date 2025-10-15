@@ -855,7 +855,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -4.47, y: 21, z: -39}
+  m_LocalPosition: {x: -4.47, y: 20.82, z: -45.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -918,12 +918,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 8367523790049932951}
-  localOffset: {x: 0, y: 20.03, z: -10.88}
-  positionSmoothSpeed: 5
-  rotationSmoothSpeed: 8
-  lookAheadDistance: 2
-  lookAtHeight: 1
-  useSmoothDamp: 1
+  worldOffset: {x: 0, y: 20, z: -13.62}
+  followSmoothSpeed: 5
+  useSmoothDamp: 0
 --- !u!1 &357984091
 GameObject:
   m_ObjectHideFlags: 0
