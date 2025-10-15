@@ -8,17 +8,16 @@ public class CarController : MonoBehaviour
     [SerializeField] private float deceleration = 12f;
 
     [Header("Turn Settings")]
-    [SerializeField] private float turnSpeed = 120f;
-    [SerializeField, Range(0f, 1f)] private float baseDriftFactor = 0.92f;
-    [SerializeField] private float turnSmoothness = 5f;
+    [SerializeField] private float turnSpeed = 100f;
 
     [Header("Drift Settings")]
-    [SerializeField] private float driftAcceleration = 15f;
-    [SerializeField] private float driftDeceleration = 8f;
-    [SerializeField] private float driftTurnSpeed = 220f;
-    [SerializeField, Range(0f, 1f)] private float driftSlipAmount = 0.8f;
-    [SerializeField] private float driftRecoveryRate = 4f;
-    [SerializeField] private float driftBoost = 1.25f;
+    [SerializeField] private float driftAmount = 5f; // How much the car slides outward
+    [SerializeField] private float driftRotationMultiplier = 2f; // How much faster car rotates during drift
+    [SerializeField] private float minSpeedForDrift = 2f;
+    
+    [Header("Path Following")]
+    [SerializeField] private float pathReturnSpeed = 3f; // How fast car returns to center path after drift
+    [SerializeField] private float pathSmoothness = 0.85f; // How tightly car follows its forward direction (lower = more drift lag)
 
     [Header("Visual Settings")]
     [SerializeField] private float tiltAngle = 15f;
@@ -27,16 +26,15 @@ public class CarController : MonoBehaviour
     // Internal
     private float currentSpeed;
     private float targetSpeed;
-    private float currentTurnAngle;
-    private float targetTurnAngle;
-    private float driftFactor;
     private bool isAccelerating;
     private bool isDrifting;
-    private float driftIntensity;
-    private Vector3 moveDirection;
-    private Vector3 velocity;
-    private Vector3 driftVelocity;
-
+    private bool wasDrifting;
+    
+    // Movement vectors
+    private Vector3 forwardDirection; // The direction car should travel (path direction)
+    private Vector3 velocity; // Current actual velocity with drift
+    private float lateralOffset; // How far off-center from path
+    
     private float externalTurnInput;
     private bool isTurnTriggerActive;
 
@@ -45,14 +43,16 @@ public class CarController : MonoBehaviour
     void Awake()
     {
         cachedTransform = transform;
-        moveDirection = cachedTransform.forward;
+        forwardDirection = cachedTransform.forward;
+        velocity = Vector3.zero;
+        lateralOffset = 0f;
     }
 
     void Update()
     {
         HandleTouchInput();
         UpdateMovement();
-        UpdateRotation();
+        ApplyVisualTilt();
     }
 
     private void HandleTouchInput()
@@ -63,77 +63,78 @@ public class CarController : MonoBehaviour
 
     private void UpdateMovement()
     {
+        // Update speed
         float rate = isAccelerating ? acceleration : deceleration;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.deltaTime);
 
-        // Dynamic drift factor: higher when turning fast or at high speed
-        float speedPercent = Mathf.Clamp01(currentSpeed / maxSpeed);
-        float driftStrength = Mathf.Abs(externalTurnInput) * speedPercent;
-        driftFactor = Mathf.Lerp(baseDriftFactor, 0.7f, driftStrength); // lower = more slide
+        // Check if we should drift
+        bool isTurning = Mathf.Abs(externalTurnInput) > 0.15f;
+        bool canDrift = currentSpeed > minSpeedForDrift && isTurning && isAccelerating;
+        
+        wasDrifting = isDrifting;
+        isDrifting = canDrift;
 
-        // Blend direction for smooth top-down drift
-        moveDirection = Vector3.Lerp(moveDirection, cachedTransform.forward, driftFactor * Time.deltaTime * 8f);
+        // Update forward direction (the intended path)
+        forwardDirection = cachedTransform.forward;
 
-        // Apply velocity
-        float driftMultiplier = isDrifting ? driftBoost : 1f;
-        velocity = moveDirection.normalized * currentSpeed * driftMultiplier;
+        // Rotate car if not in trigger
+        if (!isTurnTriggerActive && Mathf.Abs(externalTurnInput) > 0.01f)
+        {
+            // Apply extra rotation during drift
+            float rotationMultiplier = isDrifting ? driftRotationMultiplier : 1f;
+            float turnAmount = externalTurnInput * turnSpeed * rotationMultiplier * Time.deltaTime;
+            cachedTransform.Rotate(0f, turnAmount, 0f);
+        }
 
-        // Add side slip for better feel
+        // Calculate velocity
         if (isDrifting)
-            velocity += driftVelocity;
+        {
+            // During drift: move forward but also slide outward
+            velocity = forwardDirection * currentSpeed;
+            
+            // Add outward drift force
+            float driftForce = externalTurnInput * driftAmount;
+            lateralOffset += driftForce * Time.deltaTime;
+            
+            // Apply lateral offset as sideways velocity
+            velocity += cachedTransform.right * lateralOffset;
+        }
+        else
+        {
+            // Not drifting: return to center path
+            velocity = forwardDirection * currentSpeed;
+            
+            // Gradually reduce lateral offset (return to center)
+            lateralOffset = Mathf.Lerp(lateralOffset, 0f, pathReturnSpeed * Time.deltaTime);
+            
+            // Apply remaining lateral offset
+            velocity += cachedTransform.right * lateralOffset;
+        }
 
-        cachedTransform.position += velocity * Time.deltaTime;
+        // Blend velocity to follow car's rotation smoothly
+        velocity = Vector3.Lerp(velocity, forwardDirection * currentSpeed, pathSmoothness * Time.deltaTime);
 
-        // Gradually recover from drift
-        if (isDrifting)
-            driftVelocity = Vector3.Lerp(driftVelocity, Vector3.zero, Time.deltaTime * driftRecoveryRate);
+        // Lock Y position and apply movement
+        float currentY = cachedTransform.position.y;
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+        Vector3 newPosition = cachedTransform.position + horizontalVelocity * Time.deltaTime;
+        newPosition.y = currentY;
+        
+        cachedTransform.position = newPosition;
     }
 
-    private void UpdateRotation()
+    private void ApplyVisualTilt()
     {
-        if (isTurnTriggerActive) return;
-
-        float turnIntensity = Mathf.Abs(externalTurnInput);
-        bool shouldDrift = turnIntensity > 0.1f && currentSpeed > 2f;
-
-        if (shouldDrift && !isDrifting)
-        {
-            StartDrift(turnIntensity);
-        }
-        else if (!shouldDrift)
-        {  
-            isDrifting = false;
-        }
-
-        // Apply turning
-        float currentTurnSpeed = isDrifting ? driftTurnSpeed : turnSpeed;
-        float turnAmount = externalTurnInput * currentTurnSpeed * Time.deltaTime;
-        cachedTransform.Rotate(0f, turnAmount, 0f);
-
-        // Adjust drift velocity sideways
-        if (isDrifting)
-        {
-            Vector3 sideways = cachedTransform.right * Mathf.Sign(externalTurnInput);
-            driftVelocity = Vector3.Lerp(driftVelocity, sideways * currentSpeed * driftSlipAmount * 0.5f, Time.deltaTime * 2f);
-        }
-
-        // Visual tilt (for feedback)
+        // Visual tilt for feedback
         float targetTilt = -externalTurnInput * tiltAngle;
-        Vector3 rot = cachedTransform.localEulerAngles;
-        rot.z = Mathf.LerpAngle(rot.z, targetTilt, tiltSpeed * Time.deltaTime);
-        cachedTransform.localEulerAngles = rot;
-    }
-
-    private void StartDrift(float intensity)
-    {
-        isDrifting = true;
-        driftIntensity = intensity;
+        Vector3 euler = cachedTransform.localEulerAngles;
+        euler.z = Mathf.LerpAngle(euler.z, targetTilt, tiltSpeed * Time.deltaTime);
+        cachedTransform.localEulerAngles = euler;
     }
 
     public void SetTurnInput(float turnInput)
     {
         externalTurnInput = Mathf.Clamp(turnInput, -1f, 1f);
-        targetTurnAngle = externalTurnInput;
     }
 
     public void SetTurnTriggerActive(bool active)
@@ -142,14 +143,13 @@ public class CarController : MonoBehaviour
         if (!active)
         {
             externalTurnInput = 0f;
-            moveDirection = cachedTransform.forward;
         }
     }
 
     public void ForceRotation(Quaternion targetRotation)
     {
         cachedTransform.rotation = targetRotation;
-        moveDirection = cachedTransform.forward;
+        forwardDirection = cachedTransform.forward;
     }
 
     public void ResetTilt()
@@ -159,26 +159,180 @@ public class CarController : MonoBehaviour
         cachedTransform.localEulerAngles = rot;
     }
 
-    // Keep TriggerDrift to match TurnTrigger usage
     public void TriggerDrift(float turnIntensity)
     {
-        StartDrift(Mathf.Abs(turnIntensity));
+        isDrifting = true;
     }
 
-    // --- Added utility methods to satisfy TurnTrigger and other systems ---
+    // Utility methods
     public bool IsDrifting() => isDrifting;
-
-    // TurnTrigger expects IsMoving(); return true when we have non-trivial forward speed
     public bool IsMoving() => currentSpeed > 0.1f;
-
-    // Optional helpers
     public float GetCurrentSpeed() => currentSpeed;
     public float GetNormalizedSpeed() => Mathf.Clamp01(currentSpeed / maxSpeed);
 }
 
 
+// using UnityEngine;
+
+// public class CarController : MonoBehaviour
+// {
+//     [Header("Car Movement Settings")]
+//     [SerializeField] private float maxSpeed = 15f;
+//     [SerializeField] private float acceleration = 8f;
+//     [SerializeField] private float deceleration = 12f;
+
+//     [Header("Turn Settings")]
+//     [SerializeField] private float turnSpeed = 100f;
+
+//     [Header("Drift Settings")]
+//     [SerializeField] private float driftAmount = 3.5f; // How much the car slides sideways
+//     [SerializeField] private float forwardDriftGrip = 0.88f; // How much car follows its rotation (lower = more drift)
+//     [SerializeField] private float driftRotationMultiplier = 1.5f; // How much faster car rotates during drift
+//     [SerializeField] private float driftRecoverySpeed = 2.5f;
+//     [SerializeField] private float minSpeedForDrift = 2f;
+
+//     [Header("Visual Settings")]
+//     [SerializeField] private float tiltAngle = 15f;
+//     [SerializeField] private float tiltSpeed = 3f;
+
+//     // Internal
+//     private float currentSpeed;
+//     private float targetSpeed;
+//     private bool isAccelerating;
+//     private bool isDrifting;
+    
+//     // Drift system
+//     private Vector3 velocity; // Actual velocity of the car
+//     private Vector3 smoothVelocity; // For smoothing
+    
+//     private float externalTurnInput;
+//     private bool isTurnTriggerActive;
+
+//     private Transform cachedTransform;
+
+//     void Awake()
+//     {
+//         cachedTransform = transform;
+//         velocity = cachedTransform.forward * 0.01f;
+//     }
+
+//     void Update()
+//     {
+//         HandleTouchInput();
+//         UpdateMovement();
+//         ApplyVisualTilt();
+//     }
+
+//     private void HandleTouchInput()
+//     {
+//         isAccelerating = Input.touchCount > 0 || Input.GetMouseButton(0);
+//         targetSpeed = isAccelerating ? maxSpeed : 0f;
+//     }
+
+//     private void UpdateMovement()
+//     {
+//         // Update speed
+//         float rate = isAccelerating ? acceleration : deceleration;
+//         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * Time.deltaTime);
+
+//         // Rotate car if not in trigger
+//         if (!isTurnTriggerActive && Mathf.Abs(externalTurnInput) > 0.01f)
+//         {
+//             // Apply extra rotation during drift
+//             float rotationMultiplier = isDrifting ? driftRotationMultiplier : 1f;
+//             float turnAmount = externalTurnInput * turnSpeed * rotationMultiplier * Time.deltaTime;
+//             cachedTransform.Rotate(0f, turnAmount, 0f);
+//         }
+
+//         // Check if we should drift
+//         bool isTurning = Mathf.Abs(externalTurnInput) > 0.15f;
+//         bool canDrift = currentSpeed > minSpeedForDrift && isTurning && isAccelerating;
+        
+//         isDrifting = canDrift;
+
+//         // Calculate target velocity based on car's forward direction
+//         Vector3 targetVelocity = cachedTransform.forward * currentSpeed;
+
+//         if (isDrifting)
+//         {
+//             // During drift: velocity lags behind the car's rotation
+//             // This creates the "sliding" effect
+//             velocity = Vector3.Lerp(velocity, targetVelocity, forwardDriftGrip * Time.deltaTime * 5f);
+            
+//             // Add perpendicular drift (sideways slide)
+//             Vector3 driftForce = cachedTransform.right * externalTurnInput * driftAmount;
+//             velocity += driftForce * Time.deltaTime;
+//         }
+//         else
+//         {
+//             // Not drifting: quickly align velocity with car direction
+//             velocity = Vector3.Lerp(velocity, targetVelocity, driftRecoverySpeed * Time.deltaTime);
+//         }
+
+//         // IMPORTANT: Lock Y position to prevent ground clipping
+//         float currentY = cachedTransform.position.y;
+        
+//         // Apply movement (only on X and Z axis)
+//         Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+//         Vector3 newPosition = cachedTransform.position + horizontalVelocity * Time.deltaTime;
+//         newPosition.y = currentY; // Keep Y position fixed
+        
+//         cachedTransform.position = newPosition;
+//     }
+
+//     private void ApplyVisualTilt()
+//     {
+//         // Visual tilt for feedback
+//         float targetTilt = -externalTurnInput * tiltAngle;
+//         Vector3 euler = cachedTransform.localEulerAngles;
+//         euler.z = Mathf.LerpAngle(euler.z, targetTilt, tiltSpeed * Time.deltaTime);
+//         cachedTransform.localEulerAngles = euler;
+//     }
+
+//     public void SetTurnInput(float turnInput)
+//     {
+//         externalTurnInput = Mathf.Clamp(turnInput, -1f, 1f);
+//     }
+
+//     public void SetTurnTriggerActive(bool active)
+//     {
+//         isTurnTriggerActive = active;
+//         if (!active)
+//         {
+//             externalTurnInput = 0f;
+//         }
+//     }
+
+//     // DO NOT reset velocity here - let drift continue naturally
+//     public void ForceRotation(Quaternion targetRotation)
+//     {
+//         cachedTransform.rotation = targetRotation;
+//         // Keep velocity as-is to maintain drift momentum
+//     }
+
+//     public void ResetTilt()
+//     {
+//         Vector3 rot = cachedTransform.localEulerAngles;
+//         rot.z = 0f;
+//         cachedTransform.localEulerAngles = rot;
+//     }
+
+//     public void TriggerDrift(float turnIntensity)
+//     {
+//         isDrifting = true;
+//     }
+
+//     // Utility methods
+//     public bool IsDrifting() => isDrifting;
+//     public bool IsMoving() => currentSpeed > 0.1f;
+//     public float GetCurrentSpeed() => currentSpeed;
+//     public float GetNormalizedSpeed() => Mathf.Clamp01(currentSpeed / maxSpeed);
+// }
 
 
+
+
+//********** original code ***********************
 
 // using UnityEngine;
 
