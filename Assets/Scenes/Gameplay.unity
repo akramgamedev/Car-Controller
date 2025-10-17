@@ -5231,6 +5231,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861905343}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1900800933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1900800935}
+  - component: {fileID: 1900800934}
+  m_Layer: 0
+  m_Name: SkidMarkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1900800934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900800933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ef14140721e124b9542a412690a442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skidMarkMaterial: {fileID: 2100000, guid: ab9e6aea0366b70418b32485683e8724, type: 2}
+  markWidth: 0.3
+  minDistance: 0.1
+  maxMarks: 1024
+  groundOffset: 0.02
+  skidColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  fadeMarks: 1
+  fadeDelay: 5
+  fadeDuration: 2
+--- !u!4 &1900800935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900800933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.9057503, y: 3.0097344, z: -28.347303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1949906620
 GameObject:
   m_ObjectHideFlags: 0
@@ -5385,10 +5438,16 @@ MonoBehaviour:
   rotationLookAhead: 0.002
   carChild: {fileID: 8367523790049932951}
   driftParticles: {fileID: 0}
-  maxSideDriftOffset: -2
-  sideDriftSpeed: 0.25
+  maxSideDriftOffset: -3
+  sideDriftSpeed: 0.2
   centerReturnSpeed: 0.1
   frontPivotRatio: 0.3
+  skidMarkThreshold: 15
+  skidMarkOffset: 1.5
+  skidMarkSpacing: 1
+  autoCreateTrails: 1
+  leftSkidTrail: {fileID: 0}
+  rightSkidTrail: {fileID: 0}
 --- !u!4 &1990154359
 Transform:
   m_ObjectHideFlags: 0
@@ -5398,7 +5457,7 @@ Transform:
   m_GameObject: {fileID: 1990154357}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.48, y: 0, z: -28.95}
+  m_LocalPosition: {x: -4.48, y: -0.12, z: -28.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6193,7 +6252,7 @@ Transform:
   m_GameObject: {fileID: 2668072362136280234}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6282,3 +6341,4 @@ SceneRoots:
   - {fileID: 1762607856}
   - {fileID: 1728895453}
   - {fileID: 1990154359}
+  - {fileID: 1900800935}

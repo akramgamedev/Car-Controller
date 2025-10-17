@@ -1,3 +1,4 @@
+//************** Final Fixed Code ***************************
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -153,14 +154,14 @@ public class SplineCarController : MonoBehaviour
         // PICK ME UP STYLE: Position calculation
         // During drift, the car slides off the spline sideways
         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
-        
+
         // Calculate tangent for direction
         float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
         Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
         Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
-        currentTangent.y = 0; 
+        currentTangent.y = 0;
         futureTangent.y = 0;
-        currentTangent.Normalize(); 
+        currentTangent.Normalize();
         futureTangent.Normalize();
 
         Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
@@ -187,7 +188,7 @@ public class SplineCarController : MonoBehaviour
         // This makes the car slide off the spline during drift
         Vector3 rightDir = transform.right;
         Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
-        
+
         // Keep Y position constant
         transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
     }
@@ -246,11 +247,11 @@ public class SplineCarController : MonoBehaviour
             // The car slides perpendicular to the spline during drift
             // Positive drift angle = slide right, negative = slide left
             float normalizedDrift = currentDriftAngle / maxDriftAngle;
-            
+
             // Use sine curve for smooth, natural-looking slide
             float slideCurve = Mathf.Sin(normalizedDrift * Mathf.PI * 0.5f);
             float targetSideOffset = slideCurve * maxSideDriftOffset * speedDriftMultiplier;
-            
+
             // Smoothly move sideways
             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, targetSideOffset, ref sideDriftVelocity, sideDriftSpeed);
 
@@ -309,6 +310,11 @@ public class SplineCarController : MonoBehaviour
         }
     }
 }
+
+//****************** final fixed code ends here ***********************
+
+
+
 
 // using UnityEngine;
 // using UnityEngine.Splines;
