@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8367523790049932951}
   worldOffset: {x: 0, y: 20, z: -13.62}
-  followSmoothSpeed: 5
+  followSmoothSpeed: 50
   useSmoothDamp: 0
 --- !u!1 &357984091
 GameObject:
@@ -2634,8 +2634,8 @@ Transform:
   m_GameObject: {fileID: 968335312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: 47.3073}
-  m_LocalScale: {x: 9.6785, y: 1, z: 17.34853}
+  m_LocalPosition: {x: 0, y: -0.2, z: 47.307}
+  m_LocalScale: {x: 9.6785, y: 1, z: 52.76035}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4791,36 +4791,96 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -25.712526
+        z: -8.603976
       TangentOut:
         x: 0
         y: 0
-        z: 25.712526
+        z: 8.603976
       Rotation:
         value:
           x: 0
-          y: -0.15915042
+          y: -0.028486641
           z: -0
-          w: 0.9872544
+          w: 0.9995941
     - Position:
-        x: 9.76
+        x: 31.98
         y: 0
-        z: 133.02
+        z: 179.25
       TangentIn:
         x: 0
         y: 0
-        z: -7.425387
+        z: -6.1073785
       TangentOut:
         x: 0
         y: 0
-        z: 7.425387
+        z: 6.1073785
       Rotation:
         value:
           x: 0
-          y: 0.9707732
+          y: -0.024567995
+          z: -0
+          w: 0.9996981
+    - Position:
+        x: -63.219997
+        y: 0
+        z: 232.15
+      TangentIn:
+        x: 0
+        y: 0
+        z: -40.02498
+      TangentOut:
+        x: 0
+        y: 0
+        z: 40.02498
+      Rotation:
+        value:
+          x: 0
+          y: 0.94402874
           z: 0
-          w: -0.23999876
+          w: -0.32986334
+    - Position:
+        x: -63.219997
+        y: 0
+        z: 138.25
+      TangentIn:
+        x: 0
+        y: 0
+        z: -40.024982
+      TangentOut:
+        x: 0
+        y: 0
+        z: 40.024982
+      Rotation:
+        value:
+          x: 0
+          y: 0.9440287
+          z: 0
+          w: -0.32986325
+    - Position:
+        x: -194.02
+        y: 0
+        z: 173.25
+      TangentIn:
+        x: 0
+        y: 0
+        z: -40.02497
+      TangentOut:
+        x: 0
+        y: 0
+        z: 40.02497
+      Rotation:
+        value:
+          x: 0
+          y: 0.94402874
+          z: 0
+          w: -0.32986328
     m_MetaData:
+    - Mode: 2
+      Tension: 0.5
+    - Mode: 2
+      Tension: 0.5
+    - Mode: 2
+      Tension: 0.5
     - Mode: 2
       Tension: 0.5
     - Mode: 2
@@ -5310,24 +5370,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 1728895452}
   loopSpline: 0
-  maxSpeed: 25
-  acceleration: 12
+  maxSpeed: 30
+  acceleration: 16
   deceleration: 25
-  driftThreshold: 8
-  maxDriftAngle: 45
-  enterSmoothTime: 0.06
-  exitSmoothTime: 0.12
-  overshootFactor: 0.4
-  driftHoldDuration: 0.18
+  rotationStopSpeed: 4
+  minDriftSpeed: 10
+  maxDriftAngle: 80
   turnSensitivity: 1.5
-  leanAmount: 10
+  driftSpeedCurve: 2.5
+  driftSmoothTime: 0.08
+  overshootFactor: 0.4
   lookAheadDistance: 0.03
   rotationSpeed: 20
-  rotationLookAhead: 0.05
+  rotationLookAhead: 0.01
   carChild: {fileID: 8367523790049932951}
   driftParticles: {fileID: 0}
-  maxSideDriftOffset: 1.2
-  sideDriftSmoothTime: 0.25
+  maxSideDriftOffset: -2
+  sideDriftSpeed: 0.25
+  centerReturnSpeed: 0.1
+  frontPivotRatio: 0.3
 --- !u!4 &1990154359
 Transform:
   m_ObjectHideFlags: 0
