@@ -35,9 +35,11 @@ public class SplineCarController : MonoBehaviour
     private bool isInTurn = false;
 
     [Header("Turn Detection")]
-    public float lookAheadDistance = 0.03f;
-    public float rotationSpeed = 25f;
-    public float rotationLookAhead = 0.01f;
+    [Tooltip("Lookahead for drift detection - smaller = drifts AT the turn")]
+    public float lookAheadDistance = 0.008f; // Much smaller!
+    public float rotationSpeed = 30f; // Faster to compensate
+    [Tooltip("Lookahead for rotation - very small = rotates AT turn, not before")]
+    public float rotationLookAhead = 0.002f; // Almost zero!
 
     [Header("Visual Settings")]
     public Transform carChild;
@@ -194,7 +196,7 @@ public class SplineCarController : MonoBehaviour
     {
         if (carChild == null) return;
 
-        // Detect turn angle
+        // Detect turn angle - use current position vs VERY close future
         float lookAhead = Mathf.Clamp01(splineProgress + lookAheadDistance);
         Vector3 nowTan = splineContainer.EvaluateTangent(splineProgress);
         Vector3 futureTan = splineContainer.EvaluateTangent(lookAhead);
@@ -202,7 +204,8 @@ public class SplineCarController : MonoBehaviour
         nowTan.Normalize(); futureTan.Normalize();
 
         float turnAngle = Vector3.SignedAngle(nowTan, futureTan, Vector3.up);
-        bool isTurning = Mathf.Abs(turnAngle) > 1f;
+        // Only detect turn if angle is significant enough
+        bool isTurning = Mathf.Abs(turnAngle) > 2f; // Increased threshold
 
         // Below minimum speed = no drift at all
         if (currentSpeed < minDriftSpeed)

@@ -2634,8 +2634,8 @@ Transform:
   m_GameObject: {fileID: 968335312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: 47.307}
-  m_LocalScale: {x: 9.6785, y: 1, z: 52.76035}
+  m_LocalPosition: {x: -76.6, y: -0.2, z: 96.6}
+  m_LocalScale: {x: 27.483377, y: 1, z: 37.451405}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4773,17 +4773,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -11.634867
+        z: -11.660728
       TangentOut:
         x: 0
         y: 0
-        z: 11.634867
+        z: 11.660728
       Rotation:
         value:
           x: 0
-          y: -0.038705837
+          y: -0.005574318
           z: -0
-          w: 0.9992506
+          w: 0.99998456
     - Position:
         x: 32.79
         y: 0
@@ -4791,17 +4791,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -8.603976
+        z: -9.505357
       TangentOut:
         x: 0
         y: 0
-        z: 8.603976
+        z: 9.505357
       Rotation:
         value:
           x: 0
-          y: -0.028486641
+          y: -0.028416557
           z: -0
-          w: 0.9995941
+          w: 0.9995962
     - Position:
         x: 31.98
         y: 0
@@ -4863,17 +4863,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -40.02497
+        z: -27.518167
       TangentOut:
         x: 0
         y: 0
-        z: 40.02497
+        z: 27.518167
       Rotation:
         value:
           x: 0
-          y: 0.94402874
-          z: 0
-          w: -0.32986328
+          y: -0.6281839
+          z: -0
+          w: 0.7780649
     m_MetaData:
     - Mode: 2
       Tension: 0.5
@@ -5380,9 +5380,9 @@ MonoBehaviour:
   driftSpeedCurve: 2.5
   driftSmoothTime: 0.08
   overshootFactor: 0.4
-  lookAheadDistance: 0.03
+  lookAheadDistance: 0.008
   rotationSpeed: 20
-  rotationLookAhead: 0.01
+  rotationLookAhead: 0.002
   carChild: {fileID: 8367523790049932951}
   driftParticles: {fileID: 0}
   maxSideDriftOffset: -2
