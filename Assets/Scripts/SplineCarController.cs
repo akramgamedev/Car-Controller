@@ -1,4 +1,319 @@
 //************** Final Fixed Code ***************************
+// using UnityEngine;
+// using UnityEngine.Splines;
+
+// public class SplineCarController : MonoBehaviour
+// {
+//     [Header("Spline Settings")]
+//     public SplineContainer splineContainer;
+//     public bool loopSpline = false;
+//     private float splineProgress = 0f;
+//     private bool reachedEnd = false;
+
+//     [Header("Movement Settings")]
+//     public float maxSpeed = 15f;
+//     public float acceleration = 7f;
+//     public float deceleration = 10f;
+//     private float currentSpeed = 0f;
+
+//     [Header("Low-Speed Behaviour")]
+//     public float rotationStopSpeed = 4f;
+
+//     [Header("Drift Settings (PICK ME UP 3D STYLE)")]
+//     public float minDriftSpeed = 10f;
+//     public float maxDriftAngle = 60f;
+//     public float turnSensitivity = 2.2f;
+//     [Tooltip("Controls how speed affects drift intensity")]
+//     public float driftSpeedCurve = 2.0f;
+//     [Tooltip("How quickly drift angle changes")]
+//     public float driftSmoothTime = 0.08f;
+//     [Tooltip("Initial snap when entering drift")]
+//     public float overshootFactor = 0.7f;
+
+//     private float currentDriftAngle = 0f;
+//     private float driftVelocity = 0f;
+//     private float targetDriftAngle = 0f;
+//     private bool isInTurn = false;
+
+//     [Header("Turn Detection")]
+//     [Tooltip("Lookahead for drift detection - smaller = drifts AT the turn")]
+//     public float lookAheadDistance = 0.008f; // Much smaller!
+//     public float rotationSpeed = 30f; // Faster to compensate
+//     [Tooltip("Lookahead for rotation - very small = rotates AT turn, not before")]
+//     public float rotationLookAhead = 0.002f; // Almost zero!
+
+//     [Header("Visual Settings")]
+//     public Transform carChild;
+//     public ParticleSystem driftParticles;
+
+//     [Header("Side Drift Effect (Pick Me Up Style)")]
+//     [Tooltip("Maximum sideways offset during drift")]
+//     public float maxSideDriftOffset = 3.0f;
+//     [Tooltip("How quickly car slides sideways")]
+//     public float sideDriftSpeed = 0.25f;
+//     [Tooltip("Quick snap back to center after drift")]
+//     public float centerReturnSpeed = 0.12f;
+//     [Tooltip("How much the FRONT leads vs BACK swings (0=front pivots, 1=whole car rotates)")]
+//     [Range(0f, 1f)]
+//     public float frontPivotRatio = 0.3f;
+
+//     private Rigidbody rb;
+//     private float totalSplineLength;
+//     private bool isTouching = false;
+//     private float sideDriftOffset = 0f;
+//     private float sideDriftVelocity = 0f;
+//     private Quaternion baseRotation;
+
+//     void Start()
+//     {
+//         rb = GetComponent<Rigidbody>();
+
+//         if (splineContainer == null)
+//         {
+//             Debug.LogError("Spline Container not assigned!");
+//             return;
+//         }
+
+//         if (carChild == null && transform.childCount > 0)
+//         {
+//             carChild = transform.GetChild(0);
+//             Debug.Log($"Auto-assigned car child: {carChild.name}");
+//         }
+
+//         totalSplineLength = splineContainer.Spline.GetLength();
+
+//         Vector3 startPos = splineContainer.EvaluatePosition(0f);
+//         transform.position = new Vector3(startPos.x, transform.position.y, startPos.z);
+
+//         Vector3 startTangent = splineContainer.EvaluateTangent(0f);
+//         startTangent.y = 0;
+//         startTangent.Normalize();
+//         baseRotation = Quaternion.LookRotation(startTangent);
+//         transform.rotation = baseRotation;
+
+//         carChild.localRotation = Quaternion.identity;
+//     }
+
+//     void Update()
+//     {
+//         HandleInput();
+//         HandleMovement();
+//         HandleDrift();
+//         HandleDriftParticles();
+//     }
+
+//     void HandleInput()
+//     {
+//         if (Input.touchCount > 0)
+//         {
+//             Touch t = Input.GetTouch(0);
+//             isTouching = t.phase == TouchPhase.Began || t.phase == TouchPhase.Stationary || t.phase == TouchPhase.Moved;
+//         }
+//         else isTouching = false;
+
+// #if UNITY_EDITOR || UNITY_STANDALONE
+//         if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)) isTouching = true;
+// #endif
+//     }
+
+//     void HandleMovement()
+//     {
+//         if (reachedEnd && !loopSpline)
+//         {
+//             currentSpeed = 0f;
+//             return;
+//         }
+
+//         if (isTouching)
+//         {
+//             if (currentSpeed < maxSpeed)
+//             {
+//                 currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+//             }
+//             currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
+//         }
+//         else
+//         {
+//             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
+//         }
+
+//         if (currentSpeed < 0.3f && !isTouching)
+//             currentSpeed = 0f;
+
+//         if (currentSpeed <= 0.01f) return;
+
+//         float speedOnSpline = currentSpeed / totalSplineLength;
+//         splineProgress += speedOnSpline * Time.deltaTime;
+
+//         if (splineProgress >= 1f)
+//         {
+//             if (loopSpline) splineProgress -= 1f;
+//             else { splineProgress = 1f; reachedEnd = true; currentSpeed = 0f; }
+//         }
+
+//         // PICK ME UP STYLE: Position calculation
+//         // During drift, the car slides off the spline sideways
+//         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
+
+//         // Calculate tangent for direction
+//         float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
+//         Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
+//         Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
+//         currentTangent.y = 0;
+//         futureTangent.y = 0;
+//         currentTangent.Normalize();
+//         futureTangent.Normalize();
+
+//         Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
+
+//         if (targetDirection != Vector3.zero)
+//         {
+//             Quaternion targetRot = Quaternion.LookRotation(targetDirection);
+
+//             if (currentSpeed < rotationStopSpeed)
+//             {
+//                 float slowRotationSpeed = Mathf.InverseLerp(0f, rotationStopSpeed, currentSpeed) * 2f;
+//                 baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * slowRotationSpeed);
+//             }
+//             else
+//             {
+//                 float speedBasedRotation = rotationSpeed * Mathf.InverseLerp(rotationStopSpeed, maxSpeed, currentSpeed);
+//                 baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
+//             }
+
+//             transform.rotation = baseRotation;
+//         }
+
+//         // CRITICAL: Apply sideways offset based on drift
+//         // This makes the car slide off the spline during drift
+//         Vector3 rightDir = transform.right;
+//         Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
+
+//         // Keep Y position constant
+//         transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
+//     }
+
+//     void HandleDrift()
+//     {
+//         if (carChild == null) return;
+
+//         // Detect turn angle - use current position vs VERY close future
+//         float lookAhead = Mathf.Clamp01(splineProgress + lookAheadDistance);
+//         Vector3 nowTan = splineContainer.EvaluateTangent(splineProgress);
+//         Vector3 futureTan = splineContainer.EvaluateTangent(lookAhead);
+//         nowTan.y = 0; futureTan.y = 0;
+//         nowTan.Normalize(); futureTan.Normalize();
+
+//         float turnAngle = Vector3.SignedAngle(nowTan, futureTan, Vector3.up);
+//         // Only detect turn if angle is significant enough
+//         bool isTurning = Mathf.Abs(turnAngle) > 2f; // Increased threshold
+
+//         // Below minimum speed = no drift at all
+//         if (currentSpeed < minDriftSpeed)
+//         {
+//             targetDriftAngle = 0f;
+//             currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, 0f, ref driftVelocity, 0.1f);
+//             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, 0.1f);
+//             carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
+//             isInTurn = false;
+//             return;
+//         }
+
+//         bool canDrift = currentSpeed > minDriftSpeed && isTurning;
+
+//         if (canDrift)
+//         {
+//             // Calculate drift intensity based on speed
+//             float speedFactor = Mathf.InverseLerp(minDriftSpeed, maxSpeed, currentSpeed);
+//             float speedDriftMultiplier = Mathf.Pow(speedFactor, driftSpeedCurve);
+
+//             // Calculate target drift angle
+//             float baseTarget = Mathf.Clamp(turnAngle * turnSensitivity, -maxDriftAngle, maxDriftAngle) * speedDriftMultiplier;
+
+//             if (!isInTurn)
+//             {
+//                 // Entering drift - add overshoot for that satisfying snap
+//                 isInTurn = true;
+//                 float overshoot = Mathf.Sign(baseTarget) * Mathf.Abs(baseTarget) * overshootFactor;
+//                 targetDriftAngle = Mathf.Clamp(baseTarget + overshoot, -maxDriftAngle, maxDriftAngle);
+//             }
+//             else
+//             {
+//                 // Already drifting - smoothly adjust
+//                 targetDriftAngle = Mathf.Lerp(targetDriftAngle, baseTarget, Time.deltaTime * 4f);
+//             }
+
+//             // PICK ME UP STYLE: Calculate sideways offset
+//             // The car slides perpendicular to the spline during drift
+//             // Positive drift angle = slide right, negative = slide left
+//             float normalizedDrift = currentDriftAngle / maxDriftAngle;
+
+//             // Use sine curve for smooth, natural-looking slide
+//             float slideCurve = Mathf.Sin(normalizedDrift * Mathf.PI * 0.5f);
+//             float targetSideOffset = slideCurve * maxSideDriftOffset * speedDriftMultiplier;
+
+//             // Smoothly move sideways
+//             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, targetSideOffset, ref sideDriftVelocity, sideDriftSpeed);
+
+//             // Slight speed reduction during drift (realistic)
+//             float driftSpeedTarget = Mathf.Lerp(maxSpeed, maxSpeed * 0.85f, Mathf.Abs(normalizedDrift));
+//             currentSpeed = Mathf.Lerp(currentSpeed, driftSpeedTarget, Time.deltaTime * 2f);
+//         }
+//         else
+//         {
+//             // Not drifting - return to center
+//             targetDriftAngle = 0f;
+//             isInTurn = false;
+
+//             // QUICK snap back to spline (Pick Me Up style)
+//             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, centerReturnSpeed);
+
+//             // Return to full speed
+//             currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * 2f);
+//         }
+
+//         // Smooth drift angle transition
+//         currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, targetDriftAngle, ref driftVelocity, driftSmoothTime);
+
+//         // PICK ME UP STYLE: Apply rotation to child
+//         // This creates the "rear swings out" effect
+//         carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
+//     }
+
+//     void HandleDriftParticles()
+//     {
+//         if (driftParticles == null) return;
+//         bool shouldDrift = Mathf.Abs(currentDriftAngle) > 8f && currentSpeed > minDriftSpeed;
+
+//         if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
+//         else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
+//     }
+
+//     void OnDrawGizmos()
+//     {
+//         if (splineContainer != null && splineContainer.Spline != null)
+//         {
+//             Gizmos.color = Color.yellow;
+//             int segments = 50;
+//             for (int i = 0; i <= segments; i++)
+//             {
+//                 float t = (float)i / segments;
+//                 Vector3 p = splineContainer.EvaluatePosition(t);
+//                 Gizmos.DrawSphere(p, 0.2f);
+//                 if (i > 0)
+//                 {
+//                     float prevT = (float)(i - 1) / segments;
+//                     Vector3 prevP = splineContainer.EvaluatePosition(prevT);
+//                     Gizmos.DrawLine(prevP, p);
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//****************** final fixed code ends here ***********************
+
+
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -37,14 +352,31 @@ public class SplineCarController : MonoBehaviour
 
     [Header("Turn Detection")]
     [Tooltip("Lookahead for drift detection - smaller = drifts AT the turn")]
-    public float lookAheadDistance = 0.008f; // Much smaller!
-    public float rotationSpeed = 30f; // Faster to compensate
+    public float lookAheadDistance = 0.008f;
+    public float rotationSpeed = 30f;
     [Tooltip("Lookahead for rotation - very small = rotates AT turn, not before")]
-    public float rotationLookAhead = 0.002f; // Almost zero!
+    public float rotationLookAhead = 0.002f;
 
     [Header("Visual Settings")]
     public Transform carChild;
     public ParticleSystem driftParticles;
+    
+    [Header("Drift Trail Settings")]
+    [Tooltip("Trail Renderers for left and right rear wheels")]
+    public TrailRenderer leftTrail;
+    public TrailRenderer rightTrail;
+    [Tooltip("Distance between rear wheels")]
+    public float wheelDistance = 1.5f;
+    [Tooltip("How far back from center are rear wheels")]
+    public float rearWheelOffset = 1.2f;
+    [Tooltip("Minimum drift angle to start trails")]
+    public float trailStartAngle = 12f;
+    [Tooltip("Base width of drift trails")]
+    public float trailWidth = 0.3f;
+    [Tooltip("End width of trail (fade out)")]
+    public float trailEndWidth = 0.05f;
+    [Tooltip("Multiply width based on drift intensity")]
+    public bool dynamicWidth = true;
 
     [Header("Side Drift Effect (Pick Me Up Style)")]
     [Tooltip("Maximum sideways offset during drift")]
@@ -63,6 +395,9 @@ public class SplineCarController : MonoBehaviour
     private float sideDriftOffset = 0f;
     private float sideDriftVelocity = 0f;
     private Quaternion baseRotation;
+    
+    private GameObject leftTrailObject;
+    private GameObject rightTrailObject;
 
     void Start()
     {
@@ -92,6 +427,67 @@ public class SplineCarController : MonoBehaviour
         transform.rotation = baseRotation;
 
         carChild.localRotation = Quaternion.identity;
+        
+        SetupTrailRenderers();
+    }
+    
+    void SetupTrailRenderers()
+    {
+        // Create trail objects at rear wheel positions
+        if (leftTrail == null)
+        {
+            leftTrailObject = new GameObject("LeftDriftTrail");
+            leftTrailObject.transform.SetParent(transform); // Parent to main car, NOT carChild
+            leftTrail = leftTrailObject.AddComponent<TrailRenderer>();
+        }
+        
+        if (rightTrail == null)
+        {
+            rightTrailObject = new GameObject("RightDriftTrail");
+            rightTrailObject.transform.SetParent(transform); // Parent to main car, NOT carChild
+            rightTrail = rightTrailObject.AddComponent<TrailRenderer>();
+        }
+        
+        // Configure left trail
+        ConfigureTrail(leftTrail);
+        
+        // Configure right trail
+        ConfigureTrail(rightTrail);
+        
+        // Start with trails disabled
+        leftTrail.emitting = false;
+        rightTrail.emitting = false;
+    }
+    
+    void ConfigureTrail(TrailRenderer trail)
+    {
+        trail.time = 2.0f; // Trail lasts 2 seconds
+        trail.startWidth = trailWidth;
+        trail.endWidth = trailEndWidth;
+        trail.minVertexDistance = 0.1f;
+        
+        // Black color with fade
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { 
+                new GradientColorKey(Color.black, 0.0f), 
+                new GradientColorKey(new Color(0.1f, 0.1f, 0.1f), 1.0f) 
+            },
+            new GradientAlphaKey[] { 
+                new GradientAlphaKey(0.9f, 0.0f), 
+                new GradientAlphaKey(0.0f, 1.0f) 
+            }
+        );
+        trail.colorGradient = gradient;
+        
+        // Material settings for better visibility from top-down
+        trail.material = new Material(Shader.Find("Sprites/Default"));
+        trail.material.color = Color.black;
+        
+        trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        trail.receiveShadows = false;
+        trail.alignment = LineAlignment.View; // Always face camera (best for top-down)
+        trail.textureMode = LineTextureMode.Stretch;
     }
 
     void Update()
@@ -100,6 +496,7 @@ public class SplineCarController : MonoBehaviour
         HandleMovement();
         HandleDrift();
         HandleDriftParticles();
+        HandleDriftTrails();
     }
 
     void HandleInput()
@@ -151,11 +548,8 @@ public class SplineCarController : MonoBehaviour
             else { splineProgress = 1f; reachedEnd = true; currentSpeed = 0f; }
         }
 
-        // PICK ME UP STYLE: Position calculation
-        // During drift, the car slides off the spline sideways
         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
 
-        // Calculate tangent for direction
         float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
         Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
         Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
@@ -184,12 +578,9 @@ public class SplineCarController : MonoBehaviour
             transform.rotation = baseRotation;
         }
 
-        // CRITICAL: Apply sideways offset based on drift
-        // This makes the car slide off the spline during drift
         Vector3 rightDir = transform.right;
         Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
 
-        // Keep Y position constant
         transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
     }
 
@@ -197,7 +588,6 @@ public class SplineCarController : MonoBehaviour
     {
         if (carChild == null) return;
 
-        // Detect turn angle - use current position vs VERY close future
         float lookAhead = Mathf.Clamp01(splineProgress + lookAheadDistance);
         Vector3 nowTan = splineContainer.EvaluateTangent(splineProgress);
         Vector3 futureTan = splineContainer.EvaluateTangent(lookAhead);
@@ -205,10 +595,8 @@ public class SplineCarController : MonoBehaviour
         nowTan.Normalize(); futureTan.Normalize();
 
         float turnAngle = Vector3.SignedAngle(nowTan, futureTan, Vector3.up);
-        // Only detect turn if angle is significant enough
-        bool isTurning = Mathf.Abs(turnAngle) > 2f; // Increased threshold
+        bool isTurning = Mathf.Abs(turnAngle) > 2f;
 
-        // Below minimum speed = no drift at all
         if (currentSpeed < minDriftSpeed)
         {
             targetDriftAngle = 0f;
@@ -223,60 +611,40 @@ public class SplineCarController : MonoBehaviour
 
         if (canDrift)
         {
-            // Calculate drift intensity based on speed
             float speedFactor = Mathf.InverseLerp(minDriftSpeed, maxSpeed, currentSpeed);
             float speedDriftMultiplier = Mathf.Pow(speedFactor, driftSpeedCurve);
 
-            // Calculate target drift angle
             float baseTarget = Mathf.Clamp(turnAngle * turnSensitivity, -maxDriftAngle, maxDriftAngle) * speedDriftMultiplier;
 
             if (!isInTurn)
             {
-                // Entering drift - add overshoot for that satisfying snap
                 isInTurn = true;
                 float overshoot = Mathf.Sign(baseTarget) * Mathf.Abs(baseTarget) * overshootFactor;
                 targetDriftAngle = Mathf.Clamp(baseTarget + overshoot, -maxDriftAngle, maxDriftAngle);
             }
             else
             {
-                // Already drifting - smoothly adjust
                 targetDriftAngle = Mathf.Lerp(targetDriftAngle, baseTarget, Time.deltaTime * 4f);
             }
 
-            // PICK ME UP STYLE: Calculate sideways offset
-            // The car slides perpendicular to the spline during drift
-            // Positive drift angle = slide right, negative = slide left
             float normalizedDrift = currentDriftAngle / maxDriftAngle;
-
-            // Use sine curve for smooth, natural-looking slide
             float slideCurve = Mathf.Sin(normalizedDrift * Mathf.PI * 0.5f);
             float targetSideOffset = slideCurve * maxSideDriftOffset * speedDriftMultiplier;
 
-            // Smoothly move sideways
             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, targetSideOffset, ref sideDriftVelocity, sideDriftSpeed);
 
-            // Slight speed reduction during drift (realistic)
             float driftSpeedTarget = Mathf.Lerp(maxSpeed, maxSpeed * 0.85f, Mathf.Abs(normalizedDrift));
             currentSpeed = Mathf.Lerp(currentSpeed, driftSpeedTarget, Time.deltaTime * 2f);
         }
         else
         {
-            // Not drifting - return to center
             targetDriftAngle = 0f;
             isInTurn = false;
-
-            // QUICK snap back to spline (Pick Me Up style)
             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, centerReturnSpeed);
-
-            // Return to full speed
             currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * 2f);
         }
 
-        // Smooth drift angle transition
         currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, targetDriftAngle, ref driftVelocity, driftSmoothTime);
-
-        // PICK ME UP STYLE: Apply rotation to child
-        // This creates the "rear swings out" effect
         carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
     }
 
@@ -287,6 +655,50 @@ public class SplineCarController : MonoBehaviour
 
         if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
         else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
+    }
+    
+    void HandleDriftTrails()
+    {
+        if (leftTrail == null || rightTrail == null) return;
+        
+        // Update trail positions to follow rear wheels
+        if (carChild != null)
+        {
+            // Calculate rear wheel positions in world space
+            Vector3 leftWheelLocal = new Vector3(-wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
+            Vector3 rightWheelLocal = new Vector3(wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
+            
+            // Convert to world space using carChild rotation
+            Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
+            Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
+            
+            // Keep fixed Y height
+            leftWheelWorld.y = transform.position.y + 0.05f;
+            rightWheelWorld.y = transform.position.y + 0.05f;
+            
+            leftTrailObject.transform.position = leftWheelWorld;
+            rightTrailObject.transform.position = rightWheelWorld;
+        }
+        
+        // Enable trails when drifting hard enough
+        bool shouldShowTrails = Mathf.Abs(currentDriftAngle) > trailStartAngle && currentSpeed > minDriftSpeed;
+        
+        leftTrail.emitting = shouldShowTrails;
+        rightTrail.emitting = shouldShowTrails;
+        
+        // Optional: Adjust trail width based on drift intensity
+        if (dynamicWidth && shouldShowTrails)
+        {
+            float driftIntensity = Mathf.Abs(currentDriftAngle) / maxDriftAngle;
+            float width = Mathf.Lerp(trailWidth * 0.7f, trailWidth * 1.3f, driftIntensity);
+            leftTrail.startWidth = width;
+            rightTrail.startWidth = width;
+        }
+        else
+        {
+            leftTrail.startWidth = trailWidth;
+            rightTrail.startWidth = trailWidth;
+        }
     }
 
     void OnDrawGizmos()
@@ -310,11 +722,6 @@ public class SplineCarController : MonoBehaviour
         }
     }
 }
-
-//****************** final fixed code ends here ***********************
-
-
-
 
 // using UnityEngine;
 // using UnityEngine.Splines;
