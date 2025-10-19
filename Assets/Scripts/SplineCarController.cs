@@ -313,7 +313,6 @@
 
 //****************** final fixed code ends here ***********************
 
-
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -377,6 +376,8 @@ public class SplineCarController : MonoBehaviour
     public float trailEndWidth = 0.05f;
     [Tooltip("Multiply width based on drift intensity")]
     public bool dynamicWidth = true;
+    [Tooltip("How long trails persist on ground (increased for visible marks)")]
+    public float trailLifetime = 5f;
 
     [Header("Side Drift Effect (Pick Me Up Style)")]
     [Tooltip("Maximum sideways offset during drift")]
@@ -398,6 +399,10 @@ public class SplineCarController : MonoBehaviour
     
     private GameObject leftTrailObject;
     private GameObject rightTrailObject;
+    private float lastDriftMarkTime = 0f;
+    private float lastActiveDriftAngle = 0f;
+    private float driftFadeTime = 1f;
+    private float previousSpeed = 0f;
 
     void Start()
     {
@@ -437,14 +442,14 @@ public class SplineCarController : MonoBehaviour
         if (leftTrail == null)
         {
             leftTrailObject = new GameObject("LeftDriftTrail");
-            leftTrailObject.transform.SetParent(transform); // Parent to main car, NOT carChild
+            leftTrailObject.transform.SetParent(transform);
             leftTrail = leftTrailObject.AddComponent<TrailRenderer>();
         }
         
         if (rightTrail == null)
         {
             rightTrailObject = new GameObject("RightDriftTrail");
-            rightTrailObject.transform.SetParent(transform); // Parent to main car, NOT carChild
+            rightTrailObject.transform.SetParent(transform);
             rightTrail = rightTrailObject.AddComponent<TrailRenderer>();
         }
         
@@ -461,10 +466,10 @@ public class SplineCarController : MonoBehaviour
     
     void ConfigureTrail(TrailRenderer trail)
     {
-        trail.time = 2.0f; // Trail lasts 2 seconds
+        trail.time = trailLifetime; // Extended trail lifetime for persistent marks
         trail.startWidth = trailWidth;
         trail.endWidth = trailEndWidth;
-        trail.minVertexDistance = 0.1f;
+        trail.minVertexDistance = 0.05f; // Lower value = more detailed marks
         
         // Black color with fade
         Gradient gradient = new Gradient();
@@ -480,13 +485,13 @@ public class SplineCarController : MonoBehaviour
         );
         trail.colorGradient = gradient;
         
-        // Material settings for better visibility from top-down
+        // Material settings for better visibility
         trail.material = new Material(Shader.Find("Sprites/Default"));
         trail.material.color = Color.black;
         
         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         trail.receiveShadows = false;
-        trail.alignment = LineAlignment.View; // Always face camera (best for top-down)
+        trail.alignment = LineAlignment.View;
         trail.textureMode = LineTextureMode.Stretch;
     }
 
@@ -680,8 +685,12 @@ public class SplineCarController : MonoBehaviour
             rightTrailObject.transform.position = rightWheelWorld;
         }
         
-        // Enable trails when drifting hard enough
-        bool shouldShowTrails = Mathf.Abs(currentDriftAngle) > trailStartAngle && currentSpeed > minDriftSpeed;
+        // Only show trails when:
+        // 1. Drifting (drift angle above threshold)
+        // 2. OR car is decelerating/stopping (not touching and losing speed)
+        bool isDrifting = Mathf.Abs(currentDriftAngle) > trailStartAngle;
+        bool isDecelerating = !isTouching && currentSpeed > 0.5f;
+        bool shouldShowTrails = (isDrifting || isDecelerating);
         
         leftTrail.emitting = shouldShowTrails;
         rightTrail.emitting = shouldShowTrails;
@@ -689,8 +698,8 @@ public class SplineCarController : MonoBehaviour
         // Optional: Adjust trail width based on drift intensity
         if (dynamicWidth && shouldShowTrails)
         {
-            float driftIntensity = Mathf.Abs(currentDriftAngle) / maxDriftAngle;
-            float width = Mathf.Lerp(trailWidth * 0.7f, trailWidth * 1.3f, driftIntensity);
+            float driftIntensity = Mathf.Clamp01(Mathf.Abs(currentDriftAngle) / maxDriftAngle);
+            float width = Mathf.Lerp(trailWidth * 0.3f, trailWidth * 1.5f, driftIntensity);
             leftTrail.startWidth = width;
             rightTrail.startWidth = width;
         }
@@ -699,6 +708,9 @@ public class SplineCarController : MonoBehaviour
             leftTrail.startWidth = trailWidth;
             rightTrail.startWidth = trailWidth;
         }
+        
+        // Store current speed for next frame
+        previousSpeed = currentSpeed;
     }
 
     void OnDrawGizmos()
@@ -722,6 +734,7 @@ public class SplineCarController : MonoBehaviour
         }
     }
 }
+
 
 // using UnityEngine;
 // using UnityEngine.Splines;

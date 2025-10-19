@@ -5313,6 +5313,14 @@ MonoBehaviour:
   rotationLookAhead: 0.002
   carChild: {fileID: 8367523790049932951}
   driftParticles: {fileID: 0}
+  leftTrail: {fileID: 0}
+  rightTrail: {fileID: 0}
+  wheelDistance: 1.5
+  rearWheelOffset: 1.2
+  trailStartAngle: 12
+  trailWidth: 0.5
+  trailEndWidth: 0.05
+  dynamicWidth: 1
   maxSideDriftOffset: -3
   sideDriftSpeed: 0.2
   centerReturnSpeed: 0.1
