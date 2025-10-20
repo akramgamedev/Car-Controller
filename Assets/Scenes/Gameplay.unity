@@ -963,7 +963,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -4.47, y: 20.82, z: -45.6}
+  m_LocalPosition: {x: -4.47, y: 27.49, z: -46.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 8367523790049932951}
-  worldOffset: {x: 0, y: 20, z: -13.62}
+  worldOffset: {x: 0, y: 18, z: -17.5}
   followSmoothSpeed: 50
   useSmoothDamp: 0
 --- !u!1 &357984091
@@ -1872,7 +1872,6 @@ GameObject:
   m_Component:
   - component: {fileID: 674599533}
   - component: {fileID: 674599532}
-  - component: {fileID: 674599531}
   m_Layer: 0
   m_Name: TurnTrigger_Left
   m_TagString: Untagged
@@ -1880,55 +1879,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &674599531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 674599530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b9023274c384744a0028c75800468b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetDirection: {x: 0, y: 0, z: 1}
-  rotationSpeed: 120
-  triggerWidth: 5
-  triggerHeight: 3
-  triggerLength: 32.99
-  targetAngle: 0
-  allowDriftInTrigger: 1
-  driftTriggerIntensity: 1
-  requiresMovement: 0
-  alignmentThreshold: 5
-  showTriggerVisuals: 1
-  triggerFillColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.3
-  triggerWireColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.8
-  arrowColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  selectedTriggerColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  triggerCollider: {fileID: 0}
-  activeCar: {fileID: 0}
-  carTransform: {fileID: 0}
-  isCarInTrigger: 0
-  hasCompletedTurn: 0
-  targetRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!33 &674599532
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2227,7 +2177,6 @@ GameObject:
   m_Component:
   - component: {fileID: 855213970}
   - component: {fileID: 855213969}
-  - component: {fileID: 855213968}
   m_Layer: 0
   m_Name: TurnTrigger_Right
   m_TagString: Untagged
@@ -2235,55 +2184,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &855213968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855213967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b9023274c384744a0028c75800468b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetDirection: {x: 0, y: 0, z: 1}
-  rotationSpeed: 120
-  triggerWidth: 5
-  triggerHeight: 3
-  triggerLength: 10
-  targetAngle: 0
-  allowDriftInTrigger: 1
-  driftTriggerIntensity: 1
-  requiresMovement: 0
-  alignmentThreshold: 5
-  showTriggerVisuals: 1
-  triggerFillColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.3
-  triggerWireColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.8
-  arrowColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  selectedTriggerColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  triggerCollider: {fileID: 0}
-  activeCar: {fileID: 0}
-  carTransform: {fileID: 0}
-  isCarInTrigger: 0
-  hasCompletedTurn: 0
-  targetRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!33 &855213969
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2427,7 +2327,7 @@ GameObject:
   - component: {fileID: 968335315}
   - component: {fileID: 968335314}
   - component: {fileID: 968335313}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3398,7 +3298,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1210933764}
   - component: {fileID: 1210933763}
-  - component: {fileID: 1210933762}
   m_Layer: 0
   m_Name: TurnTrigger_Left
   m_TagString: Untagged
@@ -3406,55 +3305,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1210933762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210933761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b9023274c384744a0028c75800468b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetDirection: {x: 0, y: 0, z: 1}
-  rotationSpeed: 120
-  triggerWidth: 5
-  triggerHeight: 3
-  triggerLength: 10
-  targetAngle: -90
-  allowDriftInTrigger: 1
-  driftTriggerIntensity: 1
-  requiresMovement: 0
-  alignmentThreshold: 5
-  showTriggerVisuals: 1
-  triggerFillColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.3
-  triggerWireColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.8
-  arrowColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  selectedTriggerColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  triggerCollider: {fileID: 0}
-  activeCar: {fileID: 0}
-  carTransform: {fileID: 0}
-  isCarInTrigger: 0
-  hasCompletedTurn: 0
-  targetRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
 --- !u!33 &1210933763
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3596,7 +3446,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1220276819}
   - component: {fileID: 1220276818}
-  - component: {fileID: 1220276820}
   m_Layer: 0
   m_Name: TurnTrigger_Right
   m_TagString: Untagged
@@ -3627,55 +3476,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1762607856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1220276820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1220276817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b9023274c384744a0028c75800468b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetDirection: {x: 0, y: 0, z: 1}
-  rotationSpeed: 120
-  triggerWidth: 5
-  triggerHeight: 3
-  triggerLength: 10
-  targetAngle: 90
-  allowDriftInTrigger: 1
-  driftTriggerIntensity: 1
-  requiresMovement: 0
-  alignmentThreshold: 5
-  showTriggerVisuals: 1
-  triggerFillColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.3
-  triggerWireColor:
-    r: 0.2
-    g: 0.8
-    b: 1
-    a: 0.8
-  arrowColor:
-    r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  selectedTriggerColor:
-    r: 0
-    g: 1
-    b: 1
-    a: 1
-  triggerCollider: {fileID: 0}
-  activeCar: {fileID: 0}
-  carTransform: {fileID: 0}
-  isCarInTrigger: 0
-  hasCompletedTurn: 0
-  targetRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
 --- !u!1 &1244814899
 GameObject:
   m_ObjectHideFlags: 0
@@ -5319,12 +5119,29 @@ MonoBehaviour:
   rearWheelOffset: 1.2
   trailStartAngle: 12
   trailWidth: 0.5
-  trailEndWidth: 0.05
+  trailEndWidth: 0
   dynamicWidth: 1
+  trailLifetime: 5
+  minBrakeSpeed: 12
+  minHighSpeedDuration: 1.5
   maxSideDriftOffset: -3
   sideDriftSpeed: 0.2
   centerReturnSpeed: 0.1
   frontPivotRatio: 0.3
+  pathLineMesh: {fileID: 0}
+  lineResolution: 100
+  lineWidth: 1
+  lineHeightOffset: 0.01
+  lineColor: {r: 0.2, g: 0.3, b: 0.5, a: 1}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  raycastHeight: 50
+  maxRaycastDistance: 100
+  lineStartOffset: 0.05
+  trailLength: 0.6
+  visibleTrailLength: 15
+  carBasePoint: {fileID: 8367523790049932951}
 --- !u!4 &1990154359
 Transform:
   m_ObjectHideFlags: 0
