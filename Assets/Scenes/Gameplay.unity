@@ -4810,7 +4810,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728895451}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
   m_Name: 
@@ -5253,7 +5253,7 @@ MonoBehaviour:
   rotationLookAhead: 0.002
   carChild: {fileID: 8367523790049932951}
   driftParticles: {fileID: 0}
-  maxSideDriftOffset: -3
+  maxSideDriftOffset: -3.5
   sideDriftSpeed: 0.2
   centerReturnSpeed: 0.12
   frontPivotRatio: 0.3
