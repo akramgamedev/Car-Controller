@@ -4,6 +4,7 @@ using UnityEngine.Splines;
 
 public class SplineCarController : MonoBehaviour
 {
+
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
     public bool loopSpline = false;
@@ -107,6 +108,7 @@ public class SplineCarController : MonoBehaviour
         carChild.localRotation = Quaternion.identity;
 
         SetupTrailRenderers();
+
     }
 
     void SetupTrailRenderers()
@@ -423,4 +425,5 @@ public class SplineCarController : MonoBehaviour
             }
         }
     }
+
 }
