@@ -5098,6 +5098,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 1728895452}
   loopSpline: 0
+  trailColor: {r: 0, g: 0, b: 0, a: 1}
+  trailAlpha: 0.751
   maxSpeed: 30
   acceleration: 16
   deceleration: 25
@@ -5121,27 +5123,13 @@ MonoBehaviour:
   trailWidth: 0.5
   trailEndWidth: 0
   dynamicWidth: 1
-  trailLifetime: 5
+  trailLifetime: 3
   minBrakeSpeed: 12
   minHighSpeedDuration: 1.5
   maxSideDriftOffset: -3
   sideDriftSpeed: 0.2
   centerReturnSpeed: 0.1
   frontPivotRatio: 0.3
-  pathLineMesh: {fileID: 0}
-  lineResolution: 100
-  lineWidth: 1
-  lineHeightOffset: 0.01
-  lineColor: {r: 0.2, g: 0.3, b: 0.5, a: 1}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  raycastHeight: 50
-  maxRaycastDistance: 100
-  lineStartOffset: 0.05
-  trailLength: 0.6
-  visibleTrailLength: 15
-  carBasePoint: {fileID: 8367523790049932951}
 --- !u!4 &1990154359
 Transform:
   m_ObjectHideFlags: 0
