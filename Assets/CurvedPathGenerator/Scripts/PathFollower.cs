@@ -142,7 +142,7 @@ namespace CurvedPathGenerator
             //=============================================================================================================================
             if ( !IsMove )
             {
-                targetRigidbody.velocity = Vector3.zero;
+                targetRigidbody.linearVelocity = Vector3.zero;
                 return;
             }
 
@@ -176,7 +176,7 @@ namespace CurvedPathGenerator
             // 물체가 path를 따라가게 하는 기능
             //=============================================================================================================================
             offset.Normalize();
-            targetRigidbody.velocity = Speed * Time.deltaTime * offset;
+            targetRigidbody.linearVelocity = Speed * Time.deltaTime * offset;
 
             // calculate distance between object and next path
             // 물체와 next path 경로 사이의 거리 계산

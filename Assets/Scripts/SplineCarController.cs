@@ -2,19 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Splines;
 
+[RequireComponent(typeof(CarSkidMarks))]
 public class SplineCarController : MonoBehaviour
 {
-
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
     public bool loopSpline = false;
     private float splineProgress = 0f;
     private bool reachedEnd = false;
-
-    [Header("Trail Color Settings")]
-    public Color trailColor = Color.black;
-    [Range(0f, 1f)]
-    public float trailAlpha = 0.9f;
 
     [Header("Movement Settings")]
     public float maxSpeed = 15f;
@@ -47,19 +42,6 @@ public class SplineCarController : MonoBehaviour
     public Transform carChild;
     public ParticleSystem driftParticles;
 
-    [Header("Drift Trail Settings")]
-    public TrailRenderer leftTrail;
-    public TrailRenderer rightTrail;
-    public float wheelDistance = 1.5f;
-    public float rearWheelOffset = 1.2f;
-    public float trailStartAngle = 12f;
-    public float trailWidth = 0.3f;
-    public float trailLifetime = 3f;
-
-    [Header("Brake Mark Settings")]
-    public float minBrakeSpeed = 12f;
-    public float minHighSpeedDuration = 1.5f;
-
     [Header("Side Drift Effect (Pick Me Up Style)")]
     public float maxSideDriftOffset = 3.0f;
     public float sideDriftSpeed = 0.25f;
@@ -73,14 +55,15 @@ public class SplineCarController : MonoBehaviour
     private float sideDriftOffset = 0f;
     private float sideDriftVelocity = 0f;
     private Quaternion baseRotation;
-    private GameObject leftTrailObject;
-    private GameObject rightTrailObject;
     private float previousSpeed = 0f;
     private float highSpeedTimer = 0f;
+
+    private CarSkidMarks skidMarks;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        skidMarks = GetComponent<CarSkidMarks>();
 
         if (splineContainer == null)
         {
@@ -107,78 +90,7 @@ public class SplineCarController : MonoBehaviour
 
         carChild.localRotation = Quaternion.identity;
 
-        SetupTrailRenderers();
-
-    }
-
-    void SetupTrailRenderers()
-    {
-        if (leftTrail == null)
-        {
-            leftTrailObject = new GameObject("LeftDriftTrail");
-            leftTrailObject.transform.SetParent(transform);
-            leftTrail = leftTrailObject.AddComponent<TrailRenderer>();
-        }
-
-        if (rightTrail == null)
-        {
-            rightTrailObject = new GameObject("RightDriftTrail");
-            rightTrailObject.transform.SetParent(transform);
-            rightTrail = rightTrailObject.AddComponent<TrailRenderer>();
-        }
-
-        ConfigureTrail(leftTrail);
-        ConfigureTrail(rightTrail);
-
-        leftTrail.emitting = false;
-        rightTrail.emitting = false;
-    }
-
-    void ConfigureTrail(TrailRenderer trail)
-    {
-        trail.time = trailLifetime; // 3 seconds for disappearance
-        trail.autodestruct = false;
-
-        // Constant width to prevent tapering
-        trail.startWidth = trailWidth;
-        trail.endWidth = trailWidth;
-
-        // Gradient with gradual fade-out - gets lighter and lighter over time
-        Gradient gradient = new Gradient();
-        gradient.mode = GradientMode.Blend; // Smooth blending for alpha
-        gradient.SetKeys(
-            new GradientColorKey[]
-            {
-                new GradientColorKey(trailColor, 0.0f),
-                new GradientColorKey(trailColor, 1.0f)
-            },
-            new GradientAlphaKey[]
-            {
-                new GradientAlphaKey(trailAlpha, 0.0f),          // Full opacity when just drawn
-                new GradientAlphaKey(trailAlpha * 0.85f, 0.3f),  // Slightly lighter
-                new GradientAlphaKey(trailAlpha * 0.65f, 0.5f),  // Getting lighter
-                new GradientAlphaKey(trailAlpha * 0.45f, 0.7f),  // More faded
-                new GradientAlphaKey(trailAlpha * 0.25f, 0.85f), // Very light
-                new GradientAlphaKey(0f, 1.0f)                   // Fully transparent at end
-            }
-        );
-        trail.colorGradient = gradient;
-
-        // Constant width curve
-        AnimationCurve widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
-        trail.widthCurve = widthCurve;
-
-        // Material settings
-        trail.material = new Material(Shader.Find("Sprites/Default"));
-        trail.material.color = trailColor;
-        trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        trail.receiveShadows = false;
-
-        trail.alignment = LineAlignment.TransformZ;
-        trail.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        trail.textureMode = LineTextureMode.Stretch;
-        trail.minVertexDistance = 0.2f;
-        trail.generateLightingData = false;
+        skidMarks.Initialize(carChild);
     }
 
     void Update()
@@ -187,7 +99,7 @@ public class SplineCarController : MonoBehaviour
         HandleMovement();
         HandleDrift();
         HandleDriftParticles();
-        HandleDriftTrails();
+        skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
 
     void HandleInput()
@@ -279,11 +191,21 @@ public class SplineCarController : MonoBehaviour
         float turnAngle = Vector3.SignedAngle(nowTan, futureTan, Vector3.up);
         bool isTurning = Mathf.Abs(turnAngle) > 2f;
 
+        float driftExitSmoothTime = driftSmoothTime * 1.5f;
+        float sideDriftExitSpeed = sideDriftSpeed * 1.2f;
+
         if (currentSpeed < minDriftSpeed)
         {
-            targetDriftAngle = 0f;
-            currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, 0f, ref driftVelocity, 0.1f);
-            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, 0.1f);
+            targetDriftAngle = Mathf.Lerp(targetDriftAngle, 0f, Time.deltaTime * 4f);
+            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, sideDriftExitSpeed);
+            currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, 0f, ref driftVelocity, driftExitSmoothTime);
+
+            if (Mathf.Abs(sideDriftOffset) < 0.01f)
+            {
+                sideDriftOffset = 0f;
+                sideDriftVelocity = 0f;
+            }
+
             carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
             isInTurn = false;
             return;
@@ -295,7 +217,6 @@ public class SplineCarController : MonoBehaviour
         {
             float speedFactor = Mathf.InverseLerp(minDriftSpeed, maxSpeed, currentSpeed);
             float speedDriftMultiplier = Mathf.Pow(speedFactor, driftSpeedCurve);
-
             float baseTarget = Mathf.Clamp(turnAngle * turnSensitivity, -maxDriftAngle, maxDriftAngle) * speedDriftMultiplier;
 
             if (!isInTurn)
@@ -314,19 +235,27 @@ public class SplineCarController : MonoBehaviour
             float targetSideOffset = slideCurve * maxSideDriftOffset * speedDriftMultiplier;
 
             sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, targetSideOffset, ref sideDriftVelocity, sideDriftSpeed);
+            currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, targetDriftAngle, ref driftVelocity, driftSmoothTime);
 
             float driftSpeedTarget = Mathf.Lerp(maxSpeed, maxSpeed * 0.85f, Mathf.Abs(normalizedDrift));
             currentSpeed = Mathf.Lerp(currentSpeed, driftSpeedTarget, Time.deltaTime * 2f);
         }
         else
         {
-            targetDriftAngle = 0f;
-            isInTurn = false;
-            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, centerReturnSpeed);
+            targetDriftAngle = Mathf.Lerp(targetDriftAngle, 0f, Time.deltaTime * 4f);
+            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, sideDriftExitSpeed);
+            currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, 0f, ref driftVelocity, driftExitSmoothTime);
             currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * 2f);
+
+            if (Mathf.Abs(sideDriftOffset) < 0.01f)
+            {
+                sideDriftOffset = 0f;
+                sideDriftVelocity = 0f;
+            }
+
+            isInTurn = false;
         }
 
-        currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, targetDriftAngle, ref driftVelocity, driftSmoothTime);
         carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
     }
 
@@ -338,92 +267,7 @@ public class SplineCarController : MonoBehaviour
         if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
         else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
     }
-
-    void HandleDriftTrails()
-    {
-        if (leftTrail == null || rightTrail == null) return;
-
-        if (carChild != null)
-        {
-            Vector3 leftWheelLocal = new Vector3(-wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
-            Vector3 rightWheelLocal = new Vector3(wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
-
-            Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
-            Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
-
-            RaycastHit hit;
-            float raycastDistance = 2f;
-
-            if (Physics.Raycast(leftWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
-                leftWheelWorld = hit.point + Vector3.up * 0.02f;
-            else
-                leftWheelWorld.y = transform.position.y + 0.02f;
-
-            if (Physics.Raycast(rightWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
-                rightWheelWorld = hit.point + Vector3.up * 0.02f;
-            else
-                rightWheelWorld.y = transform.position.y + 0.02f;
-
-            leftTrailObject.transform.position = leftWheelWorld;
-            rightTrailObject.transform.position = rightWheelWorld;
-        }
-
-        if (isTouching && currentSpeed > minBrakeSpeed)
-            highSpeedTimer += Time.deltaTime;
-        else if (currentSpeed < minBrakeSpeed * 0.7f)
-            highSpeedTimer = 0f;
-
-        bool isDrifting = Mathf.Abs(currentDriftAngle) > trailStartAngle;
-        bool showDriftMarks = isDrifting;
-
-        float decelAmount = (previousSpeed - currentSpeed) / Mathf.Max(Time.deltaTime, 0.01f);
-        bool isBrakingNow = !isTouching && currentSpeed < previousSpeed;
-
-        bool cameFromSpeed = previousSpeed > 10f;
-        bool brakingStrong = decelAmount > 3.5f;
-        bool stillRolling = currentSpeed > 2.5f;
-
-        bool showBrakeMarks =
-            cameFromSpeed &&
-            brakingStrong &&
-            stillRolling &&
-            isBrakingNow &&
-            highSpeedTimer > 0.3f;
-
-        if (currentSpeed < 2f)
-            showBrakeMarks = false;
-
-        bool shouldShowTrails = showDriftMarks || showBrakeMarks;
-        leftTrail.emitting = shouldShowTrails;
-        rightTrail.emitting = shouldShowTrails;
-
-        leftTrail.startWidth = trailWidth;
-        rightTrail.startWidth = trailWidth;
-        leftTrail.endWidth = trailWidth;
-        rightTrail.endWidth = trailWidth;
-
-        previousSpeed = currentSpeed;
-    }
-
-    void OnDrawGizmos()
-    {
-        if (splineContainer != null && splineContainer.Spline != null)
-        {
-            Gizmos.color = Color.yellow;
-            int segments = 50;
-            for (int i = 0; i <= segments; i++)
-            {
-                float t = (float)i / segments;
-                Vector3 p = splineContainer.EvaluatePosition(t);
-                Gizmos.DrawSphere(p, 0.2f);
-                if (i > 0)
-                {
-                    float prevT = (float)(i - 1) / segments;
-                    Vector3 prevP = splineContainer.EvaluatePosition(prevT);
-                    Gizmos.DrawLine(prevP, p);
-                }
-            }
-        }
-    }
-
 }
+
+
+

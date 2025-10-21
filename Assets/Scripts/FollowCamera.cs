@@ -15,19 +15,16 @@ public class FollowCamera : MonoBehaviour
     [Tooltip("Use SmoothDamp instead of Lerp for smoother motion")]
     public bool useSmoothDamp = true;
 
-    // Internal smooth damp velocity
     private Vector3 velocity;
 
-    // Cache transform
     private Transform camTransform;
 
-    // Store the initial rotation to keep it fixed
     private Quaternion fixedRotation;
 
     void Awake()
     {
         camTransform = transform;
-        fixedRotation = camTransform.rotation; // store initial rotation
+        fixedRotation = camTransform.rotation;
     }
 
     void LateUpdate()
@@ -39,10 +36,8 @@ public class FollowCamera : MonoBehaviour
 
     private void FollowPositionOnly()
     {
-        // Calculate desired position (world space)
         Vector3 desiredPosition = target.position + worldOffset;
 
-        // Smoothly move to position
         if (useSmoothDamp)
         {
             camTransform.position = Vector3.SmoothDamp(
@@ -60,7 +55,6 @@ public class FollowCamera : MonoBehaviour
                 followSmoothSpeed * Time.deltaTime
             );
         }
-        // Keep rotation constant (no rotation with car)
         camTransform.rotation = fixedRotation;
     }
 
@@ -71,5 +65,6 @@ public class FollowCamera : MonoBehaviour
         camTransform.position = target.position + worldOffset;
         camTransform.rotation = fixedRotation;
         velocity = Vector3.zero;
+        
     }
 }
