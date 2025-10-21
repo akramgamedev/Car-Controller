@@ -95,6 +95,8 @@ public class SplineCarController : MonoBehaviour
 
     void Update()
     {
+        if (!enabled) return;
+
         HandleInput();
         HandleMovement();
         HandleDrift();
