@@ -775,6 +775,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3969858968862416888, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a2e19aca136ed7645bb0b7c223764763, type: 2}
     - target: {fileID: 4575358018098956841, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
       propertyPath: m_Name
       value: Road Structure Test
@@ -789,11 +793,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6818148196715225626, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.000000019073486
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 6818148196715225626, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.500659
+      value: 15.499341
       objectReference: {fileID: 0}
     - target: {fileID: 6818148196715225626, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -826,7 +830,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4575358018098956841, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 399530982}
   m_SourcePrefab: {fileID: 100100000, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
 --- !u!1 &315839636
 GameObject:
@@ -1230,6 +1237,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1790598542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &399530978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4575358018098956841, guid: 4be6a57ea15b92545a1f0b880554d89c, type: 3}
+  m_PrefabInstance: {fileID: 284149570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &399530982
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399530978}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7841489224676078568, guid: c18802df0cc7d764c9f9659b9eac1508, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1853,7 +1887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440491958625859367, guid: c47706ee49b97554293344d403cae3b6, type: 3}
       propertyPath: m_Mass
-      value: 80
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8440491958625859367, guid: c47706ee49b97554293344d403cae3b6, type: 3}
       propertyPath: m_Constraints
@@ -2496,7 +2530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &968335313
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3253,8 +3287,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationForce: 500
-  angularDrag: 2
+  linearDampingPlayer: 5
+  linearDampingAI: 0.5
   carRigidbody: {fileID: 688890513}
+  splineController: {fileID: 0}
 --- !u!1 &1165296402
 GameObject:
   m_ObjectHideFlags: 0
@@ -5264,7 +5300,7 @@ GameObject:
   - component: {fileID: 1990154361}
   m_Layer: 6
   m_Name: CarParent
-  m_TagString: Car
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5354,8 +5390,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationForce: 500
-  angularDrag: 2
+  linearDampingPlayer: 5
+  linearDampingAI: 0.5
   carRigidbody: {fileID: 8425267888876866237}
+  splineController: {fileID: 0}
 --- !u!1 &2018535118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6184,7 +6222,7 @@ Rigidbody:
   m_GameObject: {fileID: 2668072362136280234}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
