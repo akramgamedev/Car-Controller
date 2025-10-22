@@ -104,6 +104,8 @@ public class SplineCarController : MonoBehaviour
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
 
+   
+
     void HandleInput()
     {
         if (Input.touchCount > 0)
