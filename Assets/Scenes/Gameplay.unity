@@ -1890,6 +1890,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8440491958625859367, guid: c47706ee49b97554293344d403cae3b6, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440491958625859367, guid: c47706ee49b97554293344d403cae3b6, type: 3}
       propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
@@ -5390,7 +5394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationForce: 500
-  linearDampingPlayer: 5
+  linearDampingPlayer: 6
   linearDampingAI: 0.5
   carRigidbody: {fileID: 8425267888876866237}
   splineController: {fileID: 0}
