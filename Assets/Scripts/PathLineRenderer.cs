@@ -13,9 +13,19 @@ public class RoadPathLine : MonoBehaviour
     public float eraseDistance = 3f; // How far behind car the line disappears
     public int curveResolution = 20; // Smoothness per segment
 
+    [Header("Line Appearance")]
+    public float lineWidth = 0.25f;
+    public Color lineColor = new Color(0.1f, 0.1f, 0.6f); // Navy blue
+
+    [Header("Real-time Editing")]
+    public bool updateInPlayMode = true; // Enable to edit waypoints in play mode
+
     private LineRenderer line;
     private List<Vector3> fullPath = new List<Vector3>();
     private float totalPathLength;
+    private List<Vector3> lastWaypointPositions = new List<Vector3>();
+    private float lastLineWidth;
+    private Color lastLineColor;
 
     void Awake()
     {
@@ -31,18 +41,35 @@ public class RoadPathLine : MonoBehaviour
             return;
         }
 
-        // Generate full smooth path using Catmull-Rom spline
-        fullPath = GenerateSmoothPath(roadPoints, curveResolution);
-
-        line.positionCount = fullPath.Count;
-        line.SetPositions(fullPath.ToArray());
-
-        // Calculate total path length for fade reference
-        totalPathLength = CalculatePathLength(fullPath);
+        RegeneratePath();
+        CacheWaypointPositions();
+        lastLineWidth = lineWidth;
+        lastLineColor = lineColor;
     }
 
     void Update()
     {
+        // Check if we need to regenerate path in play mode
+        if (updateInPlayMode && HasWaypointsChanged())
+        {
+            RegeneratePath();
+            CacheWaypointPositions();
+        }
+
+        // Update line appearance if changed
+        if (lineWidth != lastLineWidth)
+        {
+            line.startWidth = lineWidth;
+            line.endWidth = lineWidth;
+            lastLineWidth = lineWidth;
+        }
+
+        if (lineColor != lastLineColor)
+        {
+            line.material.color = lineColor;
+            lastLineColor = lineColor;
+        }
+
         if (car == null || fullPath.Count == 0) return;
 
         // Find nearest point index to car
@@ -67,12 +94,48 @@ public class RoadPathLine : MonoBehaviour
     private void SetupLineRenderer()
     {
         line.useWorldSpace = true;
-        line.startWidth = 0.25f;
-        line.endWidth = 0.25f;
+        line.startWidth = lineWidth;
+        line.endWidth = lineWidth;
 
         var mat = new Material(Shader.Find("Unlit/Color"));
-        mat.color = new Color(0.1f, 0.1f, 0.6f); // navy blue
+        mat.color = lineColor;
         line.material = mat;
+    }
+
+    private void RegeneratePath()
+    {
+        // Generate full smooth path using Catmull-Rom spline
+        fullPath = GenerateSmoothPath(roadPoints, curveResolution);
+
+        line.positionCount = fullPath.Count;
+        line.SetPositions(fullPath.ToArray());
+
+        // Calculate total path length for fade reference
+        totalPathLength = CalculatePathLength(fullPath);
+    }
+
+    private void CacheWaypointPositions()
+    {
+        lastWaypointPositions.Clear();
+        foreach (var point in roadPoints)
+        {
+            if (point != null)
+                lastWaypointPositions.Add(point.position);
+        }
+    }
+
+    private bool HasWaypointsChanged()
+    {
+        if (roadPoints.Count != lastWaypointPositions.Count)
+            return true;
+
+        for (int i = 0; i < roadPoints.Count; i++)
+        {
+            if (roadPoints[i] == null) continue;
+            if (Vector3.Distance(roadPoints[i].position, lastWaypointPositions[i]) > 0.01f)
+                return true;
+        }
+        return false;
     }
 
     private List<Vector3> GenerateSmoothPath(List<Transform> points, int resolution)
@@ -105,8 +168,8 @@ public class RoadPathLine : MonoBehaviour
         return 0.5f * (
             (2 * p1) +
             (-p0 + p2) * t +
-            (2*p0 - 5*p1 + 4*p2 - p3) * (t * t) +
-            (-p0 + 3*p1 - 3*p2 + p3) * (t * t * t)
+            (2 * p0 - 5 * p1 + 4 * p2 - p3) * (t * t) +
+            (-p0 + 3 * p1 - 3 * p2 + p3) * (t * t * t)
         );
     }
 
@@ -135,7 +198,146 @@ public class RoadPathLine : MonoBehaviour
     }
 }
 
+//********** working code **********//
 
+// using UnityEngine;
+// using System.Collections.Generic;
+
+// [RequireComponent(typeof(LineRenderer))]
+// public class RoadPathLine : MonoBehaviour
+// {
+//     [Header("References")]
+//     public Transform car; // Drag your car here
+//     public List<Transform> roadPoints; // Assign road waypoints here in order
+
+//     [Header("Settings")]
+//     public float yOffset = 0.05f;  // Slightly above road
+//     public float eraseDistance = 3f; // How far behind car the line disappears
+//     public int curveResolution = 20; // Smoothness per segment
+
+//     private LineRenderer line;
+//     private List<Vector3> fullPath = new List<Vector3>();
+//     private float totalPathLength;
+
+//     void Awake()
+//     {
+//         line = GetComponent<LineRenderer>();
+//         SetupLineRenderer();
+//     }
+
+//     void Start()
+//     {
+//         if (roadPoints.Count < 2)
+//         {
+//             Debug.LogError("❌ Please assign at least 2 roadPoints in the inspector!");
+//             return;
+//         }
+
+//         // Generate full smooth path using Catmull-Rom spline
+//         fullPath = GenerateSmoothPath(roadPoints, curveResolution);
+
+//         line.positionCount = fullPath.Count;
+//         line.SetPositions(fullPath.ToArray());
+
+//         // Calculate total path length for fade reference
+//         totalPathLength = CalculatePathLength(fullPath);
+//     }
+
+//     void Update()
+//     {
+//         if (car == null || fullPath.Count == 0) return;
+
+//         // Find nearest point index to car
+//         int closestIndex = GetClosestPointIndex(car.position);
+
+//         // Keep only points ahead of car (erase behind)
+//         int visibleCount = Mathf.Max(0, fullPath.Count - closestIndex);
+//         if (visibleCount <= 1)
+//         {
+//             line.positionCount = 0;
+//             return;
+//         }
+
+//         Vector3[] remaining = new Vector3[visibleCount];
+//         for (int i = 0; i < visibleCount; i++)
+//             remaining[i] = fullPath[closestIndex + i];
+
+//         line.positionCount = remaining.Length;
+//         line.SetPositions(remaining);
+//     }
+
+//     private void SetupLineRenderer()
+//     {
+//         line.useWorldSpace = true;
+//         line.startWidth = 0.25f;
+//         line.endWidth = 0.25f;
+
+//         var mat = new Material(Shader.Find("Unlit/Color"));
+//         mat.color = new Color(0.1f, 0.1f, 0.6f); // navy blue
+//         line.material = mat;
+//     }
+
+//     private List<Vector3> GenerateSmoothPath(List<Transform> points, int resolution)
+//     {
+//         List<Vector3> path = new List<Vector3>();
+
+//         for (int i = 0; i < points.Count - 1; i++)
+//         {
+//             Vector3 p0 = i == 0 ? points[i].position : points[i - 1].position;
+//             Vector3 p1 = points[i].position;
+//             Vector3 p2 = points[i + 1].position;
+//             Vector3 p3 = (i + 2 < points.Count) ? points[i + 2].position : p2;
+
+//             for (int j = 0; j < resolution; j++)
+//             {
+//                 float t = j / (float)resolution;
+//                 Vector3 pos = CatmullRom(p0, p1, p2, p3, t) + Vector3.up * yOffset;
+//                 path.Add(pos);
+//             }
+//         }
+
+//         // Add final point
+//         path.Add(points[points.Count - 1].position + Vector3.up * yOffset);
+//         return path;
+//     }
+
+//     private Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+//     {
+//         // Catmull-Rom spline interpolation
+//         return 0.5f * (
+//             (2 * p1) +
+//             (-p0 + p2) * t +
+//             (2*p0 - 5*p1 + 4*p2 - p3) * (t * t) +
+//             (-p0 + 3*p1 - 3*p2 + p3) * (t * t * t)
+//         );
+//     }
+
+//     private int GetClosestPointIndex(Vector3 carPos)
+//     {
+//         float minDist = float.MaxValue;
+//         int index = 0;
+//         for (int i = 0; i < fullPath.Count; i++)
+//         {
+//             float dist = Vector3.Distance(carPos, fullPath[i]);
+//             if (dist < minDist)
+//             {
+//                 minDist = dist;
+//                 index = i;
+//             }
+//         }
+//         return index;
+//     }
+
+//     private float CalculatePathLength(List<Vector3> pts)
+//     {
+//         float length = 0;
+//         for (int i = 1; i < pts.Count; i++)
+//             length += Vector3.Distance(pts[i - 1], pts[i]);
+//         return length;
+//     }
+// }
+
+//********** working code ends here **********//
 
 
 
