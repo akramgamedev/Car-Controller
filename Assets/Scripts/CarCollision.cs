@@ -89,6 +89,10 @@ if(carRigidbody == null && childRigidbodies.Length> 0)
                 ApplyRotationFromCollision(collision);
                 hasCrashed = true;
 
+                CarSkidMarks skidMarks = GetComponent<CarSkidMarks>();
+                if (skidMarks != null)
+                    skidMarks.DisableTrails();
+
                 if (isPlayer && UIManager.Instance != null)
                 {
                     UIManager.Instance.ShowResetPanelDelayed(resetPanelDelay);
@@ -115,6 +119,7 @@ if(carRigidbody == null && childRigidbodies.Length> 0)
 #endif
         }
     }
+
 
     void ApplyRotationFromCollision(Collision collision)
     {

@@ -7453,7 +7453,7 @@ MonoBehaviour:
   lookAheadDistance: 0.008
   rotationSpeed: 20
   rotationLookAhead: 0.002
-  carChild: {fileID: 8367523790049932951}
+  carChild: {fileID: 0}
   driftParticles: {fileID: 0}
   maxSideDriftOffset: -3.5
   sideDriftSpeed: 0.2
@@ -7515,7 +7515,7 @@ MonoBehaviour:
   rotationForce: 500
   linearDampingPlayer: 5
   linearDampingAI: 0.5
-  carRigidbody: {fileID: 8425267888876866237}
+  carRigidbody: {fileID: 0}
   splineController: {fileID: 0}
   resetPanelDelay: 3
 --- !u!4 &2005474381 stripped
