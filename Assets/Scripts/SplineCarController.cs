@@ -71,6 +71,26 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
+        // if (carChild == null && transform.childCount > 0)
+        // {
+        //     carChild = transform.GetChild(0);
+        //     Debug.Log($"Auto-assigned car child: {carChild.name}");
+        // }
+
+        if (carChild == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Car") && child.gameObject.activeInHierarchy)
+                {
+                    carChild = child;
+                    Debug.Log("Auto-assigned car child: " + child.name);
+                    break;
+                }
+            }
+        }
+        
+        //fallback method if not tagged Car found
         if (carChild == null && transform.childCount > 0)
         {
             carChild = transform.GetChild(0);
