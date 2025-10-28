@@ -14,8 +14,6 @@ public class SimpleTrafficCar : TrafficCarBase
 
     void OnCollisionEnter(Collision other)
     {
-       
             StoppedByCollision();
-        
     }
 }

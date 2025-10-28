@@ -31,11 +31,13 @@ public abstract class TrafficCarBase : MonoBehaviour
 
     public virtual void StopMoving()
     {
+
         isMoving = false;
     }
 
     public virtual void StoppedByCollision()
     {
+        
         isMoving = false;
         isStoppedByCollision = true;
     }
