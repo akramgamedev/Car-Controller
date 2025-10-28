@@ -1712,7 +1712,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 48.1
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -8027,7 +8027,7 @@ MonoBehaviour:
   wheelDistance: 1.5
   rearWheelOffset: 1.2
   trailStartAngle: 12
-  trailWidth: 0.3
+  trailWidth: 0.5
   trailLifetime: 5
   minBrakeSpeed: 12
   minHighSpeedDuration: 1.5
