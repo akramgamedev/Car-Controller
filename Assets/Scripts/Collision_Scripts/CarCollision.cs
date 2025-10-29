@@ -37,7 +37,7 @@ public class CarCollision : MonoBehaviour
                 if (rb.CompareTag("Car") && rb.gameObject.activeInHierarchy)
                 {
                     carRigidbody = rb;
-                    Debug.Log("Car Rigidbody found on child: " + rb.gameObject.name);
+                    LogHelper.Log("Car Rigidbody found on child: " + rb.gameObject.name);
                     break;
                 }
             }
@@ -45,7 +45,7 @@ public class CarCollision : MonoBehaviour
 if(carRigidbody == null && childRigidbodies.Length> 0)
             {
                 carRigidbody = childRigidbodies[0];
-                Debug.Log("No tagged Rigidbody found. Using first child Rigidbody: " + carRigidbody.gameObject.name);
+                LogHelper.Log("No tagged Rigidbody found. Using first child Rigidbody: " + carRigidbody.gameObject.name);
             }
 
         }
@@ -64,7 +64,7 @@ if(carRigidbody == null && childRigidbodies.Length> 0)
         }
         else
         {
-            Debug.LogError("No Rigidbody found on car body! Please assign it in the Inspector.");
+            LogHelper.LogError("No Rigidbody found on car body! Please assign it in the Inspector.");
         }
     }
 
@@ -93,9 +93,9 @@ if(carRigidbody == null && childRigidbodies.Length> 0)
                 if (skidMarks != null)
                     skidMarks.DisableTrails();
 
-                if (isPlayer && UIManager.Instance != null)
+                if (isPlayer && UIManager_Temporary.Instance != null)
                 {
-                    UIManager.Instance.ShowResetPanelDelayed(resetPanelDelay);
+                    UIManager_Temporary.Instance.ShowResetPanelDelayed(resetPanelDelay);
                 }
             }
         }

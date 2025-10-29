@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class RoadPathLine : MonoBehaviour
 {
     [Header("References")]
-    public Transform car; // Drag your car here
-    public List<Transform> roadPoints; // Assign road waypoints here in order
+    public Transform car;
+    public List<Transform> roadPoints;
 
     [Header("Settings")]
     public float yOffset = 0.05f;  // Slightly above road
@@ -37,7 +37,7 @@ public class RoadPathLine : MonoBehaviour
     {
         if (roadPoints.Count < 2)
         {
-            Debug.LogError("❌ Please assign at least 2 roadPoints in the inspector!");
+            LogHelper.LogError("Please assign at least 2 roadPoints in the inspector!");
             return;
         }
 

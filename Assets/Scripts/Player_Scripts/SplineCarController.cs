@@ -67,7 +67,7 @@ public class SplineCarController : MonoBehaviour
 
         if (splineContainer == null)
         {
-            Debug.LogError("Spline Container not assigned!");
+            LogHelper.LogError("Spline Container not assigned!");
             return;
         }
 
@@ -84,7 +84,7 @@ public class SplineCarController : MonoBehaviour
                 if (child.CompareTag("Car") && child.gameObject.activeInHierarchy)
                 {
                     carChild = child;
-                    Debug.Log("Auto-assigned car child: " + child.name);
+                    LogHelper.Log("Auto-assigned car child: " + child.name);
                     break;
                 }
             }
@@ -94,7 +94,7 @@ public class SplineCarController : MonoBehaviour
         if (carChild == null && transform.childCount > 0)
         {
             carChild = transform.GetChild(0);
-            Debug.Log($"Auto-assigned car child: {carChild.name}");
+            LogHelper.Log($"Auto-assigned car child: {carChild.name}");
         }
 
         totalSplineLength = splineContainer.Spline.GetLength();
@@ -123,8 +123,6 @@ public class SplineCarController : MonoBehaviour
         HandleDriftParticles();
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
-
-   
 
     void HandleInput()
     {

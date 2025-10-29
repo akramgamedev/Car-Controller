@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class UIManager_Temporary : MonoBehaviour
 {
-    public static UIManager Instance;
+    public static UIManager_Temporary Instance;
 
     [Header("UI Elements")]
     [SerializeField] private GameObject resetPanel;
