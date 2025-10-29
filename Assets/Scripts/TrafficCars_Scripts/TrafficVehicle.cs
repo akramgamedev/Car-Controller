@@ -32,7 +32,7 @@ public abstract class TrafficVehicle : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(isMoving && !isDisabled)
+        if (isMoving && !isDisabled)
         {
             Move();
         }

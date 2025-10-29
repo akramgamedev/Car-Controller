@@ -89,7 +89,7 @@ public class SplineCarController : MonoBehaviour
                 }
             }
         }
-        
+
         //fallback method if not tagged Car found
         if (carChild == null && transform.childCount > 0)
         {

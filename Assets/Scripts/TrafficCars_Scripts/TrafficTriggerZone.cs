@@ -10,7 +10,7 @@ public class TrafficTriggerZone : MonoBehaviour
 
     [Header("Trigger Settings")]
     [SerializeField] private bool oneTimeActivation = true;
-   // [SerializeField] private bool stopCarsOnExit = false;
+    // [SerializeField] private bool stopCarsOnExit = false;
 
     private bool hasBeenTriggered = false;
 
@@ -65,8 +65,8 @@ public class TrafficTriggerZone : MonoBehaviour
             Gizmos.DrawCube(box.center, box.size);
         }
     }
-    
-     private void OnDrawGizmosSelected()
+
+    private void OnDrawGizmosSelected()
     {
         // Draw lines to controlled cars when selected
         Gizmos.color = Color.yellow;

@@ -72,10 +72,8 @@ public class RoadPathLine : MonoBehaviour
 
         if (car == null || fullPath.Count == 0) return;
 
-        // Find nearest point index to car
         int closestIndex = GetClosestPointIndex(car.position);
 
-        // Keep only points ahead of car (erase behind)
         int visibleCount = Mathf.Max(0, fullPath.Count - closestIndex);
         if (visibleCount <= 1)
         {
@@ -104,13 +102,11 @@ public class RoadPathLine : MonoBehaviour
 
     private void RegeneratePath()
     {
-        // Generate full smooth path using Catmull-Rom spline
         fullPath = GenerateSmoothPath(roadPoints, curveResolution);
 
         line.positionCount = fullPath.Count;
         line.SetPositions(fullPath.ToArray());
 
-        // Calculate total path length for fade reference
         totalPathLength = CalculatePathLength(fullPath);
     }
 
@@ -157,7 +153,6 @@ public class RoadPathLine : MonoBehaviour
             }
         }
 
-        // Add final point
         path.Add(points[points.Count - 1].position + Vector3.up * yOffset);
         return path;
     }

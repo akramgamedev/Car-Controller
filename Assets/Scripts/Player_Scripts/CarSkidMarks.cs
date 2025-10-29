@@ -25,7 +25,7 @@ public class CarSkidMarks : MonoBehaviour
     private GameObject rightTrailObject;
     private Transform carChild;
 
-    
+
 
     void Start()
     {
@@ -253,7 +253,7 @@ public class CarSkidMarks : MonoBehaviour
         }
 
     }
-    
+
     public void DisableTrails()
     {
         if (leftTrail != null) leftTrail.emitting = false;

@@ -1,4 +1,3 @@
-// --- helper script attached to car body ---
 using UnityEngine;
 
 public class CarBodyCollision : MonoBehaviour

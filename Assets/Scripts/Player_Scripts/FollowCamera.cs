@@ -65,6 +65,6 @@ public class FollowCamera : MonoBehaviour
         camTransform.position = target.position + worldOffset;
         camTransform.rotation = fixedRotation;
         velocity = Vector3.zero;
-        
+
     }
 }

@@ -24,9 +24,9 @@ public class TrafficCarCollision : MonoBehaviour
         {
 
             Transform parent = collision.transform.parent;
-            if(parent != null && parent.CompareTag("Player"))
+            if (parent != null && parent.CompareTag("Player"))
             {
-                if(vehicleController != null)
+                if (vehicleController != null)
                 {
                     vehicleController.DisabledVehicle();
                     LogHelper.Log($"Traffic car {transform.parent.name} disabled after collision with player");
@@ -34,16 +34,4 @@ public class TrafficCarCollision : MonoBehaviour
             }
         }
     }
-
-
-    // Log Methods for Debugging:
-    // public void Log(string message)
-    // {
-    //     Debug.Log(message);
-    // }
-
-    // public void ErrorLog(string errorMessage)
-    // {
-    //     Debug.LogError(errorMessage);
-    // }
 }

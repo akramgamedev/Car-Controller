@@ -29,7 +29,7 @@ public class CarCollision : MonoBehaviour
         if (splineController == null)
             splineController = GetComponent<SplineCarController>();
 
-            if(carRigidbody == null)
+        if (carRigidbody == null)
         {
             Rigidbody[] childRigidbodies = GetComponentsInChildren<Rigidbody>(true);
             foreach (var rb in childRigidbodies)
@@ -41,8 +41,8 @@ public class CarCollision : MonoBehaviour
                     break;
                 }
             }
-            
-if(carRigidbody == null && childRigidbodies.Length> 0)
+
+            if (carRigidbody == null && childRigidbodies.Length > 0)
             {
                 carRigidbody = childRigidbodies[0];
                 LogHelper.Log("No tagged Rigidbody found. Using first child Rigidbody: " + carRigidbody.gameObject.name);
