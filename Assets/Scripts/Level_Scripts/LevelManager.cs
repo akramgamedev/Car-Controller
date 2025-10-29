@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour
     private void AutoFindLevels()
     {
         allLevels.Clear();
-        LevelData[] levels = FindObjectsOfType<LevelData>();
+        LevelData[] levels = FindObjectsByType<LevelData>(FindObjectsSortMode.None);
         allLevels.AddRange(levels);
         LogHelper.Log($"Found {allLevels.Count} levels in scene");
     }
