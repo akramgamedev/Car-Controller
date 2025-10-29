@@ -2200,7 +2200,7 @@ GameObject:
   - component: {fileID: 757544311}
   - component: {fileID: 757544312}
   m_Layer: 0
-  m_Name: Level_Manager
+  m_Name: Level_Manager_Temporary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
