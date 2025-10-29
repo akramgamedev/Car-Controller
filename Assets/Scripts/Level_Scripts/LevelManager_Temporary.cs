@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager_Temporary : MonoBehaviour
 {
     [Header("All Levels")]
     [SerializeField] private List<LevelData> allLevels = new List<LevelData>();
@@ -12,8 +12,8 @@ public class LevelManager : MonoBehaviour
     private LevelData currentLevel;
     private int currentLevelIndex = 0;
 
-    private static LevelManager instance;
-    public static LevelManager Instance => instance;
+    private static LevelManager_Temporary instance;
+    public static LevelManager_Temporary Instance => instance;
 
     private void Awake()
     {
