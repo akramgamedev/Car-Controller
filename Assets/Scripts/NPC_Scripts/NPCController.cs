@@ -1,57 +1,126 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
-public class NPCController : MonoBehaviour
+public class NPCController: MonoBehaviour
 {
-    [Header("navigation")]
+    [Header("Navigation")]
     public Transform[] waypoints;
     public float walkSpeed = 1.5f;
+    public float rotationSpeed = 5f;
     public float waypointReachDistance = 0.5f;
 
-    private NavMeshAgent agent;
     private Animator animator;
     private int currentWaypointIndex = 0;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        agent.speed = walkSpeed;
-
-        if (waypoints != null && waypoints.Length > 0)
+        if(waypoints == null || waypoints.Length==0)
         {
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
+            LogHelper.LogWarning("No waypoints assigned to " + name);
+            enabled = false;
+            return;
         }
     }
 
     void Update()
     {
+
         if (waypoints == null || waypoints.Length == 0) return;
 
-        float normalized = agent.velocity.magnitude / agent.speed;
+        Transform target = waypoints[currentWaypointIndex];
+        Vector3 direction = (target.position - transform.position).normalized;
 
-        //float speed = agent.velocity.magnitude;
-        animator.SetFloat("Speed", normalized);
+        transform.position += direction * walkSpeed * Time.deltaTime;
 
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        }
 
-        if (!agent.pathPending && agent.remainingDistance <= waypointReachDistance)
+        animator.SetFloat("Speed", walkSpeed / 3f);
+
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance <= waypointReachDistance)
             GoToNextWaypoint();
     }
     
     void GoToNextWaypoint()
     {
-        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-        agent.SetDestination(waypoints[currentWaypointIndex].position);
-        
+        if (currentWaypointIndex < waypoints.Length - 1)
+        {
+            currentWaypointIndex++;
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+            enabled = false;
+        }
     }
 
 }
 
 
 
+//********* Using Navmesh **********
+// using UnityEngine;
+// using UnityEngine.AI;
+
+// public class NPCController : MonoBehaviour
+// {
+//     [Header("navigation")]
+//     public Transform[] waypoints;
+//     public float walkSpeed = 1.5f;
+//     public float waypointReachDistance = 0.5f;
+
+//     private NavMeshAgent agent;
+//     private Animator animator;
+//     private int currentWaypointIndex = 0;
+
+//     void Start()
+//     {
+//         agent = GetComponent<NavMeshAgent>();
+//         animator = GetComponent<Animator>();
+
+//         agent.speed = walkSpeed;
+
+//         if (waypoints != null && waypoints.Length > 0)
+//         {
+//             agent.SetDestination(waypoints[currentWaypointIndex].position);
+//         }
+//     }
+
+//     void Update()
+//     {
+//         if (waypoints == null || waypoints.Length == 0) return;
+
+//         float normalized = agent.velocity.magnitude / agent.speed;
+
+//         //float speed = agent.velocity.magnitude;
+//         animator.SetFloat("Speed", normalized);
 
 
+//         if (!agent.pathPending && agent.remainingDistance <= waypointReachDistance)
+//             GoToNextWaypoint();
+//     }
+
+//     void GoToNextWaypoint()
+//     {
+//         if (currentWaypointIndex < waypoints.Length - 1)
+//         {
+//             currentWaypointIndex++;
+//             agent.SetDestination(waypoints[currentWaypointIndex].position);
+//         }
+//         else
+//         {
+//             agent.isStopped = true;
+//             animator.SetFloat("Speed", 0f);
+//         }
+
+//     }
+// }
+
+//************* complete NPC controller *****************
 // using UnityEngine;
 // using UnityEngine.AI;
 // using System;

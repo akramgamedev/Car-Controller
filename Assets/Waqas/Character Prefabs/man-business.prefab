@@ -101,11 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee329afe4b068d643a47869dc1e2c6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionDistance: 2
-  visionHeightOffset: 0.5
-  swerveDistance: 3
-  walkSpeed: 1.5
-  runSpeed: 3.5
+  waypoints: []
+  walkSpeed: 5
+  waypointReachDistance: 0.5
 --- !u!1 &2236217895259713707
 GameObject:
   m_ObjectHideFlags: 0

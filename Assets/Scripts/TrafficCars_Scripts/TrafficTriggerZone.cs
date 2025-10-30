@@ -39,6 +39,7 @@ public class TrafficTriggerZone : MonoBehaviour
         {
             if (car != null)
             {
+                car.gameObject.SetActive(true);
                 car.StartMoving();
                 LogHelper.Log("traffic cars activated");
             }

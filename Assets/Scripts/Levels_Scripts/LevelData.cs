@@ -8,10 +8,6 @@ public class LevelData : MonoBehaviour
     [SerializeField] private int levelNumber;
     [SerializeField] private string levelName;
 
-    [Header("Level Elements")]
-    [SerializeField] private List<TrafficVehicle> allTrafficCars = new List<TrafficVehicle>();
-    [SerializeField] private List<TrafficTriggerZone> allTriggerZones = new List<TrafficTriggerZone>();
-
     [Header("Spline Setup")]
     [SerializeField] private SplineContainer levelSplineContainer;
 
@@ -50,32 +46,7 @@ public class LevelData : MonoBehaviour
 
     public void ResetLevel()
     {
-        foreach (TrafficVehicle car in allTrafficCars)
-        {
-            if (car != null)
-            {
-                car.StopMoving();
-                car.gameObject.SetActive(true);
-
-                car.transform.localPosition = car.transform.localPosition;
-            }
-        }
-    }
-
-
-    [ContextMenu("Auto-Find All Traffic Elements")]
-    private void AutoFindElements()
-    {
-        allTrafficCars.Clear();
-        allTriggerZones.Clear();
-
-        TrafficVehicle[] cars = GetComponentsInChildren<TrafficVehicle>(true);
-        allTrafficCars.AddRange(cars);
-
-        TrafficTriggerZone[] zones = GetComponentsInChildren<TrafficTriggerZone>(true);
-        allTriggerZones.AddRange(zones);
-
-        LogHelper.Log($"Found {allTrafficCars.Count} traffic cars and {allTriggerZones.Count} trigger zones in {levelName}");
-
+        // Add any reset logic you might want later, like respawning pickups or resetting checkpoints
+        LogHelper.Log($"Level {levelNumber} reset");
     }
 }

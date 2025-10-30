@@ -21,6 +21,8 @@ public abstract class TrafficVehicle : MonoBehaviour
         {
             SaveInitialTransform();
         }
+
+        gameObject.SetActive(false);
     }
 
     private void SaveInitialTransform()
