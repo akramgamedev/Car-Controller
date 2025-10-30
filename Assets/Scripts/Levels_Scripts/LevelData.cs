@@ -28,7 +28,6 @@ public class LevelData : MonoBehaviour
         isActive = true;
         ResetLevel();
 
-         // ✅ Assign spline container to player's car
         if (playerCar != null && levelSplineContainer != null)
         {
             playerCar.splineContainer = levelSplineContainer;

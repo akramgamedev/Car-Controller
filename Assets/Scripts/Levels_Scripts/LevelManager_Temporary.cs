@@ -73,7 +73,6 @@ public class LevelManager_Temporary : MonoBehaviour
         currentLevelIndex = levelIndex;
         currentLevel.ActivateLevel(playerCar);
 
-      //  MovePlayerToSpawn();
     }
 
     public void LoadNextLevel()
@@ -103,22 +102,8 @@ public class LevelManager_Temporary : MonoBehaviour
         if (currentLevel != null)
         {
             currentLevel.ResetLevel();
-           // MovePlayerToSpawn();
         }
     }
-
-    // private void MovePlayerToSpawn()
-    // {
-    //     if (currentLevel != null && currentLevel.PlayerSpawnPoint != null)
-    //     {
-    //         GameObject player = GameObject.FindGameObjectWithTag("Player");
-    //         if (player != null)
-    //         {
-    //             player.transform.position = currentLevel.PlayerSpawnPoint.position;
-    //             player.transform.rotation = currentLevel.PlayerSpawnPoint.rotation;
-    //         }
-    //     }
-    // }
 
     public int GetcurrentLevelNumber()
     {
