@@ -19,7 +19,7 @@ public class NPCTrigger : MonoBehaviour
     }
 private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = new Color(0f, 1f, 0.5f, 0.25f);
         BoxCollider box = GetComponent<BoxCollider>();
         if (box != null)
         {
