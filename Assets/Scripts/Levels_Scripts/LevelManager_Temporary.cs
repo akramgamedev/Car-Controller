@@ -12,6 +12,8 @@ public class LevelManager_Temporary : MonoBehaviour
     private LevelData currentLevel;
     private int currentLevelIndex = 0;
 
+    private SplineCarController playerCar;
+
     private static LevelManager_Temporary instance;
     public static LevelManager_Temporary Instance => instance;
 
@@ -30,10 +32,18 @@ public class LevelManager_Temporary : MonoBehaviour
         foreach (LevelData level in allLevels)
         {
             if (level != null)
-            {
                 level.DeactivateLevel();
-            }
+        }
 
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerCar = playerObj.GetComponent<SplineCarController>();
+        }
+        
+        if(playerCar == null)
+        {
+            LogHelper.LogWarning("SplineCarController (Player) not found in scene");
         }
 
     }
@@ -61,9 +71,9 @@ public class LevelManager_Temporary : MonoBehaviour
 
         currentLevel = allLevels[levelIndex];
         currentLevelIndex = levelIndex;
-        currentLevel.ActivateLevel();
+        currentLevel.ActivateLevel(playerCar);
 
-        MovePlayerToSpawn();
+      //  MovePlayerToSpawn();
     }
 
     public void LoadNextLevel()
@@ -93,22 +103,22 @@ public class LevelManager_Temporary : MonoBehaviour
         if (currentLevel != null)
         {
             currentLevel.ResetLevel();
-            MovePlayerToSpawn();
+           // MovePlayerToSpawn();
         }
     }
 
-    private void MovePlayerToSpawn()
-    {
-        if (currentLevel != null && currentLevel.PlayerSpawnPoint != null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                player.transform.position = currentLevel.PlayerSpawnPoint.position;
-                player.transform.rotation = currentLevel.PlayerSpawnPoint.rotation;
-            }
-        }
-    }
+    // private void MovePlayerToSpawn()
+    // {
+    //     if (currentLevel != null && currentLevel.PlayerSpawnPoint != null)
+    //     {
+    //         GameObject player = GameObject.FindGameObjectWithTag("Player");
+    //         if (player != null)
+    //         {
+    //             player.transform.position = currentLevel.PlayerSpawnPoint.position;
+    //             player.transform.rotation = currentLevel.PlayerSpawnPoint.rotation;
+    //         }
+    //     }
+    // }
 
     public int GetcurrentLevelNumber()
     {

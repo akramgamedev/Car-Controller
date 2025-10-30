@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class LevelData : MonoBehaviour
 {
@@ -11,21 +12,28 @@ public class LevelData : MonoBehaviour
     [SerializeField] private List<TrafficVehicle> allTrafficCars = new List<TrafficVehicle>();
     [SerializeField] private List<TrafficTriggerZone> allTriggerZones = new List<TrafficTriggerZone>();
 
-    [Header("Spawn Points")]
-    [SerializeField] private Transform playerSpawnPoint;
+    [Header("Spline Setup")]
+    [SerializeField] private SplineContainer levelSplineContainer;
 
     private bool isActive = false;
 
     public int LevelNumber => levelNumber;
-    public Transform PlayerSpawnPoint => playerSpawnPoint;
+    public SplineContainer LevelSplineContainer => levelSplineContainer;
 
-    public void ActivateLevel()
+    public void ActivateLevel(SplineCarController playerCar)
     {
         if (isActive) return;
 
         gameObject.SetActive(true);
         isActive = true;
         ResetLevel();
+
+         // ✅ Assign spline container to player's car
+        if (playerCar != null && levelSplineContainer != null)
+        {
+            playerCar.splineContainer = levelSplineContainer;
+            LogHelper.Log($"Spline assigned to Player for Level {levelNumber}: {levelName}");
+        }
 
         LogHelper.Log($"Level {levelNumber} - {levelName} activated");
     }
