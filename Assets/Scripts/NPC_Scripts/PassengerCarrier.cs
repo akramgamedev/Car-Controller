@@ -15,7 +15,7 @@ public class PassengerCarrier : MonoBehaviour
         
         if (splineController == null)
         {
-            Debug.LogError("PassengerCarrier requires SplineCarController component!");
+            LogHelper.LogError("PassengerCarrier requires SplineCarController component!");
         }
     }
     

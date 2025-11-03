@@ -250,7 +250,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -641,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &86568469
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3620,7 +3620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &714980087
 Transform:
   m_ObjectHideFlags: 0
@@ -5378,6 +5378,7 @@ MonoBehaviour:
   carDoorPoint: {fileID: 1312831475}
   exitWalkTarget: {fileID: 1344015486}
   marker: {fileID: 48598084}
+  carBody: {fileID: 1174668667}
   dropoffDelay: 1
   markerRotateSpeed: 1000
   markerRotateDuration: 1
@@ -6888,7 +6889,7 @@ Transform:
   m_GameObject: {fileID: 1344015482}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.68, y: 0.52, z: 6.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9663,6 +9664,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 477648, guid: fcd06c9319e99cc4bbee7ce7730d9422, type: 3}
   m_PrefabInstance: {fileID: 1959037505}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1980370632
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2272023259270960013, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_Name
+      value: Lvl 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272023259270960013, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 97.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858983272182856465, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5627595735f6e9a4fa20b3cbfe88b96a, type: 3}
 --- !u!1 &1990154357
 GameObject:
   m_ObjectHideFlags: 0
@@ -11657,3 +11719,4 @@ SceneRoots:
   - {fileID: 114074890}
   - {fileID: 609396242}
   - {fileID: 803070398}
+  - {fileID: 1980370632}

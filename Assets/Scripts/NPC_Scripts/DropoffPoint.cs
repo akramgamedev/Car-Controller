@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,23 +10,24 @@ public class DropoffPoint : MonoBehaviour
     public Transform carDoorPoint;
     public Transform exitWalkTarget;
     public Transform marker;
-    
+    public Transform carBody;
+
     [Header("Settings")]
     public float dropoffDelay = 1f;
     public float markerRotateSpeed = 90f;
     public float markerRotateDuration = 2f;
-    
+
     [Header("Events")]
     public UnityEvent onCarStopped;
     public UnityEvent onPassengerDroppedOff;
-    
+
     private bool isCarInRange = false;
     private bool passengerDropped = false;
     private PassengerCarrier currentCar;
     private bool isMarkerRotating = false;
     private Quaternion markerOriginalRotation;
     private float markerRotationTimer = 0f;
-    
+
     private void Start()
     {
         Collider col = GetComponent<Collider>();
@@ -36,22 +38,22 @@ public class DropoffPoint : MonoBehaviour
         {
             passenger.gameObject.SetActive(false);
         }
-        
+
         if (marker != null)
         {
             markerOriginalRotation = marker.rotation;
         }
-        
+
         LogHelper.Log($"DropoffPoint '{gameObject.name}' initialized. Trigger: {col.isTrigger}");
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         LogHelper.Log($"OnTriggerEnter detected: {other.gameObject.name} (Tag: {other.tag})");
-        
+
         // Check parent for PassengerCarrier since collider might be on child
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
-        
+
         // If not found on this GameObject, check parent
         if (car == null)
         {
@@ -61,17 +63,17 @@ public class DropoffPoint : MonoBehaviour
                 LogHelper.Log($"Found PassengerCarrier on parent: {car.gameObject.name}");
             }
         }
-        
+
         if (car != null && !passengerDropped && car.HasPassenger())
         {
             LogHelper.Log($"Car with passenger detected! Requesting stop...");
-            
+
             isCarInRange = true;
             currentCar = car;
-            
+
             // Request the car to stop
             car.RequestStop();
-            
+
             // Find the door point on the car if not manually assigned
             if (carDoorPoint == null)
             {
@@ -82,13 +84,13 @@ public class DropoffPoint : MonoBehaviour
                     LogHelper.Log($"Found car door point: {carDoorPoint.name}");
                 }
             }
-            
+
             if (marker != null)
             {
                 isMarkerRotating = true;
                 markerRotationTimer = 0f;
             }
-            
+
             // Start the dropoff sequence after a short delay
             Invoke(nameof(StartDropoffSequence), 0.5f);
         }
@@ -105,51 +107,104 @@ public class DropoffPoint : MonoBehaviour
             LogHelper.Log("Passenger already dropped off");
         }
     }
-    
+
+    // private void StartDropoffSequence()
+    // {
+    //     LogHelper.Log($"StartDropoffSequence called. InRange: {isCarInRange}, Dropped: {passengerDropped}");
+
+    //     if (!isCarInRange || passengerDropped || currentCar == null) return;
+
+    //     onCarStopped?.Invoke();
+
+    //     var splineCar = currentCar.GetComponent<SplineCarController>();
+    //     if (splineCar != null) splineCar.SetTouchEnabled(false);
+
+    //     // Prepare passenger for exit
+    //     if (carDoorPoint != null && passenger != null)
+    //     {
+    //         LogHelper.Log($"Preparing passenger to exit car");
+
+    //         // Tell the passenger to exit at the door position
+    //         passenger.ExitCar(carDoorPoint.position);
+
+    //         // Set the dropoff point reference and exit target
+    //         passenger.SetDropoffPoint(this);
+
+    //         if (exitWalkTarget != null)
+    //             passenger.exitWalkTarget = exitWalkTarget;
+
+    //             if(carBody != null)
+    //         {
+    //             StartCoroutine(DriveAway(carBody, 8f, 3f));
+    //         }
+
+
+    //     }
+    //     else
+    //     {
+    //         LogHelper.LogError($"Missing references - Door: {carDoorPoint != null}, Passenger: {passenger != null}");
+    //     }
+    // }
+
     private void StartDropoffSequence()
     {
         LogHelper.Log($"StartDropoffSequence called. InRange: {isCarInRange}, Dropped: {passengerDropped}");
-        
+
         if (!isCarInRange || passengerDropped || currentCar == null) return;
-        
+
         onCarStopped?.Invoke();
-        
+
+        // 🟥 Disable player touch permanently
+        var splineCar = currentCar.GetComponent<SplineCarController>();
+        if (splineCar != null)
+            splineCar.SetTouchEnabled(false);
+
         // Prepare passenger for exit
         if (carDoorPoint != null && passenger != null)
         {
             LogHelper.Log($"Preparing passenger to exit car");
-            
-            // Tell the passenger to exit at the door position
+
             passenger.ExitCar(carDoorPoint.position);
-            
-            // Set the dropoff point reference and exit target
             passenger.SetDropoffPoint(this);
-            
+
             if (exitWalkTarget != null)
-            {
                 passenger.exitWalkTarget = exitWalkTarget;
-            }
-            else
-            {
-                LogHelper.LogError("Exit walk target not assigned!");
-            }
         }
         else
         {
             LogHelper.LogError($"Missing references - Door: {carDoorPoint != null}, Passenger: {passenger != null}");
         }
     }
-    
+
+
     // Called by the passenger when they reach the exit point
+    // public void OnPassengerReachedExit()
+    // {
+    //     LogHelper.Log($"Passenger reached exit point - completing dropoff!");
+
+    //     if (passenger == null || currentCar == null || passengerDropped) return;
+
+    //     CompleteDropoff();
+    // }
     public void OnPassengerReachedExit()
     {
-        LogHelper.Log($"Passenger reached exit point - completing dropoff!");
-        
+        LogHelper.Log("Passenger reached exit point — completing dropoff!");
+
         if (passenger == null || currentCar == null || passengerDropped) return;
-        
+
         CompleteDropoff();
+
+        if (carBody != null)
+        {
+            StartCoroutine(DriveAwayForever(carBody, 10f));
+        }
+        else
+        {
+            LogHelper.LogWarning("CarBody not assigned in Inspector!");
+        }
     }
-    
+
+
     private void OnTriggerExit(Collider other)
     {
         // Check both the collider and its parent
@@ -158,7 +213,7 @@ public class DropoffPoint : MonoBehaviour
         {
             car = other.GetComponentInParent<PassengerCarrier>();
         }
-        
+
         if (car != null)
         {
             LogHelper.Log($"Car exited dropoff zone");
@@ -167,28 +222,31 @@ public class DropoffPoint : MonoBehaviour
             isMarkerRotating = false;
         }
     }
-    
+
     private void CompleteDropoff()
     {
         LogHelper.Log($"CompleteDropoff called - Passenger fully exited!");
-        
+
         if (passenger == null || currentCar == null) return;
-        
+
         // Remove passenger from car
         currentCar.SetPassenger(false);
         currentCar.ResumeFromPickup();
-        
+
         passengerDropped = true;
-        
+
+        // var splineCar = currentCar.GetComponent<SplineCarController>();
+        // if (splineCar != null) splineCar.SetTouchEnabled(true);
+
         if (marker != null)
         {
             marker.gameObject.SetActive(false);
             isMarkerRotating = false;
         }
-        
+
         onPassengerDroppedOff?.Invoke();
     }
-    
+
     public void ResetDropoffPoint()
     {
         passengerDropped = false;
@@ -200,15 +258,41 @@ public class DropoffPoint : MonoBehaviour
         {
             passenger.gameObject.SetActive(false);
         }
-          if(marker != null)
+        if (marker != null)
         {
             marker.rotation = markerOriginalRotation;
             marker.gameObject.SetActive(true);
         }
-        
+
         LogHelper.Log("Dropoff point reset");
     }
-    
+
+    // private IEnumerator DriveAway(Transform carBody, float moveDistance=8f, float duration = 3f)
+    // {
+    //     Vector3 startPos = carBody.position;
+    //     Vector3 endPos = startPos + carBody.forward * moveDistance;
+
+    //     float elapsed = 0f;
+
+    //     while(elapsed < duration)
+    //     {
+    //         elapsed += Time.deltaTime;
+    //         float t = elapsed / duration;
+    //         carBody.position = Vector3.Lerp(startPos, endPos, t);
+    //         yield return null;
+    //     }
+    // }
+    private IEnumerator DriveAwayForever(Transform carBody, float speed = 50f)
+    {
+        while (true)
+        {
+            carBody.position += carBody.forward * speed * Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
+
     void Update()
     {
         // if (isMarkerRotating && marker != null)
@@ -216,10 +300,10 @@ public class DropoffPoint : MonoBehaviour
         //     marker.Rotate(Vector3.forward * markerRotateSpeed * Time.deltaTime, Space.Self);
         // }
 
-         if (isMarkerRotating && marker != null)
+        if (isMarkerRotating && marker != null)
         {
             markerRotationTimer += Time.deltaTime;
-            
+
             // Rotate for the specified duration
             if (markerRotationTimer < markerRotateDuration)
             {
@@ -229,7 +313,7 @@ public class DropoffPoint : MonoBehaviour
             {
                 // After duration, smoothly return to original rotation
                 marker.rotation = Quaternion.Slerp(marker.rotation, markerOriginalRotation, Time.deltaTime * 5f);
-                
+
                 // Stop rotating once close enough to original rotation
                 if (Quaternion.Angle(marker.rotation, markerOriginalRotation) < 1f)
                 {
@@ -239,9 +323,9 @@ public class DropoffPoint : MonoBehaviour
                 }
             }
         }
-      
+
     }
-    
+
     void OnDrawGizmos()
     {
         Gizmos.color = new Color(0f, 1.5f, 2f, 0.3f); // Blue-ish color to differentiate from pickup

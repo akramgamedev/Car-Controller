@@ -10,7 +10,6 @@ public class CarDoorPoint : MonoBehaviour
     
     private void Start()
     {
-        // Make sure this is a trigger
         Collider col = GetComponent<Collider>();
         col.isTrigger = true;
         
@@ -20,14 +19,12 @@ public class CarDoorPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         LogHelper.Log($"CarDoorPoint triggered by: {other.gameObject.name}");
-        
-        // Check if passenger has reached the door
+
         Passenger passenger = other.GetComponent<Passenger>();
         if (passenger != null && passenger.currentState == Passenger.PassengerState.MovingToCar)
         {
             LogHelper.Log($"Passenger reached door point!");
             
-            // Notify the pickup point that passenger reached the door
             passenger.OnReachedDoor();
         }
     }
@@ -39,7 +36,6 @@ public class CarDoorPoint : MonoBehaviour
             Gizmos.color = gizmoColor;
             Gizmos.DrawWireSphere(transform.position, gizmoRadius);
             
-            // Draw an arrow to show the direction
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(transform.position, transform.forward * 0.5f);
         }

@@ -228,7 +228,7 @@ public class Passenger : MonoBehaviour
                 currentDropoffPoint.OnPassengerReachedExit();
             }
             
-            gameObject.SetActive(false);
+           // gameObject.SetActive(false);
         }
     }
     

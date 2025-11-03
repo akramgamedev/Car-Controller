@@ -64,6 +64,8 @@ public class SplineCarController : MonoBehaviour
 
     public float CurrentSpeed => currentSpeed;
 
+    private bool allowTouch = true;
+
 
     void Start()
     {
@@ -131,6 +133,13 @@ public class SplineCarController : MonoBehaviour
 
     void HandleInput()
     {
+
+        if (!allowTouch)
+        {
+            isTouching = false;
+            return;
+        }
+
         if (Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
@@ -233,100 +242,6 @@ public class SplineCarController : MonoBehaviour
     transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
 }
 
-    // void HandleMovement()
-    // {
-    //     if (forceStopped)
-    //     {
-    //         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 3f * Time.deltaTime);
-    //         if (currentSpeed < 0.01f)
-    //         {
-    //             currentSpeed = 0f;
-    //             LogHelper.Log("car stoppped 1");
-    //         }
-    //             return;
-    //     }
-
-    //     if (reachedEnd && !loopSpline)
-    //     {
-    //         currentSpeed = 0f;
-    //         LogHelper.Log("car stoppped 2");
-    //         return;
-    //     }
-
-    //     if (!forceStopped)
-    //     {
-    //         if (isTouching)
-    //             currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-    //         else
-    //             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
-    //     }
-
-    //     if (currentSpeed < 0.3f && !isTouching && !forceStopped)
-    //         currentSpeed = 0f;
-
-    //     if (currentSpeed <= 0.01f) return;
-
-    //     if (reachedEnd && !loopSpline)
-    //     {
-    //         currentSpeed = 0f;
-    //         LogHelper.Log("car stoppped 3");
-    //         return;
-    //     }
-
-    //     if (isTouching)
-    //         currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-    //     else
-    //         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
-
-    //     if (currentSpeed < 0.3f && !isTouching)
-    //         currentSpeed = 0f;
-
-    //     if (currentSpeed <= 0.01f) return;
-
-    //     float speedOnSpline = currentSpeed / totalSplineLength;
-    //     splineProgress += speedOnSpline * Time.deltaTime;
-
-    //     if (splineProgress >= 1f)
-    //     {
-    //         if (loopSpline) splineProgress -= 1f;
-    //         else { splineProgress = 1f; reachedEnd = true; currentSpeed = 0f; }
-    //     }
-
-    //     Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
-
-    //     float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
-    //     Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
-    //     Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
-    //     currentTangent.y = 0;
-    //     futureTangent.y = 0;
-    //     currentTangent.Normalize();
-    //     futureTangent.Normalize();
-
-    //     Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
-
-    //     if (targetDirection != Vector3.zero)
-    //     {
-    //         Quaternion targetRot = Quaternion.LookRotation(targetDirection);
-
-    //         if (currentSpeed < rotationStopSpeed)
-    //         {
-    //             float slowRotationSpeed = Mathf.InverseLerp(0f, rotationStopSpeed, currentSpeed) * 2f;
-    //             baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * slowRotationSpeed);
-    //         }
-    //         else
-    //         {
-    //             float speedBasedRotation = rotationSpeed * Mathf.InverseLerp(rotationStopSpeed, maxSpeed, currentSpeed);
-    //             baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
-    //         }
-
-    //         transform.rotation = baseRotation;
-    //     }
-
-    //     Vector3 rightDir = transform.right;
-    //     Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
-    //     transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
-    // }
-
     void HandleDrift()
     {
         if (carChild == null) return;
@@ -415,6 +330,13 @@ public class SplineCarController : MonoBehaviour
 
         if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
         else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
+    }
+
+    public void SetTouchEnabled(bool enabled)
+    {
+        isTouching = false;
+
+        allowTouch = enabled;
     }
 }
 
