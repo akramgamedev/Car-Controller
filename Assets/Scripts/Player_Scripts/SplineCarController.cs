@@ -59,6 +59,12 @@ public class SplineCarController : MonoBehaviour
 
     private CarSkidMarks skidMarks;
 
+    [Header("Car Stopping")]
+    public bool forceStopped = false;
+
+    public float CurrentSpeed => currentSpeed;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -138,66 +144,188 @@ public class SplineCarController : MonoBehaviour
     }
 
     void HandleMovement()
+{
+    // FORCE STOP CHECK - MUST BE FIRST
+    if (forceStopped)
     {
-        if (reachedEnd && !loopSpline)
+        currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 3f * Time.deltaTime);
+        if (currentSpeed < 0.01f)
         {
             currentSpeed = 0f;
-            return;
+            LogHelper.Log("Car fully stopped for pickup");
         }
-
-        if (isTouching)
-            currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-        else
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
-
-        if (currentSpeed < 0.3f && !isTouching)
-            currentSpeed = 0f;
-
-        if (currentSpeed <= 0.01f) return;
-
-        float speedOnSpline = currentSpeed / totalSplineLength;
-        splineProgress += speedOnSpline * Time.deltaTime;
-
-        if (splineProgress >= 1f)
-        {
-            if (loopSpline) splineProgress -= 1f;
-            else { splineProgress = 1f; reachedEnd = true; currentSpeed = 0f; }
-        }
-
-        Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
-
-        float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
-        Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
-        Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
-        currentTangent.y = 0;
-        futureTangent.y = 0;
-        currentTangent.Normalize();
-        futureTangent.Normalize();
-
-        Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
-
-        if (targetDirection != Vector3.zero)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(targetDirection);
-
-            if (currentSpeed < rotationStopSpeed)
-            {
-                float slowRotationSpeed = Mathf.InverseLerp(0f, rotationStopSpeed, currentSpeed) * 2f;
-                baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * slowRotationSpeed);
-            }
-            else
-            {
-                float speedBasedRotation = rotationSpeed * Mathf.InverseLerp(rotationStopSpeed, maxSpeed, currentSpeed);
-                baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
-            }
-
-            transform.rotation = baseRotation;
-        }
-
-        Vector3 rightDir = transform.right;
-        Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
-        transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
+        // IMPORTANT: Return here to prevent any movement code below
+        return;
     }
+
+    // Check if reached end
+    if (reachedEnd && !loopSpline)
+    {
+        currentSpeed = 0f;
+        return;
+    }
+
+    // Handle acceleration/deceleration based on input
+    if (isTouching)
+        currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+    else
+        currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
+
+    // Stop completely at low speeds when not touching
+    if (currentSpeed < 0.3f && !isTouching)
+        currentSpeed = 0f;
+
+    // Don't move if speed is too low
+    if (currentSpeed <= 0.01f) return;
+
+    // Calculate movement along spline
+    float speedOnSpline = currentSpeed / totalSplineLength;
+    splineProgress += speedOnSpline * Time.deltaTime;
+
+    // Handle loop or end
+    if (splineProgress >= 1f)
+    {
+        if (loopSpline) 
+            splineProgress -= 1f;
+        else 
+        { 
+            splineProgress = 1f; 
+            reachedEnd = true; 
+            currentSpeed = 0f; 
+        }
+    }
+
+    // Get position on spline
+    Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
+
+    // Calculate rotation
+    float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
+    Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
+    Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
+    currentTangent.y = 0;
+    futureTangent.y = 0;
+    currentTangent.Normalize();
+    futureTangent.Normalize();
+
+    Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
+
+    if (targetDirection != Vector3.zero)
+    {
+        Quaternion targetRot = Quaternion.LookRotation(targetDirection);
+
+        if (currentSpeed < rotationStopSpeed)
+        {
+            float slowRotationSpeed = Mathf.InverseLerp(0f, rotationStopSpeed, currentSpeed) * 2f;
+            baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * slowRotationSpeed);
+        }
+        else
+        {
+            float speedBasedRotation = rotationSpeed * Mathf.InverseLerp(rotationStopSpeed, maxSpeed, currentSpeed);
+            baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
+        }
+
+        transform.rotation = baseRotation;
+    }
+
+    // Apply position with side drift offset
+    Vector3 rightDir = transform.right;
+    Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
+    transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
+}
+
+    // void HandleMovement()
+    // {
+    //     if (forceStopped)
+    //     {
+    //         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 3f * Time.deltaTime);
+    //         if (currentSpeed < 0.01f)
+    //         {
+    //             currentSpeed = 0f;
+    //             LogHelper.Log("car stoppped 1");
+    //         }
+    //             return;
+    //     }
+
+    //     if (reachedEnd && !loopSpline)
+    //     {
+    //         currentSpeed = 0f;
+    //         LogHelper.Log("car stoppped 2");
+    //         return;
+    //     }
+
+    //     if (!forceStopped)
+    //     {
+    //         if (isTouching)
+    //             currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+    //         else
+    //             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
+    //     }
+
+    //     if (currentSpeed < 0.3f && !isTouching && !forceStopped)
+    //         currentSpeed = 0f;
+
+    //     if (currentSpeed <= 0.01f) return;
+
+    //     if (reachedEnd && !loopSpline)
+    //     {
+    //         currentSpeed = 0f;
+    //         LogHelper.Log("car stoppped 3");
+    //         return;
+    //     }
+
+    //     if (isTouching)
+    //         currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+    //     else
+    //         currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
+
+    //     if (currentSpeed < 0.3f && !isTouching)
+    //         currentSpeed = 0f;
+
+    //     if (currentSpeed <= 0.01f) return;
+
+    //     float speedOnSpline = currentSpeed / totalSplineLength;
+    //     splineProgress += speedOnSpline * Time.deltaTime;
+
+    //     if (splineProgress >= 1f)
+    //     {
+    //         if (loopSpline) splineProgress -= 1f;
+    //         else { splineProgress = 1f; reachedEnd = true; currentSpeed = 0f; }
+    //     }
+
+    //     Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
+
+    //     float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
+    //     Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
+    //     Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
+    //     currentTangent.y = 0;
+    //     futureTangent.y = 0;
+    //     currentTangent.Normalize();
+    //     futureTangent.Normalize();
+
+    //     Vector3 targetDirection = Vector3.Lerp(currentTangent, futureTangent, 0.2f).normalized;
+
+    //     if (targetDirection != Vector3.zero)
+    //     {
+    //         Quaternion targetRot = Quaternion.LookRotation(targetDirection);
+
+    //         if (currentSpeed < rotationStopSpeed)
+    //         {
+    //             float slowRotationSpeed = Mathf.InverseLerp(0f, rotationStopSpeed, currentSpeed) * 2f;
+    //             baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * slowRotationSpeed);
+    //         }
+    //         else
+    //         {
+    //             float speedBasedRotation = rotationSpeed * Mathf.InverseLerp(rotationStopSpeed, maxSpeed, currentSpeed);
+    //             baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
+    //         }
+
+    //         transform.rotation = baseRotation;
+    //     }
+
+    //     Vector3 rightDir = transform.right;
+    //     Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
+    //     transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
+    // }
 
     void HandleDrift()
     {
