@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using UnityEngine.Rendering.Universal;
+using MoreMountains.NiceVibrations;
 
 [RequireComponent(typeof(Collider))]
 public class PickupPoint : MonoBehaviour
@@ -63,6 +64,8 @@ public class PickupPoint : MonoBehaviour
             LogHelper.Log($"Car detected! Requesting stop...");
 
             AudioManager.Instance?.PlayUI("Pickup");
+
+            MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
             isCarInRange = true;
             currentCar = car;

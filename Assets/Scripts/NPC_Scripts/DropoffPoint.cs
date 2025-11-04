@@ -1,4 +1,5 @@
 using System.Collections;
+using MoreMountains.NiceVibrations;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -69,6 +70,8 @@ public class DropoffPoint : MonoBehaviour
             LogHelper.Log($"Car with passenger detected! Requesting stop...");
 
             AudioManager.Instance?.PlayUI("DropOff");
+
+            MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
             isCarInRange = true;
             currentCar = car;
