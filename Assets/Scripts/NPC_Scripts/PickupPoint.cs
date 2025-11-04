@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Collider))]
 public class PickupPoint : MonoBehaviour
@@ -13,39 +15,39 @@ public class PickupPoint : MonoBehaviour
     public float pickupDelay = 2f;
     public float markerRotateSpeed = 90f;
     public float markerRotateDuration = 2f;
-    
+
     [Header("Events")]
     public UnityEvent onCarStopped;
     public UnityEvent onPassengerPickedUp;
-    
+
     private bool isCarInRange = false;
     private bool passengerPickedUp = false;
     private PassengerCarrier currentCar;
     private bool isMarkerRotating = false;
     private Quaternion markerOriginalRotation;
     private float markerRotationTimer = 0f;
-    
+
     private void Start()
     {
         Collider col = GetComponent<Collider>();
         col.isTrigger = true;
-        
+
         // Store marker's original rotation
         if (marker != null)
         {
             markerOriginalRotation = marker.rotation;
         }
-        
+
         LogHelper.Log($"PickupPoint '{gameObject.name}' initialized. Trigger: {col.isTrigger}");
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         LogHelper.Log($"OnTriggerEnter detected: {other.gameObject.name} (Tag: {other.tag})");
-        
+
         // IMPORTANT: Check parent for PassengerCarrier since collider is on child
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
-        
+
         // If not found on this GameObject, check parent
         if (car == null)
         {
@@ -59,6 +61,8 @@ public class PickupPoint : MonoBehaviour
         if (car != null && !passengerPickedUp)
         {
             LogHelper.Log($"Car detected! Requesting stop...");
+
+            AudioManager.Instance?.PlayUI("Pickup");
 
             isCarInRange = true;
             currentCar = car;
@@ -77,14 +81,14 @@ public class PickupPoint : MonoBehaviour
                     LogHelper.Log($"Found car door point: {carDoorPoint.name}");
                 }
             }
-            
+
             // Start marker rotation
             if (marker != null)
             {
                 isMarkerRotating = true;
                 markerRotationTimer = 0f;
             }
-            
+
             // Start the pickup sequence after a short delay
             Invoke(nameof(StartPickupSequence), 0.5f);
         }
@@ -97,20 +101,20 @@ public class PickupPoint : MonoBehaviour
             LogHelper.Log("Passenger already picked up");
         }
     }
-    
+
     private void StartPickupSequence()
     {
         LogHelper.Log($"StartPickupSequence called. InRange: {isCarInRange}, PickedUp: {passengerPickedUp}");
-        
+
         if (!isCarInRange || passengerPickedUp || currentCar == null) return;
-        
+
         onCarStopped?.Invoke();
-        
+
         // Start passenger movement to car
         if (carDoorPoint != null && passenger != null)
         {
             LogHelper.Log($"Starting passenger movement to door");
-            
+
             // Tell the passenger which door to walk to and which pickup point to notify
             passenger.SetPickupPoint(this);
             passenger.StartMovingToCar(carDoorPoint);
@@ -120,17 +124,20 @@ public class PickupPoint : MonoBehaviour
             LogHelper.LogError($"Missing references - Door: {carDoorPoint != null}, Passenger: {passenger != null}");
         }
     }
-    
+
     // Called by CarDoorPoint when passenger triggers with it
     public void OnPassengerReachedDoor()
     {
         LogHelper.Log($"Passenger reached door - entering car!");
-        
+
         if (passenger == null || currentCar == null || passengerPickedUp) return;
-        
+
+         AudioManager.Instance?.PlaySFX("CloseDoor");
+
+
         CompletePickup();
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         // Check both the collider and its parent
@@ -139,7 +146,7 @@ public class PickupPoint : MonoBehaviour
         {
             car = other.GetComponentInParent<PassengerCarrier>();
         }
-        
+
         if (car != null)
         {
             LogHelper.Log($"Car exited pickup zone");
@@ -148,17 +155,17 @@ public class PickupPoint : MonoBehaviour
             isMarkerRotating = false;
         }
     }
-    
+
     private void CompletePickup()
     {
         LogHelper.Log($"CompletePickup called - Passenger entering car!");
-        
+
         if (passenger == null || currentCar == null) return;
-        
+
         // Enter the car
         passenger.EnterCar();
         passengerPickedUp = true;
-        
+
         // Set passenger in car and resume movement
         currentCar.SetPassenger(true);
         currentCar.ResumeFromPickup();
@@ -167,9 +174,9 @@ public class PickupPoint : MonoBehaviour
         if (marker != null)
         {
             isMarkerRotating = false;
-            marker.gameObject.SetActive(false);
+            MarkerAnimationHelper.AnimateMarkerDisappearance(marker);
         }
-        
+
         onPassengerPickedUp?.Invoke();
     }
 
@@ -180,14 +187,14 @@ public class PickupPoint : MonoBehaviour
         currentCar = null;
         isMarkerRotating = false;
         markerRotationTimer = 0f;
-        
+
         // Reset marker rotation and show it
         if (marker != null)
         {
             marker.rotation = markerOriginalRotation;
             marker.gameObject.SetActive(true);
         }
-        
+
         LogHelper.Log("Pickup point reset");
     }
 
@@ -196,7 +203,7 @@ public class PickupPoint : MonoBehaviour
         if (isMarkerRotating && marker != null)
         {
             markerRotationTimer += Time.deltaTime;
-            
+
             // Rotate for the specified duration
             if (markerRotationTimer < markerRotateDuration)
             {
@@ -206,7 +213,7 @@ public class PickupPoint : MonoBehaviour
             {
                 // After duration, smoothly return to original rotation
                 marker.rotation = Quaternion.Slerp(marker.rotation, markerOriginalRotation, Time.deltaTime * 5f);
-                
+
                 // Stop rotating once close enough to original rotation
                 if (Quaternion.Angle(marker.rotation, markerOriginalRotation) < 1f)
                 {

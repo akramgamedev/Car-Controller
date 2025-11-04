@@ -68,6 +68,8 @@ public class DropoffPoint : MonoBehaviour
         {
             LogHelper.Log($"Car with passenger detected! Requesting stop...");
 
+            AudioManager.Instance?.PlayUI("DropOff");
+
             isCarInRange = true;
             currentCar = car;
 
@@ -159,6 +161,8 @@ public class DropoffPoint : MonoBehaviour
         if (splineCar != null)
             splineCar.SetTouchEnabled(false);
 
+        AudioManager.Instance?.PlaySFX("OpenDoor");
+
         // Prepare passenger for exit
         if (carDoorPoint != null && passenger != null)
         {
@@ -238,13 +242,17 @@ public class DropoffPoint : MonoBehaviour
         // var splineCar = currentCar.GetComponent<SplineCarController>();
         // if (splineCar != null) splineCar.SetTouchEnabled(true);
 
+        // if (marker != null)
+        // {
+        //     marker.gameObject.SetActive(false);
+        //     isMarkerRotating = false;
+        // }
+
         if (marker != null)
         {
-            marker.gameObject.SetActive(false);
-            isMarkerRotating = false;
+            MarkerAnimationHelper.AnimateMarkerDisappearance(marker);
+            onPassengerDroppedOff?.Invoke();
         }
-
-        onPassengerDroppedOff?.Invoke();
     }
 
     public void ResetDropoffPoint()

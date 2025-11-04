@@ -85,6 +85,8 @@ public class CarCollision : MonoBehaviour
         {
             if (!hasCrashed)
             {
+                AudioManager.Instance?.PlaySFX("CarCrash");
+
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);
                 hasCrashed = true;
