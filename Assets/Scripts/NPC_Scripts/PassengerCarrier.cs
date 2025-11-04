@@ -21,7 +21,6 @@ public class PassengerCarrier : MonoBehaviour
     
     private void Update()
     {
-        // Control the forceStopped flag on SplineCarController
         if (splineController != null)
         {
             splineController.forceStopped = shouldStopForPickup;
