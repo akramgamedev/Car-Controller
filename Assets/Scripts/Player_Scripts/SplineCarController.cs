@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Splines;
+using DG.Tweening;
 
 [RequireComponent(typeof(CarSkidMarks))]
 public class SplineCarController : MonoBehaviour
@@ -66,6 +68,11 @@ public class SplineCarController : MonoBehaviour
 
     private bool allowTouch = true;
 
+    [Header("UI References")]
+    public GameObject mainMenuUI;
+    private bool gameStarted = false;
+
+
 
     void Start()
     {
@@ -131,32 +138,119 @@ public class SplineCarController : MonoBehaviour
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
 
+    //     void HandleInput()
+    //     {
+
+    //         if (!allowTouch)
+    //         {
+    //             isTouching = false;
+    //             return;
+    //         }
+    //         bool touchingUI = false;
+
+    //         // Check if user is touching/clicking over a UI element
+    //         if (EventSystem.current != null)
+    //         {
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject();
+    // #else
+    //         if (Input.touchCount > 0)
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+    // #endif
+    //         }
+
+    //         if (touchingUI)
+    //         {
+    //             // Ignore all input if touching UI
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    //         if (Input.touchCount > 0)
+    //         {
+    //             Touch t = Input.GetTouch(0);
+    //             // bool wasTouching = isTouching;
+    //             isTouching = t.phase == TouchPhase.Began || t.phase == TouchPhase.Stationary || t.phase == TouchPhase.Moved;
+
+    //             // if (!wasTouching && isTouching)
+    //             // {
+    //             //     AudioManager.Instance?.PlaySFX("CarBeep");
+    //             // }
+    //         }
+    //         else isTouching = false;
+
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //         if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)) isTouching = true;
+    // #endif
+    //     }
+
     void HandleInput()
     {
+        if (gameStarted == false)
+        {
+            // Detect tap to start
+#if UNITY_EDITOR || UNITY_STANDALONE
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                StartGame();
+            }
+#else
+        if (Input.touchCount > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Began &&
+                !EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            {
+                StartGame();
+            }
+        }
+#endif
+            isTouching = false;
+            return;
+        }
 
+        // ---- Normal input begins here ----
         if (!allowTouch)
         {
             isTouching = false;
             return;
         }
 
-        if (Input.touchCount > 0)
-        {
-            Touch t = Input.GetTouch(0);
-           // bool wasTouching = isTouching;
-            isTouching = t.phase == TouchPhase.Began || t.phase == TouchPhase.Stationary || t.phase == TouchPhase.Moved;
+        bool touchingUI = false;
 
-            // if (!wasTouching && isTouching)
-            // {
-            //     AudioManager.Instance?.PlaySFX("CarBeep");
-            // }
+        if (EventSystem.current != null)
+        {
+#if UNITY_EDITOR || UNITY_STANDALONE
+            touchingUI = EventSystem.current.IsPointerOverGameObject();
+#else
+        if (Input.touchCount > 0)
+            touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+#endif
         }
-        else isTouching = false;
+
+        if (touchingUI)
+        {
+            isTouching = false;
+            return;
+        }
 
 #if UNITY_EDITOR || UNITY_STANDALONE
-        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)) isTouching = true;
+        isTouching = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space);
+#else
+    if (Input.touchCount > 0)
+    {
+        Touch t = Input.GetTouch(0);
+        isTouching = t.phase == TouchPhase.Began ||
+                     t.phase == TouchPhase.Stationary ||
+                     t.phase == TouchPhase.Moved;
+    }
+    else
+    {
+        isTouching = false;
+    }
 #endif
     }
+
 
     void HandleMovement()
     {
@@ -344,6 +438,42 @@ public class SplineCarController : MonoBehaviour
 
         allowTouch = enabled;
     }
+
+void StartGame()
+{
+    gameStarted = true;
+    allowTouch = true;
+
+    if (mainMenuUI != null)
+    {
+        CanvasGroup cg = mainMenuUI.GetComponent<CanvasGroup>();
+        RectTransform rect = mainMenuUI.GetComponent<RectTransform>();
+
+        if (cg == null)
+            cg = mainMenuUI.AddComponent<CanvasGroup>();
+
+        // Reset state
+        rect.DOKill();
+        rect.localScale = Vector3.one;
+        rect.anchoredPosition3D = Vector3.zero;
+        cg.alpha = 1;
+
+        // Create smoother, more cinematic sequence
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(rect.DOScale(0.7f, 0.6f).SetEase(Ease.InOutBack)); // push inward with curve
+        seq.Join(rect.DOLocalMoveZ(-600f, 0.6f).SetEase(Ease.InOutCubic)); // move deeper back
+        seq.Join(cg.DOFade(0, 0.65f)); // fade out smoothly
+
+        seq.OnComplete(() =>
+        {
+            mainMenuUI.SetActive(false);
+        });
+    }
+
+    Debug.Log("Game Started! UI animated and hidden. Player can now move.");
+}
+
 }
 
 

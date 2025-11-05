@@ -1,5 +1,5 @@
 using System.Collections;
-using MoreMountains.NiceVibrations;
+//using MoreMountains.NiceVibrations;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -71,7 +71,7 @@ public class DropoffPoint : MonoBehaviour
 
             AudioManager.Instance?.PlayUI("DropOff");
 
-            MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+         //   MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
             isCarInRange = true;
             currentCar = car;

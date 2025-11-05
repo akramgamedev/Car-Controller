@@ -1,4 +1,4 @@
-using MoreMountains.NiceVibrations;
+//using MoreMountains.NiceVibrations;
 using UnityEngine;
 
 public class CarCollision : MonoBehaviour
@@ -88,7 +88,7 @@ public class CarCollision : MonoBehaviour
             {
                 AudioManager.Instance?.PlaySFX("CarCrash");
 
-                MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+               // MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);
