@@ -184,13 +184,29 @@ public class SplineCarController : MonoBehaviour
     // #endif
     //     }
 
+
     void HandleInput()
     {
-        if (gameStarted == false)
+        // -----------------------
+        // BEFORE GAME START
+        // -----------------------
+        if (!gameStarted)
         {
-            // Detect tap to start
+            bool isOverUI = false;
+
+            if (EventSystem.current != null)
+            {
 #if UNITY_EDITOR || UNITY_STANDALONE
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+                isOverUI = EventSystem.current.IsPointerOverGameObject();
+#else
+            if (Input.touchCount > 0)
+                isOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+#endif
+            }
+
+            // Detect tap anywhere that is NOT UI
+#if UNITY_EDITOR || UNITY_STANDALONE
+            if (Input.GetMouseButtonDown(0) && !isOverUI)
             {
                 StartGame();
             }
@@ -198,8 +214,7 @@ public class SplineCarController : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
-            if (t.phase == TouchPhase.Began &&
-                !EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            if (t.phase == TouchPhase.Began && !isOverUI)
             {
                 StartGame();
             }
@@ -209,7 +224,9 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        // ---- Normal input begins here ----
+        // -----------------------
+        // AFTER GAME START
+        // -----------------------
         if (!allowTouch)
         {
             isTouching = false;
@@ -251,6 +268,73 @@ public class SplineCarController : MonoBehaviour
 #endif
     }
 
+    //     void HandleInput()
+    //     {
+    //         if (gameStarted == false)
+    //         {
+    //             // Detect tap to start
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+    //             {
+    //                 StartGame();
+    //             }
+    // #else
+    //         if (Input.touchCount > 0)
+    //         {
+    //             Touch t = Input.GetTouch(0);
+    //             if (t.phase == TouchPhase.Began &&
+    //                 !EventSystem.current.IsPointerOverGameObject(t.fingerId))
+    //             {
+    //                 StartGame();
+    //             }
+    //         }
+    // #endif
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    //         // ---- Normal input begins here ----
+    //         if (!allowTouch)
+    //         {
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    //         bool touchingUI = false;
+
+    //         if (EventSystem.current != null)
+    //         {
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject();
+    // #else
+    //         if (Input.touchCount > 0)
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+    // #endif
+    //         }
+
+    //         if (touchingUI)
+    //         {
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //         isTouching = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space);
+    // #else
+    //     if (Input.touchCount > 0)
+    //     {
+    //         Touch t = Input.GetTouch(0);
+    //         isTouching = t.phase == TouchPhase.Began ||
+    //                      t.phase == TouchPhase.Stationary ||
+    //                      t.phase == TouchPhase.Moved;
+    //     }
+    //     else
+    //     {
+    //         isTouching = false;
+    //     }
+    // #endif
+    //     }
+
 
     void HandleMovement()
     {
@@ -263,7 +347,6 @@ public class SplineCarController : MonoBehaviour
                 currentSpeed = 0f;
                 LogHelper.Log("Car fully stopped for pickup");
             }
-            // IMPORTANT: Return here to prevent any movement code below
             return;
         }
 
@@ -304,7 +387,6 @@ public class SplineCarController : MonoBehaviour
             }
         }
 
-        // Get position on spline
         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
 
         // Calculate rotation
@@ -439,42 +521,39 @@ public class SplineCarController : MonoBehaviour
         allowTouch = enabled;
     }
 
-void StartGame()
-{
-    gameStarted = true;
-    allowTouch = true;
-
-    if (mainMenuUI != null)
+    void StartGame()
     {
-        CanvasGroup cg = mainMenuUI.GetComponent<CanvasGroup>();
-        RectTransform rect = mainMenuUI.GetComponent<RectTransform>();
+        gameStarted = true;
+        allowTouch = true;
 
-        if (cg == null)
-            cg = mainMenuUI.AddComponent<CanvasGroup>();
-
-        // Reset state
-        rect.DOKill();
-        rect.localScale = Vector3.one;
-        rect.anchoredPosition3D = Vector3.zero;
-        cg.alpha = 1;
-
-        // Create smoother, more cinematic sequence
-        Sequence seq = DOTween.Sequence();
-
-        seq.Append(rect.DOScale(0.7f, 0.6f).SetEase(Ease.InOutBack)); // push inward with curve
-        seq.Join(rect.DOLocalMoveZ(-600f, 0.6f).SetEase(Ease.InOutCubic)); // move deeper back
-        seq.Join(cg.DOFade(0, 0.65f)); // fade out smoothly
-
-        seq.OnComplete(() =>
+        if (mainMenuUI != null)
         {
-            mainMenuUI.SetActive(false);
-        });
+            CanvasGroup cg = mainMenuUI.GetComponent<CanvasGroup>();
+            RectTransform rect = mainMenuUI.GetComponent<RectTransform>();
+
+            if (cg == null)
+                cg = mainMenuUI.AddComponent<CanvasGroup>();
+
+            // Reset state
+            rect.DOKill();
+            rect.localScale = Vector3.one;
+            rect.anchoredPosition3D = Vector3.zero;
+            cg.alpha = 1;
+
+            // Create smoother, more cinematic sequence
+            Sequence seq = DOTween.Sequence();
+
+            seq.Append(rect.DOScale(0.7f, 0.6f).SetEase(Ease.InOutBack)); // push inward with curve
+            seq.Join(rect.DOLocalMoveZ(-600f, 0.6f).SetEase(Ease.InOutCubic)); // move deeper back
+            seq.Join(cg.DOFade(0, 0.65f)); // fade out smoothly
+
+            seq.OnComplete(() =>
+            {
+                mainMenuUI.SetActive(false);
+            });
+        }
+
+        LogHelper.Log("Game Started! UI animated and hidden. Player can now move.");
     }
 
-    Debug.Log("Game Started! UI animated and hidden. Player can now move.");
 }
-
-}
-
-
-
