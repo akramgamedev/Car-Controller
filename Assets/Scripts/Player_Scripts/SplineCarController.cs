@@ -184,7 +184,6 @@ public class SplineCarController : MonoBehaviour
     // #endif
     //     }
 
-
     void HandleInput()
     {
         // -----------------------
@@ -199,8 +198,12 @@ public class SplineCarController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
                 isOverUI = EventSystem.current.IsPointerOverGameObject();
 #else
-            if (Input.touchCount > 0)
+            // ADD HERE - FIRST LOCATION
+            isOverUI = EventSystem.current.IsPointerOverGameObject(-1);
+            if (!isOverUI && Input.touchCount > 0)
+            {
                 isOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+            }
 #endif
             }
 
@@ -240,8 +243,12 @@ public class SplineCarController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
             touchingUI = EventSystem.current.IsPointerOverGameObject();
 #else
-        if (Input.touchCount > 0)
+        // ADD HERE - SECOND LOCATION
+        touchingUI = EventSystem.current.IsPointerOverGameObject(-1);
+        if (!touchingUI && Input.touchCount > 0)
+        {
             touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        }
 #endif
         }
 
@@ -267,6 +274,90 @@ public class SplineCarController : MonoBehaviour
     }
 #endif
     }
+
+
+    //     void HandleInput()
+    //     {
+    //         // -----------------------
+    //         // BEFORE GAME START
+    //         // -----------------------
+    //         if (!gameStarted)
+    //         {
+    //             bool isOverUI = false;
+
+    //             if (EventSystem.current != null)
+    //             {
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //                 isOverUI = EventSystem.current.IsPointerOverGameObject();
+    // #else
+    //             if (Input.touchCount > 0)
+    //                 isOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+    // #endif
+    //             }
+
+    //             // Detect tap anywhere that is NOT UI
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //             if (Input.GetMouseButtonDown(0) && !isOverUI)
+    //             {
+    //                 StartGame();
+    //             }
+    // #else
+    //         if (Input.touchCount > 0)
+    //         {
+    //             Touch t = Input.GetTouch(0);
+    //             if (t.phase == TouchPhase.Began && !isOverUI)
+    //             {
+    //                 StartGame();
+    //             }
+    //         }
+    // #endif
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    //         // -----------------------
+    //         // AFTER GAME START
+    //         // -----------------------
+    //         if (!allowTouch)
+    //         {
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    //         bool touchingUI = false;
+
+    //         if (EventSystem.current != null)
+    //         {
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject();
+    // #else
+    //         if (Input.touchCount > 0)
+    //             touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+    // #endif
+    //         }
+
+    //         if (touchingUI)
+    //         {
+    //             isTouching = false;
+    //             return;
+    //         }
+
+    // #if UNITY_EDITOR || UNITY_STANDALONE
+    //         isTouching = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space);
+    // #else
+    //     if (Input.touchCount > 0)
+    //     {
+    //         Touch t = Input.GetTouch(0);
+    //         isTouching = t.phase == TouchPhase.Began ||
+    //                      t.phase == TouchPhase.Stationary ||
+    //                      t.phase == TouchPhase.Moved;
+    //     }
+    //     else
+    //     {
+    //         isTouching = false;
+    //     }
+    // #endif
+    //     }
 
     //     void HandleInput()
     //     {
