@@ -17,6 +17,7 @@ public class DropoffPoint : MonoBehaviour
     public float dropoffDelay = 1f;
     public float markerRotateSpeed = 90f;
     public float markerRotateDuration = 2f;
+    public bool isFinalDropoffPoint = false;
 
     [Header("Events")]
     public UnityEvent onCarStopped;
@@ -151,13 +152,16 @@ public class DropoffPoint : MonoBehaviour
 
         CompleteDropoff();
 
-        if (carBody != null)
+        if (isFinalDropoffPoint)
         {
-            StartCoroutine(DriveAwayForever(carBody, 10f));
-        }
-        else
-        {
-            LogHelper.LogWarning("CarBody not assigned in Inspector!");
+            if (carBody != null)
+            {
+                StartCoroutine(DriveAwayForever(carBody, 10f));
+            }
+            else
+            {
+                LogHelper.LogWarning("CarBody not assigned in Inspector!");
+            }
         }
     }
 

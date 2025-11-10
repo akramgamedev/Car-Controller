@@ -10,15 +10,10 @@ public class PassengerLevelManager : MonoBehaviour
 {
     [Header("Passenger Configuration")]
     [Tooltip("All pickup-dropoff pairs in this level")]
-    public List<PassengerPair> passengerPairs = new List<PassengerPair>();
-
-    [Header("Level Settings")]
-    public float levelTimeLimit = 120f;
-    public bool useTimeLimit = false;
+    public List<PassengerPair> passengers = new List<PassengerPair>();
 
     [Header("UI References (Optional)")]
     public TMPro.TextMeshProUGUI passengerCountText;
-    public TMPro.TextMeshProUGUI timerText;
 
     [Header("Events")]
     public UnityEvent onLevelStart;
@@ -29,7 +24,6 @@ public class PassengerLevelManager : MonoBehaviour
     // Tracking
     private int totalPassengers;
     private int passengersDelivered;
-    private float remainingTime;
     private bool levelActive = false;
     private bool levelCompleted = false;
 
@@ -46,28 +40,10 @@ public class PassengerLevelManager : MonoBehaviour
         CleanupLevel();
     }
 
-    private void Update()
-    {
-        if (!levelActive || levelCompleted) return;
-
-        // Timer countdown
-        if (useTimeLimit)
-        {
-            remainingTime -= Time.deltaTime;
-            UpdateTimerUI();
-
-            if (remainingTime <= 0)
-            {
-                FailLevel("Time's up!");
-            }
-        }
-    }
-
     private void InitializeLevel()
     {
-        totalPassengers = passengerPairs.Count;
+        totalPassengers = passengers.Count;
         passengersDelivered = 0;
-        remainingTime = levelTimeLimit;
         levelActive = true;
         levelCompleted = false;
         currentPickedUpPair = null;
@@ -75,7 +51,7 @@ public class PassengerLevelManager : MonoBehaviour
         LogHelper.Log($"[PassengerLevelManager] Level initialized with {totalPassengers} passengers");
 
         // Register listeners for ALL pickup and dropoff points
-        foreach (var pair in passengerPairs)
+        foreach (var pair in passengers)
         {
             if (pair.pickupPoint != null && pair.dropoffPoint != null)
             {
@@ -103,7 +79,7 @@ public class PassengerLevelManager : MonoBehaviour
     private void CleanupLevel()
     {
         // Remove all listeners
-        foreach (var pair in passengerPairs)
+        foreach (var pair in passengers)
         {
             if (pair.pickupPoint != null)
             {
@@ -151,8 +127,6 @@ public class PassengerLevelManager : MonoBehaviour
         if (currentPickedUpPair != pair)
         {
             LogHelper.LogWarning($"[PassengerLevelManager] Wrong dropoff point! Expected {currentPickedUpPair?.dropoffPoint.name}, got {pair.dropoffPoint.name}");
-            // You can choose to allow or disallow wrong dropoffs
-            // For now, we'll allow it but you can add a penalty or return here
         }
 
         // Mark as delivered
@@ -185,16 +159,16 @@ public class PassengerLevelManager : MonoBehaviour
         AudioManager.Instance?.PlayUI("LevelComplete");
         onLevelSuccess?.Invoke();
 
-        Invoke(nameof(LoadNextLevel), 2f);
+       // Invoke(nameof(LoadNextLevel), 2f);
     }
 
-    private void LoadNextLevel()
-    {
-        if (LevelManager_Temporary.Instance != null)
-        {
-            LevelManager_Temporary.Instance.LoadNextLevel();
-        }
-    }
+    // private void LoadNextLevel()
+    // {
+    //     if (LevelManager_Temporary.Instance != null)
+    //     {
+    //         LevelManager_Temporary.Instance.LoadNextLevel();
+    //     }
+    // }
 
     public void FailLevel(string reason = "Level Failed")
     {
@@ -232,26 +206,10 @@ public class PassengerLevelManager : MonoBehaviour
         }
     }
 
-    private void UpdateTimerUI()
-    {
-        if (timerText != null)
-        {
-            int minutes = Mathf.FloorToInt(remainingTime / 60);
-            int seconds = Mathf.FloorToInt(remainingTime % 60);
-            timerText.text = $"{minutes:00}:{seconds:00}";
-
-            if (remainingTime < 30f)
-            {
-                timerText.color = Color.red;
-            }
-        }
-    }
-
     // Public getters
     public int GetPassengersDelivered() => passengersDelivered;
     public int GetTotalPassengers() => totalPassengers;
     public bool IsLevelComplete() => levelCompleted;
-    public float GetRemainingTime() => remainingTime;
     public PassengerPair GetCurrentPickedUpPair() => currentPickedUpPair;
 
     // Helper to check if player has a passenger
@@ -260,7 +218,7 @@ public class PassengerLevelManager : MonoBehaviour
     [ContextMenu("Auto-Setup Pairs by Index")]
     private void AutoSetupPairsByIndex()
     {
-        passengerPairs.Clear();
+        passengers.Clear();
 
         PickupPoint[] pickups = GetComponentsInChildren<PickupPoint>();
         DropoffPoint[] dropoffs = GetComponentsInChildren<DropoffPoint>();
@@ -269,10 +227,10 @@ public class PassengerLevelManager : MonoBehaviour
 
         // Match by index (Pickup 0 -> Dropoff 0, Pickup 1 -> Dropoff 1, etc.)
         int pairCount = Mathf.Min(pickups.Length, dropoffs.Length);
-        
+
         for (int i = 0; i < pairCount; i++)
         {
-            passengerPairs.Add(new PassengerPair
+            passengers.Add(new PassengerPair
             {
                 pickupPoint = pickups[i],
                 dropoffPoint = dropoffs[i],
@@ -282,7 +240,7 @@ public class PassengerLevelManager : MonoBehaviour
             LogHelper.Log($"Created Pair {i + 1}: {pickups[i].name} → {dropoffs[i].name}");
         }
 
-        LogHelper.Log($"Created {passengerPairs.Count} passenger pairs");
+        LogHelper.Log($"Created {passengers.Count} passenger pairs");
     }
 }
 
@@ -291,10 +249,10 @@ public class PassengerPair
 {
     [Tooltip("Give this pair a descriptive name")]
     public string pairName = "Passenger Pair";
-    
+
     [Tooltip("Where the passenger is picked up")]
     public PickupPoint pickupPoint;
-    
+
     [Tooltip("Where the passenger should be dropped off")]
     public DropoffPoint dropoffPoint;
 

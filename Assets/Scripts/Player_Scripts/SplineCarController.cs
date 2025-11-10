@@ -465,32 +465,7 @@ public class SplineCarController : MonoBehaviour
         gameStarted = true;
         allowTouch = true;
 
-        if (mainMenuUI != null)
-        {
-            CanvasGroup cg = mainMenuUI.GetComponent<CanvasGroup>();
-            RectTransform rect = mainMenuUI.GetComponent<RectTransform>();
-
-            if (cg == null)
-                cg = mainMenuUI.AddComponent<CanvasGroup>();
-
-            // Reset state
-            rect.DOKill();
-            rect.localScale = Vector3.one;
-            rect.anchoredPosition3D = Vector3.zero;
-            cg.alpha = 1;
-
-            // Create smoother, more cinematic sequence
-            Sequence seq = DOTween.Sequence();
-
-            seq.Append(rect.DOScale(0.7f, 0.6f).SetEase(Ease.InOutBack)); // push inward with curve
-            seq.Join(rect.DOLocalMoveZ(-600f, 0.6f).SetEase(Ease.InOutCubic)); // move deeper back
-            seq.Join(cg.DOFade(0, 0.65f)); // fade out smoothly
-
-            seq.OnComplete(() =>
-            {
-                mainMenuUI.SetActive(false);
-            });
-        }
+        UIManager.Instance.HideMainMenu();
 
         LogHelper.Log("Game Started! UI animated and hidden. Player can now move.");
     }

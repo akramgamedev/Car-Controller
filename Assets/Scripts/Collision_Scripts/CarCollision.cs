@@ -98,9 +98,9 @@ public class CarCollision : MonoBehaviour
                 if (skidMarks != null)
                     skidMarks.DisableTrails();
 
-                if (isPlayer && UIManager_Temporary.Instance != null)
+                if (isPlayer && UIManager.Instance != null)
                 {
-                    UIManager_Temporary.Instance.ShowResetPanelDelayed(resetPanelDelay);
+                    UIManager.Instance.ShowLevelFailDelay(resetPanelDelay);
                 }
             }
         }

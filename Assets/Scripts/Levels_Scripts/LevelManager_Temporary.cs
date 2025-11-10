@@ -77,6 +77,11 @@ public class LevelManager_Temporary : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.HideLevelSuccessScreen();
+        }
+        
         int nextIndex = currentLevelIndex + 1;
         if (nextIndex < allLevels.Count)
         {
@@ -86,6 +91,7 @@ public class LevelManager_Temporary : MonoBehaviour
         {
             LogHelper.Log("No more Levels! Game Completed");
         }
+
     }
 
     public void LoadPreviousLevel()
