@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using DG.Tweening;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,8 +15,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject levelSuccessScreen;
     [SerializeField] private GameObject levelFailScreen;
     [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject cashBar;
     [SerializeField] private GameObject loadingScreenPanel;
     [SerializeField] private GameObject settingsScreen;
+    [SerializeField] private GameObject selectionScreen;
+    [SerializeField] private GameObject VIPScreen;
 
     [Header("Loading Screen")]
     [SerializeField] private Image loadingBarFill;
@@ -51,6 +55,8 @@ public class UIManager : MonoBehaviour
         levelSuccessScreen.SetActive(false);
         levelFailScreen.SetActive(false);
         settingsScreen.SetActive(false);
+        selectionScreen.SetActive(false);
+        VIPScreen.SetActive(false);
 
         float progress = 0f;
         float dotTimer = 0f;
@@ -141,6 +147,32 @@ public class UIManager : MonoBehaviour
         settingsScreen.SetActive(false);
     }
 
+    public void ShowSelectionScreen()
+    {
+        selectionScreen.SetActive(true);
+        mainMenuPanel.SetActive(false);
+    }
+
+    public void HideSelectionScreen()
+    {
+        selectionScreen.SetActive(false);
+        mainMenuPanel.SetActive(true);
+    }
+
+    public void ShowVIPScreen()
+    {
+        VIPScreen.SetActive(true);
+        mainMenuPanel.SetActive(false);
+        cashBar.SetActive(false);
+    }
+
+    public void HideVIPScreen()
+    {
+        VIPScreen.SetActive(false);
+        mainMenuPanel.SetActive(true);
+        cashBar.SetActive(true);
+
+    }
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
