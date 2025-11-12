@@ -21,6 +21,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject selectionScreen;
     [SerializeField] private GameObject VIPScreen;
 
+    [Header("Selected Car")]
+    [SerializeField] private GameObject selectedCar;
+
+    [Header("Car Stage")]
+    [SerializeField] private GameObject stage;
+
     [Header("Loading Screen")]
     [SerializeField] private Image loadingBarFill;
     [SerializeField] private TextMeshProUGUI loadingText;
@@ -57,6 +63,8 @@ public class UIManager : MonoBehaviour
         settingsScreen.SetActive(false);
         selectionScreen.SetActive(false);
         VIPScreen.SetActive(false);
+        stage.SetActive(false);
+        selectedCar.SetActive(false);
 
         float progress = 0f;
         float dotTimer = 0f;
@@ -150,12 +158,16 @@ public class UIManager : MonoBehaviour
     public void ShowSelectionScreen()
     {
         selectionScreen.SetActive(true);
+        stage.SetActive(true);
+        selectedCar.SetActive(true);
         mainMenuPanel.SetActive(false);
     }
 
     public void HideSelectionScreen()
     {
         selectionScreen.SetActive(false);
+         stage.SetActive(false);
+        selectedCar.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
 
