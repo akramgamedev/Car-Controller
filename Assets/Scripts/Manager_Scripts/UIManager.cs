@@ -38,6 +38,11 @@ public class UIManager : MonoBehaviour
     [Header("Level Fail Settings")]
     [SerializeField] private float failScreenDelay = 1.5f;
 
+    [Header("Currency UI")]
+    [SerializeField] private TextMeshProUGUI coinsText;
+    [SerializeField] private TextMeshProUGUI KeysText;
+
+
     private bool isGameStarted = false;
     public bool IsGameStarted => isGameStarted;
 
@@ -49,6 +54,25 @@ public class UIManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void OnEnable()
+    {
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnCoinsChanged += UpdateCoinsUI;
+            CurrencyManager.Instance.OnCoinsChanged += UpdateKeysUI;
+        }
+
+    }
+
+    void OnDisable()
+    {
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
+            CurrencyManager.Instance.OnCoinsChanged -= UpdateKeysUI;
+        }
     }
 
     private void Start()
@@ -232,6 +256,18 @@ public class UIManager : MonoBehaviour
             (selectedCar != null && selectedCar.activeSelf);
 
         worldCanvasCam.gameObject.SetActive(shouldEnableCamera);
+    }
+
+    public void UpdateCoinsUI(int amount)
+    {
+        if (coinsText != null)
+            coinsText.text = amount.ToString();
+    }
+
+    public void UpdateKeysUI(int amount)
+    {
+        if (KeysText != null)
+            KeysText.text = amount.ToString();
     }
 }
 

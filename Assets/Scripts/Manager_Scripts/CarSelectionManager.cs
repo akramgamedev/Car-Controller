@@ -1,8 +1,3 @@
-// ==========================================
-// CarSelectionManager.cs - Simplified (No Colors)
-// ==========================================
-
-
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -14,10 +9,11 @@ public class CarSelectionManager : MonoBehaviour
     public class CarData
     {
         public string carName;
-        public GameObject displayCar;  // Car shown in selection screen
-        public GameObject playerCarChild;   // The actual car used in gameplay
-        public Button selectionButton; // UI button for selecting the car
+        public GameObject displayCar;
+        public GameObject playerCarChild;
+        public Button selectionButton;
     }
+
     [Header("Player Car Reference")]
     public GameObject playerCarParent;
 
@@ -38,10 +34,17 @@ public class CarSelectionManager : MonoBehaviour
             }
         }
 
-        // Show first car by default
-        if (availableCars.Count > 0)
+        // Load saved selection or default to first car
+        int savedCarIndex = DataManager.Instance != null ? DataManager.Instance.GetSelectedCarIndex() : 0;
+        
+        // Select the saved car if unlocked, otherwise first car
+        if (CarUnlockManager.Instance.IsCarUnlocked(savedCarIndex))
         {
-            SelectCar(0);
+            SelectCar(savedCarIndex);
+        }
+        else
+        {
+            SelectCar(0); // Fallback to first car
         }
     }
 
@@ -50,8 +53,19 @@ public class CarSelectionManager : MonoBehaviour
         if (carIndex < 0 || carIndex >= availableCars.Count)
             return;
 
+        // Check if car is unlocked
+        if (!CarUnlockManager.Instance.IsCarUnlocked(carIndex))
+        {
+            LogHelper.LogWarning($"Car {carIndex} is locked! Need to unlock first.");
+            // You can show a popup here saying "Car locked! Collect more coins"
+            return;
+        }
+
         currentSelectedIndex = carIndex;
         SelectCar(carIndex);
+        
+        // Save selection
+        DataManager.Instance?.SetSelectedCarIndex(carIndex);
     }
 
     void SelectCar(int carIndex)
@@ -70,13 +84,15 @@ public class CarSelectionManager : MonoBehaviour
 
         // Activate corresponding player car
         ActivatePlayerCar(carIndex);
+        
+        currentSelectedIndex = carIndex;
     }
 
     void ActivatePlayerCar(int carIndex)
     {
         LogHelper.Log($"=== ActivatePlayerCar called for index: {carIndex} ===");
 
-        // Deactivate ALL children in the parent
+        // Deactivate all car children
         foreach (var car in availableCars)
         {
             if (car.playerCarChild != null)
@@ -120,6 +136,130 @@ public class CarSelectionManager : MonoBehaviour
 
 
 
+
+
+// ************ Working Code *****************
+// using UnityEngine;
+// using UnityEngine.UI;
+// using System.Collections.Generic;
+// using System.Collections;
+// using TMPro;
+// using Unity.Mathematics.Geometry;
+// using Unity.Mathematics;
+
+// public class CarSelectionManager : MonoBehaviour
+// {
+//     [System.Serializable]
+//     public class CarData
+//     {
+//         public string carName;
+//         public GameObject displayCar;  // Car shown in selection screen
+//         public GameObject playerCarChild;   // The actual car used in gameplay
+//         public Button selectionButton; // UI button for selecting the car
+
+//     }
+//     [Header("Player Car Reference")]
+//     public GameObject playerCarParent;
+
+//     [Header("Available Cars")]
+//     public List<CarData> availableCars = new List<CarData>();
+
+//     private int currentSelectedIndex = 0;
+
+//     void Start()
+//     {
+//         // Assign button listeners
+//         for (int i = 0; i < availableCars.Count; i++)
+//         {
+//             int index = i;
+//             if (availableCars[i].selectionButton != null)
+//             {
+//                 availableCars[i].selectionButton.onClick.AddListener(() => OnCarButtonClicked(index));
+//             }
+//         }
+
+//         // Show first car by default
+//         if (availableCars.Count > 0)
+//         {
+//             SelectCar(0);
+//         }
+//     }
+
+//     public void OnCarButtonClicked(int carIndex)
+//     {
+//         if (carIndex < 0 || carIndex >= availableCars.Count)
+//             return;
+
+//         currentSelectedIndex = carIndex;
+//         SelectCar(carIndex);
+//     }
+
+//     void SelectCar(int carIndex)
+//     {
+//         // Disable all display cars
+//         foreach (var car in availableCars)
+//         {
+//             if (car.displayCar != null)
+//                 car.displayCar.SetActive(false);
+//         }
+
+//         // Enable selected display car
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.displayCar != null)
+//             selectedCar.displayCar.SetActive(true);
+
+//         // Activate corresponding player car
+//         ActivatePlayerCar(carIndex);
+//     }
+
+//     void ActivatePlayerCar(int carIndex)
+//     {
+//         LogHelper.Log($"=== ActivatePlayerCar called for index: {carIndex} ===");
+
+//         // Deactivate ALL children in the parent
+//         foreach (var car in availableCars)
+//         {
+//             if (car.playerCarChild != null)
+//             {
+//                 car.playerCarChild.SetActive(false);
+//             }
+//         }
+
+//         // Activate only the selected child
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.playerCarChild != null)
+//         {
+//             LogHelper.Log($"Activating child: {selectedCar.playerCarChild.name}");
+//             selectedCar.playerCarChild.SetActive(true);
+
+//             // Refresh the parent's scripts
+//             StartCoroutine(RefreshCarComponents());
+//         }
+//     }
+
+//     private IEnumerator RefreshCarComponents()
+//     {
+//         yield return null; // Wait one frame
+
+//         SplineCarController splineController = playerCarParent.GetComponent<SplineCarController>();
+//         CarCollision carCollision = playerCarParent.GetComponent<CarCollision>();
+
+//         if (splineController != null)
+//         {
+//             splineController.RefreshCarChild();
+//             LogHelper.Log("✓ Called RefreshCarChild");
+//         }
+
+//         if (carCollision != null)
+//         {
+//             carCollision.RefreshCarRigidbody();
+//             LogHelper.Log("✓ Called RefreshCarRigidbody");
+//         }
+//     }
+// }
+
+
+//***********************************************************
 // using UnityEngine;
 // using UnityEngine.UI;
 // using System.Collections.Generic;
