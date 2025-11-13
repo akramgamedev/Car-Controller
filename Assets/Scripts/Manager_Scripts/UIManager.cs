@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     [Header("Car Stage")]
     [SerializeField] private GameObject stage;
 
+    [Header("Camera References")]
+    [SerializeField] private Camera worldCanvasCam;
+
     [Header("Loading Screen")]
     [SerializeField] private Image loadingBarFill;
     [SerializeField] private TextMeshProUGUI loadingText;
@@ -66,6 +69,8 @@ public class UIManager : MonoBehaviour
         stage.SetActive(false);
         selectedCar.SetActive(false);
 
+        UpdateCameraState();
+
         float progress = 0f;
         float dotTimer = 0f;
         int dotCount = 0;
@@ -97,6 +102,8 @@ public class UIManager : MonoBehaviour
 
         loadingScreenPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+
+        UpdateCameraState();
     }
 
     public void HideMainMenu()
@@ -122,22 +129,26 @@ public class UIManager : MonoBehaviour
         seq.OnComplete(() => { mainMenuPanel.SetActive(false); });
 
         hud.SetActive(true);
+        UpdateCameraState();
     }
 
     public void ShowLevelSuccess()
     {
         //hud.SetActive(false);
         levelSuccessScreen.SetActive(true);
+        UpdateCameraState();
     }
     public void HideLevelSuccessScreen()
     {
         levelSuccessScreen.SetActive(false);
+        UpdateCameraState();
     }
 
     public void ShowLevelFail()
     {
         //hud.SetActive(false);
         levelFailScreen.SetActive(true);
+        UpdateCameraState();
     }
 
     public void ShowLevelFailDelay(float delay)
@@ -148,11 +159,13 @@ public class UIManager : MonoBehaviour
     public void ShowSettingsScreen()
     {
         settingsScreen.SetActive(true);
+        UpdateCameraState();
     }
 
     public void HideSettingScreen()
     {
         settingsScreen.SetActive(false);
+        UpdateCameraState();
     }
 
     public void ShowSelectionScreen()
@@ -161,14 +174,18 @@ public class UIManager : MonoBehaviour
         stage.SetActive(true);
         selectedCar.SetActive(true);
         mainMenuPanel.SetActive(false);
+
+        UpdateCameraState();
     }
 
     public void HideSelectionScreen()
     {
         selectionScreen.SetActive(false);
-         stage.SetActive(false);
+        stage.SetActive(false);
         selectedCar.SetActive(false);
         mainMenuPanel.SetActive(true);
+
+        UpdateCameraState();
     }
 
     public void ShowVIPScreen()
@@ -176,6 +193,8 @@ public class UIManager : MonoBehaviour
         VIPScreen.SetActive(true);
         mainMenuPanel.SetActive(false);
         cashBar.SetActive(false);
+
+        UpdateCameraState();
     }
 
     public void HideVIPScreen()
@@ -183,6 +202,8 @@ public class UIManager : MonoBehaviour
         VIPScreen.SetActive(false);
         mainMenuPanel.SetActive(true);
         cashBar.SetActive(true);
+
+        UpdateCameraState();
 
     }
     public void RestartLevel()
@@ -198,6 +219,19 @@ public class UIManager : MonoBehaviour
     public void OnRestartButtonPressed()
     {
         RestartLevel();
+    }
+
+    private void UpdateCameraState()
+    {
+        if (worldCanvasCam == null) return;
+
+        bool shouldEnableCamera =
+        (selectionScreen != null && selectionScreen.activeSelf) ||
+            (VIPScreen != null && VIPScreen.activeSelf) ||
+            (stage != null && stage.activeSelf) ||
+            (selectedCar != null && selectedCar.activeSelf);
+
+        worldCanvasCam.gameObject.SetActive(shouldEnableCamera);
     }
 }
 

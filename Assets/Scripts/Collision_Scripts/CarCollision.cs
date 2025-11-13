@@ -69,6 +69,66 @@ public class CarCollision : MonoBehaviour
         }
     }
 
+    public void RefreshCarRigidbody()
+    {
+        LogHelper.Log("=== RefreshCarRigidbody CALLED ===");
+        LogHelper.Log($"Parent object: {gameObject.name}, Active: {gameObject.activeInHierarchy}");
+
+        carRigidbody = null;
+
+        Rigidbody[] childRigidbodies = GetComponentsInChildren<Rigidbody>(true);
+        LogHelper.Log($"Found {childRigidbodies.Length} total rigidbodies");
+
+        for (int i = 0; i < childRigidbodies.Length; i++)
+        {
+            var rb = childRigidbodies[i];
+            LogHelper.Log($"RB {i}: {rb.gameObject.name}, Active: {rb.gameObject.activeInHierarchy}, Tag: {rb.tag}");
+        }
+
+        foreach (var rb in childRigidbodies)
+        {
+            if (rb.gameObject.activeInHierarchy)
+            {
+                if (rb.CompareTag("Car"))
+                {
+                    carRigidbody = rb;
+                    LogHelper.Log($"✓ Found rigidbody with Car tag: {rb.gameObject.name}");
+                    break;
+                }
+            }
+        }
+
+        // Fallback
+        if (carRigidbody == null)
+        {
+            foreach (var rb in childRigidbodies)
+            {
+                if (rb.gameObject.activeInHierarchy)
+                {
+                    carRigidbody = rb;
+                    LogHelper.Log($"✓ Found rigidbody (fallback): {carRigidbody.gameObject.name}");
+                    break;
+                }
+            }
+        }
+
+        if (carRigidbody == null)
+        {
+            LogHelper.LogError("❌ NO RIGIDBODY FOUND!");
+            return;
+        }
+
+        carBodyTransform = carRigidbody.transform;
+        ApplyBaseRigidbodySettings();
+
+        CarBodyCollision bodyScript = carRigidbody.gameObject.GetComponent<CarBodyCollision>();
+        if (bodyScript == null)
+            bodyScript = carRigidbody.gameObject.AddComponent<CarBodyCollision>();
+
+        bodyScript.Initialize(this);
+        LogHelper.Log("✓ Rigidbody setup complete");
+    }
+
     void ApplyBaseRigidbodySettings()
     {
 #if UNITY_6000_0_OR_NEWER
@@ -88,7 +148,7 @@ public class CarCollision : MonoBehaviour
             {
                 AudioManager.Instance?.PlaySFX("CarCrash");
 
-               // MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+                // MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);

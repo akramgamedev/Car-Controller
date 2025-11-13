@@ -85,12 +85,6 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        // if (carChild == null && transform.childCount > 0)
-        // {
-        //     carChild = transform.GetChild(0);
-        //     Debug.Log($"Auto-assigned car child: {carChild.name}");
-        // }
-
         if (carChild == null)
         {
             foreach (Transform child in transform)
@@ -127,6 +121,64 @@ public class SplineCarController : MonoBehaviour
         skidMarks.Initialize(carChild);
     }
 
+    public void RefreshCarChild()
+{
+    LogHelper.Log("=== RefreshCarChild CALLED ===");
+    LogHelper.Log($"Parent object: {gameObject.name}, Active: {gameObject.activeInHierarchy}");
+    LogHelper.Log($"Child count: {transform.childCount}");
+    
+    carChild = null;
+    
+    // Log all children
+    for (int i = 0; i < transform.childCount; i++)
+    {
+        Transform child = transform.GetChild(i);
+        LogHelper.Log($"Child {i}: {child.name}, Active: {child.gameObject.activeInHierarchy}, Tag: {child.tag}");
+    }
+    
+    // Try to find car with "Car" tag
+    foreach (Transform child in transform)
+    {
+        if (child.gameObject.activeInHierarchy)
+        {
+            if (child.CompareTag("Car"))
+            {
+                carChild = child;
+                LogHelper.Log($"✓ Found car child with Car tag: {child.name}");
+                break;
+            }
+        }
+    }
+    
+    // Fallback to first active child
+    if (carChild == null)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeInHierarchy)
+            {
+                carChild = child;
+                LogHelper.Log($"✓ Found car child (fallback): {carChild.name}");
+                break;
+            }
+        }
+    }
+    
+    if (carChild == null)
+    {
+        LogHelper.LogError("❌ NO CAR CHILD FOUND!");
+        return;
+    }
+    
+    // Reinitialize
+    carChild.localRotation = Quaternion.identity;
+    if (skidMarks != null)
+    {
+        skidMarks.Initialize(carChild);
+        LogHelper.Log("✓ Skid marks reinitialized");
+    }
+}
+
     void Update()
     {
         if (!enabled) return;
@@ -137,52 +189,6 @@ public class SplineCarController : MonoBehaviour
         HandleDriftParticles();
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
-
-    //     void HandleInput()
-    //     {
-
-    //         if (!allowTouch)
-    //         {
-    //             isTouching = false;
-    //             return;
-    //         }
-    //         bool touchingUI = false;
-
-    //         // Check if user is touching/clicking over a UI element
-    //         if (EventSystem.current != null)
-    //         {
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    //             touchingUI = EventSystem.current.IsPointerOverGameObject();
-    // #else
-    //         if (Input.touchCount > 0)
-    //             touchingUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
-    // #endif
-    //         }
-
-    //         if (touchingUI)
-    //         {
-    //             // Ignore all input if touching UI
-    //             isTouching = false;
-    //             return;
-    //         }
-
-    //         if (Input.touchCount > 0)
-    //         {
-    //             Touch t = Input.GetTouch(0);
-    //             // bool wasTouching = isTouching;
-    //             isTouching = t.phase == TouchPhase.Began || t.phase == TouchPhase.Stationary || t.phase == TouchPhase.Moved;
-
-    //             // if (!wasTouching && isTouching)
-    //             // {
-    //             //     AudioManager.Instance?.PlaySFX("CarBeep");
-    //             // }
-    //         }
-    //         else isTouching = false;
-
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    //         if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)) isTouching = true;
-    // #endif
-    //     }
 
     void HandleInput()
     {
