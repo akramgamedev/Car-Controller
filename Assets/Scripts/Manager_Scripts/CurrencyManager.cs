@@ -141,6 +141,4 @@ public class CurrencyManager : MonoBehaviour
     {
         AddKeys(10);
     }
-
-
 }
