@@ -37,7 +37,7 @@ public class CarSelectionManager : MonoBehaviour
 
         // Load saved selection or default to first car
         // int savedCarIndex = DataManager.Instance != null ? DataManager.Instance.GetSelectedCarIndex() : 0;
-        
+
         // Select the saved car if unlocked, otherwise first car
         // if (CarUnlockManager.Instance.IsCarUnlocked(savedCarIndex))
         // {
@@ -64,7 +64,7 @@ public class CarSelectionManager : MonoBehaviour
 
         currentSelectedIndex = carIndex;
         SelectCar(carIndex);
-        
+
         // Save selection
         // DataManager.Instance?.SetSelectedCarIndex(carIndex);
     }
@@ -85,7 +85,7 @@ public class CarSelectionManager : MonoBehaviour
 
         // Activate corresponding player car
         ActivatePlayerCar(carIndex);
-        
+
         currentSelectedIndex = carIndex;
     }
 

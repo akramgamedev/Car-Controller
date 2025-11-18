@@ -13,13 +13,12 @@ public class CarUnlockManager : MonoBehaviour
     {
         public int carIndex;
         public int coinPrice;
-        public int keyPrice; // Optional: if you want some cars to cost keys
+        public int keyPrice;
     }
 
     [Header("Car Prices")]
     [SerializeField] private CarPrice[] carPrices;
 
-    // Event when a car is unlocked
     public event Action<int> OnCarUnlocked;
 
     void Awake()
@@ -85,12 +84,9 @@ public class CarUnlockManager : MonoBehaviour
         {
             dataManager.gameData.carData.AddCarToList();
         }
-
         var car = dataManager.gameData.carData.cars[carIndex];
         car.isUnlocked = true;
         dataManager.gameData.carData.cars[carIndex] = car;
-
-        // dataManager.gameData.carData.unlockedCars.Add(carIndex);
         dataManager.SaveGameData();
 
         OnCarUnlocked?.Invoke(carIndex);
@@ -100,32 +96,15 @@ public class CarUnlockManager : MonoBehaviour
         // Optional: Show a popup notification here
         // UIManager.Instance?.ShowCarUnlockedPopup(carIndex);
     }
-
-    // Check if car is unlocked
     public bool IsCarUnlocked(int carIndex)
     {
         if (dataManager != null && carIndex < dataManager.gameData.carData.cars.Count)
         {
             return dataManager.gameData.carData.cars[carIndex].isUnlocked;
         }
-        // if (DataManager.Instance != null)
-        // {
-        //     return DataManager.Instance.IsCarUnlocked(carIndex);
-        // }
         return false;
     }
 
-    // public void UnlockCarFree(int carIndex)
-    // {
-    //     if (!IsCarUnlocked(carIndex))
-    //     {
-    //         DataManager.Instance.gameData.carData.unlockedCars.Add(carIndex);
-    //         DataManager.Instance.SaveGameData();
-
-    //         OnCarUnlocked?.Invoke(carIndex);
-    //         LogHelper.Log($"Car {carIndex} unlocked for free!");
-    //     }
-    // }
 
     // Get car price
     public CarPrice GetCarPrice(int carIndex)
@@ -173,8 +152,6 @@ public class CarUnlockManager : MonoBehaviour
             dataManager.gameData.carData.cars[carIndex] = car;
 
             dataManager.SaveGameData();
-
-            // DataManager.Instance.UnlockCar(carIndex);
             OnCarUnlocked?.Invoke(carIndex);
             LogHelper.Log($"Car {carIndex} unlocked for free!");
         }
@@ -188,7 +165,7 @@ public class CarUnlockManager : MonoBehaviour
         }
         dataManager.SaveGameData();
     }
-
+#region Unused
     // [ContextMenu("Setup Default Prices")]
     // void SetupDefaultPrices()
     // {
@@ -343,3 +320,5 @@ public class CarUnlockManager : MonoBehaviour
 //         LogHelper.Log("Default car prices set up");
 //     }
 // }
+
+#endregion

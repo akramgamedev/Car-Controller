@@ -58,27 +58,17 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         StaticEvents.GameEconomy.OnCurrencyChange+= OnCurrencyChanged;
-        // if (CurrencyManager.Instance != null)
-        // {
-        //     CurrencyManager.Instance.OnCoinsChanged += UpdateCoinsUI;
-        //     CurrencyManager.Instance.OnCoinsChanged += UpdateKeysUI;
-        // }
-
     }
 
     void OnDisable()
     {
         StaticEvents.GameEconomy.OnCurrencyChange-= OnCurrencyChanged;
-        // if (CurrencyManager.Instance != null)
-        // {
-        //     CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
-        //     CurrencyManager.Instance.OnCoinsChanged -= UpdateKeysUI;
-        // }
     }
 
     private void Start()
     {
         StartCoroutine(ShowLoadingScreen());
+        StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(5000, GlobalEnums.CurrencyType.Coin);
     }
 
     private void OnCurrencyChanged(int amount, GlobalEnums.CurrencyType type)

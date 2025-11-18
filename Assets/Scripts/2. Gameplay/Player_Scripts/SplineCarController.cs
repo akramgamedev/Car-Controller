@@ -79,12 +79,52 @@ public class SplineCarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         skidMarks = GetComponent<CarSkidMarks>();
 
-        if (splineContainer == null)
-        {
-            LogHelper.LogError("Spline Container not assigned!");
-            return;
-        }
+        InitializeCarChild();
 
+        // if (splineContainer == null)
+        // {
+        //     LogHelper.LogError("Spline Container not assigned!");
+        //     return;
+        // }
+
+        // if (carChild == null)
+        // {
+        //     foreach (Transform child in transform)
+        //     {
+        //         if (child.CompareTag("Car") && child.gameObject.activeInHierarchy)
+        //         {
+        //             carChild = child;
+        //             LogHelper.Log("Auto-assigned car child: " + child.name);
+        //             break;
+        //         }
+        //     }
+        // }
+
+        // //fallback method if not tagged Car found
+        // if (carChild == null && transform.childCount > 0)
+        // {
+        //     carChild = transform.GetChild(0);
+        //     LogHelper.Log($"Auto-assigned car child: {carChild.name}");
+        // }
+
+        // totalSplineLength = splineContainer.Spline.GetLength();
+
+        // Vector3 startPos = splineContainer.EvaluatePosition(0f);
+        // transform.position = new Vector3(startPos.x, transform.position.y, startPos.z);
+
+        // Vector3 startTangent = splineContainer.EvaluateTangent(0f);
+        // startTangent.y = 0;
+        // startTangent.Normalize();
+        // baseRotation = Quaternion.LookRotation(startTangent);
+        // transform.rotation = baseRotation;
+
+        // carChild.localRotation = Quaternion.identity;
+
+        // skidMarks.Initialize(carChild);
+    }
+
+    private void InitializeCarChild()
+    {
         if (carChild == null)
         {
             foreach (Transform child in transform)
@@ -98,14 +138,41 @@ public class SplineCarController : MonoBehaviour
             }
         }
 
-        //fallback method if not tagged Car found
+        // Fallback method if no tagged Car found
         if (carChild == null && transform.childCount > 0)
         {
             carChild = transform.GetChild(0);
             LogHelper.Log($"Auto-assigned car child: {carChild.name}");
         }
 
+        if (carChild != null)
+        {
+            carChild.localRotation = Quaternion.identity;
+            if (skidMarks != null)
+            {
+                skidMarks.Initialize(carChild);
+            }
+        }
+    }
+
+    private void InitializeSpline()
+    {
+        if (splineContainer == null)
+        {
+            LogHelper.LogError("Spline Container not assigned!");
+            return;
+        }
+
         totalSplineLength = splineContainer.Spline.GetLength();
+        splineProgress = 0f;
+        reachedEnd = false;
+        currentSpeed = 0f;
+        currentDriftAngle = 0f;
+        sideDriftOffset = 0f;
+        sideDriftVelocity = 0f;
+        driftVelocity = 0f;
+        targetDriftAngle = 0f;
+        isInTurn = false;
 
         Vector3 startPos = splineContainer.EvaluatePosition(0f);
         transform.position = new Vector3(startPos.x, transform.position.y, startPos.z);
@@ -116,68 +183,102 @@ public class SplineCarController : MonoBehaviour
         baseRotation = Quaternion.LookRotation(startTangent);
         transform.rotation = baseRotation;
 
-        carChild.localRotation = Quaternion.identity;
+        if (carChild != null)
+        {
+            carChild.localRotation = Quaternion.identity;
+        }
 
-        skidMarks.Initialize(carChild);
+        LogHelper.Log($"Spline initialized: Length = {totalSplineLength}");
     }
+
 
     public void RefreshCarChild()
-{
-    LogHelper.Log("=== RefreshCarChild CALLED ===");
-    LogHelper.Log($"Parent object: {gameObject.name}, Active: {gameObject.activeInHierarchy}");
-    LogHelper.Log($"Child count: {transform.childCount}");
-    
-    carChild = null;
-    
-    // Log all children
-    for (int i = 0; i < transform.childCount; i++)
     {
-        Transform child = transform.GetChild(i);
-        LogHelper.Log($"Child {i}: {child.name}, Active: {child.gameObject.activeInHierarchy}, Tag: {child.tag}");
-    }
-    
-    // Try to find car with "Car" tag
-    foreach (Transform child in transform)
-    {
-        if (child.gameObject.activeInHierarchy)
+        LogHelper.Log("=== RefreshCarChild CALLED ===");
+        LogHelper.Log($"Parent object: {gameObject.name}, Active: {gameObject.activeInHierarchy}");
+        LogHelper.Log($"Child count: {transform.childCount}");
+
+        carChild = null;
+
+        // Log all children
+        for (int i = 0; i < transform.childCount; i++)
         {
-            if (child.CompareTag("Car"))
-            {
-                carChild = child;
-                LogHelper.Log($"✓ Found car child with Car tag: {child.name}");
-                break;
-            }
+            Transform child = transform.GetChild(i);
+            LogHelper.Log($"Child {i}: {child.name}, Active: {child.gameObject.activeInHierarchy}, Tag: {child.tag}");
         }
-    }
-    
-    // Fallback to first active child
-    if (carChild == null)
-    {
+
+        // Try to find car with "Car" tag
         foreach (Transform child in transform)
         {
             if (child.gameObject.activeInHierarchy)
             {
-                carChild = child;
-                LogHelper.Log($"✓ Found car child (fallback): {carChild.name}");
-                break;
+                if (child.CompareTag("Car"))
+                {
+                    carChild = child;
+                    LogHelper.Log($"✓ Found car child with Car tag: {child.name}");
+                    break;
+                }
             }
         }
+
+        // Fallback to first active child
+        if (carChild == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.activeInHierarchy)
+                {
+                    carChild = child;
+                    LogHelper.Log($"✓ Found car child (fallback): {carChild.name}");
+                    break;
+                }
+            }
+        }
+
+        if (carChild == null)
+        {
+            LogHelper.LogError("❌ NO CAR CHILD FOUND!");
+            return;
+        }
+
+        // Reinitialize
+        carChild.localRotation = Quaternion.identity;
+        if (skidMarks != null)
+        {
+            skidMarks.Initialize(carChild);
+            LogHelper.Log("✓ Skid marks reinitialized");
+        }
     }
-    
-    if (carChild == null)
+
+    public void RefreshSpline()
     {
-        LogHelper.LogError("❌ NO CAR CHILD FOUND!");
-        return;
+        if (splineContainer == null)
+        {
+            LogHelper.LogError("Cannot refresh spline - splineContainer is null!");
+            return;
+        }
+        LogHelper.Log("=== RefreshSpline CALLED ===");
+        LogHelper.Log($"New Spline Container: {splineContainer.name}");
+
+        InitializeSpline();
+
+        LogHelper.Log("✓ Spline refresh complete");
     }
-    
-    // Reinitialize
-    carChild.localRotation = Quaternion.identity;
-    if (skidMarks != null)
+    public void SetupNewLevel(SplineContainer newSpline)
     {
-        skidMarks.Initialize(carChild);
-        LogHelper.Log("✓ Skid marks reinitialized");
+        if (newSpline == null)
+        {
+            LogHelper.LogError("Cannot setup new level - newSpline is null!");
+            return;
+        }
+
+        LogHelper.Log($"=== Setting up new level with spline: {newSpline.name} ===");
+
+        splineContainer = newSpline;
+        InitializeSpline();
+
+        LogHelper.Log("✓ New level setup complete");
     }
-}
 
     void Update()
     {
@@ -462,7 +563,6 @@ public class SplineCarController : MonoBehaviour
     public void SetTouchEnabled(bool enabled)
     {
         isTouching = false;
-
         allowTouch = enabled;
     }
 
@@ -475,17 +575,4 @@ public class SplineCarController : MonoBehaviour
 
         LogHelper.Log("Game Started! UI animated and hidden. Player can now move.");
     }
-
-    public void RefreshSpline()
-    {
-        if(splineContainer == null)
-        {
-            LogHelper.LogError("Cannot refresh spline - splineContainer is null!");
-            return;
-        }
-
-
-
-    }
-
 }

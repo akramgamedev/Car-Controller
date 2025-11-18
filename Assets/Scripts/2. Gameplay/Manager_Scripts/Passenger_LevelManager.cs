@@ -189,7 +189,7 @@ public class PassengerLevelManager : MonoBehaviour
     {
         if (LevelManager_Temporary.Instance != null)
         {
-            LevelManager_Temporary.Instance.ReloadcurrentLevel();
+            LevelManager_Temporary.Instance.ReloadCurrentLevel();
         }
     }
 

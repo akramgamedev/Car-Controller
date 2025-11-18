@@ -6,21 +6,21 @@
                 "isUnlocked": true
             },
             {
-                "isUnlocked": false
+                "isUnlocked": true
             },
             {
-                "isUnlocked": false
+                "isUnlocked": true
             },
             {
-                "isUnlocked": false
+                "isUnlocked": true
             },
             {
-                "isUnlocked": false
+                "isUnlocked": true
             }
         ]
     },
     "economy": {
-        "cash": 0,
+        "cash": 30000,
         "keys": 0
     },
     "level": {

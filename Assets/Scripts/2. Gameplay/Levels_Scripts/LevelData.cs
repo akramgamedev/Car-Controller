@@ -16,7 +16,24 @@ public class LevelData : MonoBehaviour
     public int LevelNumber => levelNumber;
     public SplineContainer LevelSplineContainer => levelSplineContainer;
 
-    public void ActivateLevel(SplineCarController playerCar)
+    // public void ActivateLevel(SplineCarController playerCar)
+    // {
+    //     if (isActive) return;
+
+    //     gameObject.SetActive(true);
+    //     isActive = true;
+    //     ResetLevel();
+
+    //     if (playerCar != null && levelSplineContainer != null)
+    //     {
+    //         playerCar.splineContainer = levelSplineContainer;
+    //         LogHelper.Log($"Spline assigned to Player for Level {levelNumber}: {levelName}");
+    //     }
+
+    //     LogHelper.Log($"Level {levelNumber} - {levelName} activated");
+    // }
+
+     public void ActivateLevel(SplineCarController playerCar)
     {
         if (isActive) return;
 
@@ -26,8 +43,17 @@ public class LevelData : MonoBehaviour
 
         if (playerCar != null && levelSplineContainer != null)
         {
-            playerCar.splineContainer = levelSplineContainer;
-            LogHelper.Log($"Spline assigned to Player for Level {levelNumber}: {levelName}");
+            // Use SetupNewLevel instead of just assigning the spline
+            playerCar.SetupNewLevel(levelSplineContainer);
+            
+            LogHelper.Log($"✓ Spline assigned and initialized for Level {levelNumber}: {levelName}");
+        }
+        else
+        {
+            if (playerCar == null)
+                LogHelper.LogError("PlayerCar is null!");
+            if (levelSplineContainer == null)
+                LogHelper.LogError($"Level {levelNumber} has no spline container assigned!");
         }
 
         LogHelper.Log($"Level {levelNumber} - {levelName} activated");
