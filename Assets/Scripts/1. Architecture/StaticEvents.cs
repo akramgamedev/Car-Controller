@@ -18,6 +18,7 @@ public sealed partial class StaticEvents
     public static class GameEconomy
     {
         public static Action<int,GlobalEnums.CurrencyType> OnCurrencyChange;
+        public static Func<GlobalEnums.CurrencyType,int> OnGetCurrency;
     }
     public static class Loading
     {

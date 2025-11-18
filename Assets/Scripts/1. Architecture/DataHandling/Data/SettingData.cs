@@ -7,13 +7,12 @@ public class SettingData
     public bool musicSetting;
     public bool soundSetting;
     public bool vibrationSetting;
-    public float sensitivity;
+
     public SettingData()
     {
         musicSetting = true;
         soundSetting = true;
         vibrationSetting = true;
-        sensitivity = 0.5f;
     }
 
     public void MusicSettingChange(bool value)
@@ -44,15 +43,5 @@ public class SettingData
     public bool IsVibrationSettingON()
     {
         return vibrationSetting;
-    }
-
-    public void SensitivitySettingChange(float value)
-    {
-        sensitivity = value;
-    }
-
-    public float GetSensitivitySetting()
-    {
-        return sensitivity;
     }
 }

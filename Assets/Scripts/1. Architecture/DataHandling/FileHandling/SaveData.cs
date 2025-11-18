@@ -9,11 +9,11 @@ public class SaveData
     {
         if (Application.isEditor)
         {
-            filePath = Path.Combine(Application.dataPath, "cleanerGD.json");
+            filePath = Path.Combine(Application.dataPath, "pickMeUpGD.json");
         }
         else
         {
-            filePath = Path.Combine(Application.persistentDataPath, "cleanerGD.json");
+            filePath = Path.Combine(Application.persistentDataPath, "pickMeUpGD.json");
         }
     }
 

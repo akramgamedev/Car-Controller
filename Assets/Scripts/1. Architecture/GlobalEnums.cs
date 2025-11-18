@@ -32,6 +32,6 @@ public class GlobalEnums
     public enum CurrencyType
     {
         Coin,
-        Gem
+        Key
     }
 }

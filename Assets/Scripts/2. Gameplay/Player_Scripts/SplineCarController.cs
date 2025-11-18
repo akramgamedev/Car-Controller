@@ -476,4 +476,16 @@ public class SplineCarController : MonoBehaviour
         LogHelper.Log("Game Started! UI animated and hidden. Player can now move.");
     }
 
+    public void RefreshSpline()
+    {
+        if(splineContainer == null)
+        {
+            LogHelper.LogError("Cannot refresh spline - splineContainer is null!");
+            return;
+        }
+
+
+
+    }
+
 }

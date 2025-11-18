@@ -33,6 +33,7 @@ public class CarSelectionManager : MonoBehaviour
                 availableCars[i].selectionButton.onClick.AddListener(() => OnCarButtonClicked(index));
             }
         }
+        SelectCar(0);
 
         // Load saved selection or default to first car
         // int savedCarIndex = DataManager.Instance != null ? DataManager.Instance.GetSelectedCarIndex() : 0;

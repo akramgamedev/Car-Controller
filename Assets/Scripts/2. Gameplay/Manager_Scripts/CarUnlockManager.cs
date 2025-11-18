@@ -5,6 +5,9 @@ public class CarUnlockManager : MonoBehaviour
 {
     public static CarUnlockManager Instance { get; private set; }
 
+    [Header("DataManager Reference")]
+    [SerializeField] private DataManager dataManager;
+
     [System.Serializable]
     public class CarPrice
     {
@@ -28,39 +31,44 @@ public class CarUnlockManager : MonoBehaviour
         }
         Instance = this;
     }
+    #region Subscription
+
+    void OnEnable()
+    {
+        StaticEvents.GameEconomy.OnCurrencyChange += OnCurrencyChanged;
+    }
+    void OnDisable()
+    {
+        StaticEvents.GameEconomy.OnCurrencyChange -= OnCurrencyChanged;
+    }
+
+    #endregion
 
     void Start()
     {
-        // Subscribe to currency changes to auto-check unlocks
-        if (CurrencyManager.Instance != null)
-        {
-            CurrencyManager.Instance.OnCoinsChanged += CheckAutoUnlocks;
-            CurrencyManager.Instance.OnKeysChanged += CheckAutoUnlocks;
-        }
-        
-        // Check on start
-        CheckAutoUnlocks(0);
-    }
+        SyncCarsWithGameCars(carPrices.Length);
 
-    void OnDestroy()
+        CheckAutoUnlocks();
+    }
+    void OnCurrencyChanged(int amount, GlobalEnums.CurrencyType type)
     {
-        if (CurrencyManager.Instance != null)
+        if (type == GlobalEnums.CurrencyType.Coin)
         {
-            CurrencyManager.Instance.OnCoinsChanged -= CheckAutoUnlocks;
-            CurrencyManager.Instance.OnKeysChanged -= CheckAutoUnlocks;
+            CheckAutoUnlocks();
         }
-    }
+        if (type == GlobalEnums.CurrencyType.Key)
+        {
+            CheckAutoUnlocks();
+        }
 
-    // Check all cars and auto-unlock if player has enough currency
-    void CheckAutoUnlocks(int _)
+    }
+    void CheckAutoUnlocks()
     {
         foreach (var price in carPrices)
         {
-            // Skip if already unlocked
             if (IsCarUnlocked(price.carIndex))
                 continue;
 
-            // Check if player has enough currency
             if (CanAffordCar(price.carIndex))
             {
                 AutoUnlockCar(price.carIndex);
@@ -73,12 +81,22 @@ public class CarUnlockManager : MonoBehaviour
     {
         if (IsCarUnlocked(carIndex))
             return;
+        while (dataManager.gameData.carData.cars.Count <= carIndex)
+        {
+            dataManager.gameData.carData.AddCarToList();
+        }
 
-        // DataManager.Instance.UnlockCar(carIndex);
+        var car = dataManager.gameData.carData.cars[carIndex];
+        car.isUnlocked = true;
+        dataManager.gameData.carData.cars[carIndex] = car;
+
+        // dataManager.gameData.carData.unlockedCars.Add(carIndex);
+        dataManager.SaveGameData();
+
         OnCarUnlocked?.Invoke(carIndex);
 
-        LogHelper.Log($"🎉 Car {carIndex} AUTO-UNLOCKED! You now have enough currency!");
-        
+        LogHelper.Log($"Car {carIndex} AUTO-UNLOCKED! You now have enough currency!");
+
         // Optional: Show a popup notification here
         // UIManager.Instance?.ShowCarUnlockedPopup(carIndex);
     }
@@ -86,12 +104,28 @@ public class CarUnlockManager : MonoBehaviour
     // Check if car is unlocked
     public bool IsCarUnlocked(int carIndex)
     {
+        if (dataManager != null && carIndex < dataManager.gameData.carData.cars.Count)
+        {
+            return dataManager.gameData.carData.cars[carIndex].isUnlocked;
+        }
         // if (DataManager.Instance != null)
         // {
         //     return DataManager.Instance.IsCarUnlocked(carIndex);
         // }
         return false;
     }
+
+    // public void UnlockCarFree(int carIndex)
+    // {
+    //     if (!IsCarUnlocked(carIndex))
+    //     {
+    //         DataManager.Instance.gameData.carData.unlockedCars.Add(carIndex);
+    //         DataManager.Instance.SaveGameData();
+
+    //         OnCarUnlocked?.Invoke(carIndex);
+    //         LogHelper.Log($"Car {carIndex} unlocked for free!");
+    //     }
+    // }
 
     // Get car price
     public CarPrice GetCarPrice(int carIndex)
@@ -111,21 +145,48 @@ public class CarUnlockManager : MonoBehaviour
         if (price == null)
             return false;
 
-        bool hasEnoughCoins = CurrencyManager.Instance.HasEnoughCoins(price.coinPrice);
-        bool hasEnoughKeys = CurrencyManager.Instance.HasEnoughKeys(price.keyPrice);
+        bool hasEnoughCoins = HasEnoughCoins(price.coinPrice);
+        bool hasEnoughKeys = HasEnoughKeys(price.keyPrice);
 
         return hasEnoughCoins && hasEnoughKeys;
     }
+    public bool HasEnoughCoins(int amount)
+    {
+        return StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin) >= amount;
+    }
+    public bool HasEnoughKeys(int amount)
+    {
+        return StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key) >= amount;
+    }
 
-    // Unlock car without payment (for rewards, ads, etc.)
     public void UnlockCarFree(int carIndex)
     {
         if (!IsCarUnlocked(carIndex))
         {
+            while (dataManager.gameData.carData.cars.Count <= carIndex)
+            {
+                dataManager.gameData.carData.AddCarToList();
+            }
+
+            var car = dataManager.gameData.carData.cars[carIndex];
+            car.isUnlocked = true;
+            dataManager.gameData.carData.cars[carIndex] = car;
+
+            dataManager.SaveGameData();
+
             // DataManager.Instance.UnlockCar(carIndex);
             OnCarUnlocked?.Invoke(carIndex);
             LogHelper.Log($"Car {carIndex} unlocked for free!");
         }
+    }
+
+    public void SyncCarsWithGameCars(int totalCarsInGame)
+    {
+        while (dataManager.gameData.carData.cars.Count < totalCarsInGame)
+        {
+            dataManager.gameData.carData.AddCarToList();
+        }
+        dataManager.SaveGameData();
     }
 
     // [ContextMenu("Setup Default Prices")]
@@ -240,7 +301,7 @@ public class CarUnlockManager : MonoBehaviour
 //         // Spend currency
 //         bool coinsSpent = CurrencyManager.Instance.SpendCoins(price.coinPrice);
 //         bool keysSpent = true;
-        
+
 //         if (price.keyPrice > 0)
 //             keysSpent = CurrencyManager.Instance.SpendKeys(price.keyPrice);
 

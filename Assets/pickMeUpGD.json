@@ -1,0 +1,45 @@
+{
+    "carData": {
+        "selectedCarIndex": 0,
+        "cars": [
+            {
+                "isUnlocked": true
+            },
+            {
+                "isUnlocked": false
+            },
+            {
+                "isUnlocked": false
+            },
+            {
+                "isUnlocked": false
+            },
+            {
+                "isUnlocked": false
+            }
+        ]
+    },
+    "economy": {
+        "cash": 0,
+        "keys": 0
+    },
+    "level": {
+        "unlockedLevelNumber": 1,
+        "levelAttemptRate": 1,
+        "unlockAllLevels": false
+    },
+    "setting": {
+        "musicSetting": true,
+        "soundSetting": true,
+        "vibrationSetting": true
+    },
+    "profile": {
+        "profileIndex": 0,
+        "profileName": "PlayerName"
+    },
+    "inApp": {
+        "isRemoveAds": false,
+        "isUnlockLevels": false,
+        "isRestored": false
+    }
+}

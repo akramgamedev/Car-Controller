@@ -42,7 +42,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI KeysText;
 
-
     private bool isGameStarted = false;
     public bool IsGameStarted => isGameStarted;
 
@@ -58,26 +57,40 @@ public class UIManager : MonoBehaviour
 
     void OnEnable()
     {
-        if (CurrencyManager.Instance != null)
-        {
-            CurrencyManager.Instance.OnCoinsChanged += UpdateCoinsUI;
-            CurrencyManager.Instance.OnCoinsChanged += UpdateKeysUI;
-        }
+        StaticEvents.GameEconomy.OnCurrencyChange+= OnCurrencyChanged;
+        // if (CurrencyManager.Instance != null)
+        // {
+        //     CurrencyManager.Instance.OnCoinsChanged += UpdateCoinsUI;
+        //     CurrencyManager.Instance.OnCoinsChanged += UpdateKeysUI;
+        // }
 
     }
 
     void OnDisable()
     {
-        if (CurrencyManager.Instance != null)
-        {
-            CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
-            CurrencyManager.Instance.OnCoinsChanged -= UpdateKeysUI;
-        }
+        StaticEvents.GameEconomy.OnCurrencyChange-= OnCurrencyChanged;
+        // if (CurrencyManager.Instance != null)
+        // {
+        //     CurrencyManager.Instance.OnCoinsChanged -= UpdateCoinsUI;
+        //     CurrencyManager.Instance.OnCoinsChanged -= UpdateKeysUI;
+        // }
     }
 
     private void Start()
     {
         StartCoroutine(ShowLoadingScreen());
+    }
+
+    private void OnCurrencyChanged(int amount, GlobalEnums.CurrencyType type)
+    {
+        if(type == GlobalEnums.CurrencyType.Coin)
+        {
+            UpdateCoinsUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin));
+        }
+        else if(type == GlobalEnums.CurrencyType.Key)
+        {
+            UpdateKeysUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key));
+        }
     }
 
     private IEnumerator ShowLoadingScreen()
