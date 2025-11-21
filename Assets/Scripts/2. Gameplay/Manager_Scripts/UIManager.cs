@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Camera References")]
     [SerializeField] private Camera worldCanvasCam;
+    [SerializeField] private Camera mainCamera;
 
     [Header("Loading Screen")]
     [SerializeField] private Image loadingBarFill;
@@ -57,27 +58,28 @@ public class UIManager : MonoBehaviour
 
     void OnEnable()
     {
-        StaticEvents.GameEconomy.OnCurrencyChange+= OnCurrencyChanged;
+        StaticEvents.GameEconomy.OnCurrencyChange += OnCurrencyChanged;
     }
 
     void OnDisable()
     {
-        StaticEvents.GameEconomy.OnCurrencyChange-= OnCurrencyChanged;
+        StaticEvents.GameEconomy.OnCurrencyChange -= OnCurrencyChanged;
     }
 
     private void Start()
     {
         StartCoroutine(ShowLoadingScreen());
-        StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(5000, GlobalEnums.CurrencyType.Coin);
+        StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(1000, GlobalEnums.CurrencyType.Coin);
+        StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(10, GlobalEnums.CurrencyType.Key);
     }
 
     private void OnCurrencyChanged(int amount, GlobalEnums.CurrencyType type)
     {
-        if(type == GlobalEnums.CurrencyType.Coin)
+        if (type == GlobalEnums.CurrencyType.Coin)
         {
             UpdateCoinsUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin));
         }
-        else if(type == GlobalEnums.CurrencyType.Key)
+        else if (type == GlobalEnums.CurrencyType.Key)
         {
             UpdateKeysUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key));
         }
@@ -250,7 +252,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateCameraState()
     {
-        if (worldCanvasCam == null) return;
+        if (worldCanvasCam == null || mainCamera == null) return;
 
         bool shouldEnableCamera =
         (selectionScreen != null && selectionScreen.activeSelf) ||
@@ -259,6 +261,7 @@ public class UIManager : MonoBehaviour
             (selectedCar != null && selectedCar.activeSelf);
 
         worldCanvasCam.gameObject.SetActive(shouldEnableCamera);
+        mainCamera.gameObject.SetActive(!shouldEnableCamera);
     }
 
     public void UpdateCoinsUI(int amount)

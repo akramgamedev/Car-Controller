@@ -34,4 +34,13 @@ public class GlobalEnums
         Coin,
         Key
     }
+
+    [System.Serializable]
+    public enum CarUnlockType
+    {
+        CashUnlock,
+        ChestUnlock,
+        ProgressionUnlock,
+        VIPUnlock
+    }
 }

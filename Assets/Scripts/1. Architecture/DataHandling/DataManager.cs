@@ -5,17 +5,32 @@ using UnityEngine;
 [System.Serializable]
 public class DataManager : MonoBehaviour
 {
-   // public static DataManager Instance {get; private set;}
+    public static DataManager Instance { get; private set; }
     [SerializeField] public Scriptable_GameValues persistantValues;
     public GameData gameData { get; private set; }
     SaveData saveData = new SaveData();
 
     private void Awake()
     {
-        if (saveData.SaveFileExists())
-            LoadGameData();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            if (saveData.SaveFileExists())
+            {
+                LoadGameData();
+            }
+            else
+            {
+                SaveWithDefaultValues();
+            }
+            LogHelper.Log("DataManager initialized successfully!");
+        }
         else
-            SaveWithDefaultValues();
+        {
+        LogHelper.LogWarning("Duplicate DataManager found! Destroying...");
+           Destroy(gameObject);
+        }
     }
 
     void SaveWithDefaultValues()

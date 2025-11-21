@@ -8,10 +8,11 @@ public class CarSelectionManager : MonoBehaviour
     [System.Serializable]
     public class CarData
     {
-        public string carName;
+        public string carIdentifier; // Match with data identifier
         public GameObject displayCar;
         public GameObject playerCarChild;
         public Button selectionButton;
+        public Image carImage; // For making it gray when locked
     }
 
     [Header("Player Car Reference")]
@@ -24,7 +25,39 @@ public class CarSelectionManager : MonoBehaviour
 
     void Start()
     {
-        // Assign button listeners
+        // Wait for DataManager to be ready, then load car
+        StartCoroutine(InitializeCarSelection());
+    }
+
+    IEnumerator InitializeCarSelection()
+    {
+        // Wait until DataManager is ready
+        while (DataManager.Instance == null)
+        {
+            LogHelper.LogWarning("Waiting for DataManager to initialize...");
+            yield return null;
+        }
+
+        LogHelper.Log("DataManager found! Loading car selection...");
+
+        // Now load saved data FIRST before setting up UI
+        LoadSavedCarOnGameStart();
+        SetupButtons();
+        RefreshCarVisuals();
+    }
+
+    void OnEnable()
+    {
+        StaticEvents.CarUnlockEvents.OnCarUnlocked += OnCarUnlocked;
+    }
+
+    void OnDisable()
+    {
+        StaticEvents.CarUnlockEvents.OnCarUnlocked -= OnCarUnlocked;
+    }
+
+    void SetupButtons()
+    {
         for (int i = 0; i < availableCars.Count; i++)
         {
             int index = i;
@@ -33,20 +66,41 @@ public class CarSelectionManager : MonoBehaviour
                 availableCars[i].selectionButton.onClick.AddListener(() => OnCarButtonClicked(index));
             }
         }
-        SelectCar(0);
+    }
 
-        // Load saved selection or default to first car
-        // int savedCarIndex = DataManager.Instance != null ? DataManager.Instance.GetSelectedCarIndex() : 0;
+    // NEW METHOD: This loads the saved car when game starts
+    void LoadSavedCarOnGameStart()
+    {
+        if (DataManager.Instance == null)
+        {
+            LogHelper.LogWarning("DataManager not found! Loading default car.");
+            SelectCar(0);
+            return;
+        }
 
-        // Select the saved car if unlocked, otherwise first car
-        // if (CarUnlockManager.Instance.IsCarUnlocked(savedCarIndex))
-        // {
-        //     SelectCar(savedCarIndex);
-        // }
-        // else
-        // {
-        //     SelectCar(0); // Fallback to first car
-        // }
+        // Load the saved car index
+        int savedIndex = DataManager.Instance.gameData.carData.selectedCarIndex;
+
+        LogHelper.Log($"Attempting to load saved car index: {savedIndex}");
+
+        // Validate the saved index
+        if (savedIndex < 0 || savedIndex >= availableCars.Count)
+        {
+            LogHelper.LogWarning($"Invalid saved car index {savedIndex}. Loading default car.");
+            savedIndex = 0;
+        }
+
+        // Check if the car is unlocked
+        if (!CarUnlockManager.Instance.IsCarUnlocked(savedIndex))
+        {
+            LogHelper.LogWarning($"Saved car {savedIndex} is locked! Loading default car.");
+            savedIndex = 0;
+        }
+
+        // Load the car WITHOUT saving again (to avoid overwriting data)
+        SelectCarWithoutSaving(savedIndex);
+
+        LogHelper.Log($"Successfully loaded car index: {savedIndex}");
     }
 
     public void OnCarButtonClicked(int carIndex)
@@ -54,19 +108,35 @@ public class CarSelectionManager : MonoBehaviour
         if (carIndex < 0 || carIndex >= availableCars.Count)
             return;
 
-        // Check if car is unlocked
         if (!CarUnlockManager.Instance.IsCarUnlocked(carIndex))
         {
-            LogHelper.LogWarning($"Car {carIndex} is locked! Need to unlock first.");
-            // You can show a popup here saying "Car locked! Collect more coins"
+            LogHelper.LogWarning($"Car {carIndex} is locked!");
+            // Show "Car Locked" popup here
             return;
         }
 
-        currentSelectedIndex = carIndex;
         SelectCar(carIndex);
+    }
 
-        // Save selection
-        // DataManager.Instance?.SetSelectedCarIndex(carIndex);
+    // NEW METHOD: Select car without saving (used when loading game)
+    void SelectCarWithoutSaving(int carIndex)
+    {
+        // Disable all display cars
+        foreach (var car in availableCars)
+        {
+            if (car.displayCar != null)
+                car.displayCar.SetActive(false);
+        }
+
+        // Enable selected display car
+        CarData selectedCar = availableCars[carIndex];
+        if (selectedCar.displayCar != null)
+            selectedCar.displayCar.SetActive(true);
+
+        // Activate corresponding player car
+        ActivatePlayerCar(carIndex);
+
+        currentSelectedIndex = carIndex;
     }
 
     void SelectCar(int carIndex)
@@ -87,12 +157,22 @@ public class CarSelectionManager : MonoBehaviour
         ActivatePlayerCar(carIndex);
 
         currentSelectedIndex = carIndex;
+
+        // Save selection
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.gameData.carData.selectedCarIndex = carIndex;
+            DataManager.Instance.SaveGameData();
+            LogHelper.Log($"Car {carIndex} selected and saved!");
+        }
+        else
+        {
+            LogHelper.LogError("DataManager is null! Cannot save car selection!");
+        }
     }
 
     void ActivatePlayerCar(int carIndex)
     {
-        LogHelper.Log($"=== ActivatePlayerCar called for index: {carIndex} ===");
-
         // Deactivate all car children
         foreach (var car in availableCars)
         {
@@ -106,17 +186,19 @@ public class CarSelectionManager : MonoBehaviour
         CarData selectedCar = availableCars[carIndex];
         if (selectedCar.playerCarChild != null)
         {
-            LogHelper.Log($"Activating child: {selectedCar.playerCarChild.name}");
             selectedCar.playerCarChild.SetActive(true);
-
-            // Refresh the parent's scripts
+            LogHelper.Log($"Activated player car: {selectedCar.carIdentifier}");
             StartCoroutine(RefreshCarComponents());
+        }
+        else
+        {
+            LogHelper.LogError($"Player car child is null for car index {carIndex}!");
         }
     }
 
     private IEnumerator RefreshCarComponents()
     {
-        yield return null; // Wait one frame
+        yield return null;
 
         SplineCarController splineController = playerCarParent.GetComponent<SplineCarController>();
         CarCollision carCollision = playerCarParent.GetComponent<CarCollision>();
@@ -124,16 +206,369 @@ public class CarSelectionManager : MonoBehaviour
         if (splineController != null)
         {
             splineController.RefreshCarChild();
-            LogHelper.Log("✓ Called RefreshCarChild");
         }
 
         if (carCollision != null)
         {
             carCollision.RefreshCarRigidbody();
-            LogHelper.Log("✓ Called RefreshCarRigidbody");
+        }
+    }
+
+    void OnCarUnlocked(int carIndex, GlobalEnums.CarUnlockType unlockType)
+    {
+        RefreshCarVisuals();
+    }
+
+    void RefreshCarVisuals()
+    {
+        for (int i = 0; i < availableCars.Count; i++)
+        {
+            bool isUnlocked = CarUnlockManager.Instance.IsCarUnlocked(i);
+
+            if (availableCars[i].carImage != null)
+            {
+                // Make locked cars gray
+                availableCars[i].carImage.color = isUnlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
+            }
+
+            if (availableCars[i].selectionButton != null)
+            {
+                availableCars[i].selectionButton.interactable = isUnlocked;
+            }
+        }
+    }
+
+    // OPTIONAL: Debug method to check current selection
+    [ContextMenu("Debug Current Car Selection")]
+    void DebugCarSelection()
+    {
+        if (DataManager.Instance != null)
+        {
+            int savedIndex = DataManager.Instance.gameData.carData.selectedCarIndex;
+            LogHelper.Log($"Saved Car Index: {savedIndex}");
+            LogHelper.Log($"Current Selected Index: {currentSelectedIndex}");
+
+            if (savedIndex >= 0 && savedIndex < availableCars.Count)
+            {
+                LogHelper.Log($"Saved Car Identifier: {availableCars[savedIndex].carIdentifier}");
+            }
         }
     }
 }
+
+// using UnityEngine;
+// using UnityEngine.UI;
+// using System.Collections.Generic;
+// using System.Collections;
+
+// public class CarSelectionManager : MonoBehaviour
+// {
+//     [System.Serializable]
+//     public class CarData
+//     {
+//         public string carIdentifier; // Match with data identifier
+//         public GameObject displayCar;
+//         public GameObject playerCarChild;
+//         public Button selectionButton;
+//         public Image carImage; // For making it gray when locked
+//     }
+
+//     [Header("Player Car Reference")]
+//     public GameObject playerCarParent;
+
+//     [Header("Available Cars")]
+//     public List<CarData> availableCars = new List<CarData>();
+
+//     private int currentSelectedIndex = 0;
+
+//     void Start()
+//     {
+
+//         SetupButtons();
+//         LoadSavedSelection();
+//         RefreshCarVisuals();
+//     }
+
+//     void OnEnable()
+//     {
+//         StaticEvents.CarUnlockEvents.OnCarUnlocked += OnCarUnlocked;
+//     }
+
+//     void OnDisable()
+//     {
+//         StaticEvents.CarUnlockEvents.OnCarUnlocked -= OnCarUnlocked;
+//     }
+
+//     void SetupButtons()
+//     {
+//         for (int i = 0; i < availableCars.Count; i++)
+//         {
+//             int index = i;
+//             if (availableCars[i].selectionButton != null)
+//             {
+//                 availableCars[i].selectionButton.onClick.AddListener(() => OnCarButtonClicked(index));
+//             }
+//         }
+//     }
+
+//     void LoadSavedSelection()
+//     {
+//         int savedIndex = DataManager.Instance != null ? DataManager.Instance.gameData.carData.selectedCarIndex : 0;
+
+//         if (savedIndex >= 0 && savedIndex < availableCars.Count && CarUnlockManager.Instance.IsCarUnlocked(savedIndex))
+//         {
+//             SelectCar(savedIndex);
+//         }
+//         else
+//         {
+//             SelectCar(0); // Default to first car
+//         }
+//     }
+
+//     public void OnCarButtonClicked(int carIndex)
+//     {
+//         if (carIndex < 0 || carIndex >= availableCars.Count)
+//             return;
+
+//         if (!CarUnlockManager.Instance.IsCarUnlocked(carIndex))
+//         {
+//             LogHelper.LogWarning($"Car {carIndex} is locked!");
+//             // Show "Car Locked" popup here
+//             return;
+//         }
+
+//         SelectCar(carIndex);
+//     }
+
+//     void SelectCar(int carIndex)
+//     {
+//         // Disable all display cars
+//         foreach (var car in availableCars)
+//         {
+//             if (car.displayCar != null)
+//                 car.displayCar.SetActive(false);
+//         }
+
+//         // Enable selected display car
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.displayCar != null)
+//             selectedCar.displayCar.SetActive(true);
+
+//         // Activate corresponding player car
+//         ActivatePlayerCar(carIndex);
+
+//         currentSelectedIndex = carIndex;
+
+//         // Save selection
+//         if (DataManager.Instance != null)
+//         {
+//             DataManager.Instance.gameData.carData.selectedCarIndex = carIndex;
+//             DataManager.Instance.SaveGameData();
+//         }
+//     }
+
+//     void ActivatePlayerCar(int carIndex)
+//     {
+//         // Deactivate all car children
+//         foreach (var car in availableCars)
+//         {
+//             if (car.playerCarChild != null)
+//             {
+//                 car.playerCarChild.SetActive(false);
+//             }
+//         }
+
+//         // Activate only the selected child
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.playerCarChild != null)
+//         {
+//             selectedCar.playerCarChild.SetActive(true);
+//             StartCoroutine(RefreshCarComponents());
+//         }
+//     }
+
+//     private IEnumerator RefreshCarComponents()
+//     {
+//         yield return null;
+
+//         SplineCarController splineController = playerCarParent.GetComponent<SplineCarController>();
+//         CarCollision carCollision = playerCarParent.GetComponent<CarCollision>();
+
+//         if (splineController != null)
+//         {
+//             splineController.RefreshCarChild();
+//         }
+
+//         if (carCollision != null)
+//         {
+//             carCollision.RefreshCarRigidbody();
+//         }
+//     }
+
+//     void OnCarUnlocked(int carIndex, GlobalEnums.CarUnlockType unlockType)
+//     {
+//         RefreshCarVisuals();
+//     }
+
+//     void RefreshCarVisuals()
+//     {
+//         for (int i = 0; i < availableCars.Count; i++)
+//         {
+//             bool isUnlocked = CarUnlockManager.Instance.IsCarUnlocked(i);
+
+//             if (availableCars[i].carImage != null)
+//             {
+//                 // Make locked cars gray
+//                 availableCars[i].carImage.color = isUnlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
+//             }
+
+//             if (availableCars[i].selectionButton != null)
+//             {
+//                 availableCars[i].selectionButton.interactable = isUnlocked;
+//             }
+//         }
+//     }
+// }
+
+
+//****************** working code *******************************
+
+// using UnityEngine;
+// using UnityEngine.UI;
+// using System.Collections.Generic;
+// using System.Collections;
+
+// public class CarSelectionManager : MonoBehaviour
+// {
+//     [System.Serializable]
+//     public class CarData
+//     {
+//         public string carName;
+//         public GameObject displayCar;
+//         public GameObject playerCarChild;
+//         public Button selectionButton;
+//     }
+
+//     [Header("Player Car Reference")]
+//     public GameObject playerCarParent;
+
+//     [Header("Available Cars")]
+//     public List<CarData> availableCars = new List<CarData>();
+
+//     private int currentSelectedIndex = 0;
+
+//     void Start()
+//     {
+//         // Assign button listeners
+//         for (int i = 0; i < availableCars.Count; i++)
+//         {
+//             int index = i;
+//             if (availableCars[i].selectionButton != null)
+//             {
+//                 availableCars[i].selectionButton.onClick.AddListener(() => OnCarButtonClicked(index));
+//             }
+//         }
+//         SelectCar(0);
+
+//         // Load saved selection or default to first car
+//         // int savedCarIndex = DataManager.Instance != null ? DataManager.Instance.GetSelectedCarIndex() : 0;
+
+//         // Select the saved car if unlocked, otherwise first car
+//         // if (CarUnlockManager.Instance.IsCarUnlocked(savedCarIndex))
+//         // {
+//         //     SelectCar(savedCarIndex);
+//         // }
+//         // else
+//         // {
+//         //     SelectCar(0); // Fallback to first car
+//         // }
+//     }
+
+//     public void OnCarButtonClicked(int carIndex)
+//     {
+//         if (carIndex < 0 || carIndex >= availableCars.Count)
+//             return;
+
+//         // Check if car is unlocked
+//         if (!CarUnlockManager.Instance.IsCarUnlocked(carIndex))
+//         {
+//             LogHelper.LogWarning($"Car {carIndex} is locked! Need to unlock first.");
+//             // You can show a popup here saying "Car locked! Collect more coins"
+//             return;
+//         }
+
+//         currentSelectedIndex = carIndex;
+//         SelectCar(carIndex);
+
+//         // Save selection
+//         // DataManager.Instance?.SetSelectedCarIndex(carIndex);
+//     }
+
+//     void SelectCar(int carIndex)
+//     {
+//         // Disable all display cars
+//         foreach (var car in availableCars)
+//         {
+//             if (car.displayCar != null)
+//                 car.displayCar.SetActive(false);
+//         }
+
+//         // Enable selected display car
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.displayCar != null)
+//             selectedCar.displayCar.SetActive(true);
+
+//         // Activate corresponding player car
+//         ActivatePlayerCar(carIndex);
+
+//         currentSelectedIndex = carIndex;
+//     }
+
+//     void ActivatePlayerCar(int carIndex)
+//     {
+//         LogHelper.Log($"=== ActivatePlayerCar called for index: {carIndex} ===");
+
+//         // Deactivate all car children
+//         foreach (var car in availableCars)
+//         {
+//             if (car.playerCarChild != null)
+//             {
+//                 car.playerCarChild.SetActive(false);
+//             }
+//         }
+
+//         // Activate only the selected child
+//         CarData selectedCar = availableCars[carIndex];
+//         if (selectedCar.playerCarChild != null)
+//         {
+//             LogHelper.Log($"Activating child: {selectedCar.playerCarChild.name}");
+//             selectedCar.playerCarChild.SetActive(true);
+
+//             // Refresh the parent's scripts
+//             StartCoroutine(RefreshCarComponents());
+//         }
+//     }
+
+//     private IEnumerator RefreshCarComponents()
+//     {
+//         yield return null; // Wait one frame
+
+//         SplineCarController splineController = playerCarParent.GetComponent<SplineCarController>();
+//         CarCollision carCollision = playerCarParent.GetComponent<CarCollision>();
+
+//         if (splineController != null)
+//         {
+//             splineController.RefreshCarChild();
+//             LogHelper.Log("✓ Called RefreshCarChild");
+//         }
+
+//         if (carCollision != null)
+//         {
+//             carCollision.RefreshCarRigidbody();
+//             LogHelper.Log("✓ Called RefreshCarRigidbody");
+//         }
+//     }
+// }
 
 
 
