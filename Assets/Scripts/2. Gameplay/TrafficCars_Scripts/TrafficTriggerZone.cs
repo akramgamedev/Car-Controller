@@ -25,14 +25,6 @@ public class TrafficTriggerZone : MonoBehaviour
         LogHelper.Log($"Trigger {gameObject.name} activated by player. Moving {controlledCars.Count} cars.");
     }
 
-    //   private void OnTriggerExit(Collider other)
-    //     {
-    //         if (stopCarsOnExit && other.CompareTag("Player"))
-    //         {
-    //             DeactivateTraffic();
-    //         }
-    //     }
-
     public void ActivateTraffic()
     {
         foreach (TrafficVehicle car in controlledCars)
@@ -45,16 +37,6 @@ public class TrafficTriggerZone : MonoBehaviour
             }
         }
     }
-    // public void DeactivateTraffic()
-    // {
-    //      foreach(TrafficVehicle car in controlledCars)
-    //     {
-    //         if(car != null)
-    //         {
-    //             car.StopMoving();
-    //         }
-    //     }
-    // }
 
     private void OnDrawGizmos()
     {
@@ -69,7 +51,6 @@ public class TrafficTriggerZone : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Draw lines to controlled cars when selected
         Gizmos.color = Color.yellow;
         foreach (TrafficVehicle car in controlledCars)
         {

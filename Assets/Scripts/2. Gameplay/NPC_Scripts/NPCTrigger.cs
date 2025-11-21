@@ -30,7 +30,6 @@ private void OnDrawGizmos()
 
     private void OnDrawGizmosSelected()
     {
-        // Draw lines to controlled NPC when selected
         Gizmos.color = Color.yellow;
         foreach (NPCController npc in npcs)
         {

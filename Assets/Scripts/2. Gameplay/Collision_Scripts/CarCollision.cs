@@ -56,7 +56,6 @@ public class CarCollision : MonoBehaviour
             carBodyTransform = carRigidbody.transform;
             ApplyBaseRigidbodySettings();
 
-            // Add body collision handler
             CarBodyCollision bodyScript = carRigidbody.gameObject.GetComponent<CarBodyCollision>();
             if (bodyScript == null)
                 bodyScript = carRigidbody.gameObject.AddComponent<CarBodyCollision>();
@@ -98,7 +97,6 @@ public class CarCollision : MonoBehaviour
             }
         }
 
-        // Fallback
         if (carRigidbody == null)
         {
             foreach (var rb in childRigidbodies)
@@ -114,7 +112,7 @@ public class CarCollision : MonoBehaviour
 
         if (carRigidbody == null)
         {
-            LogHelper.LogError("❌ NO RIGIDBODY FOUND!");
+            LogHelper.LogError("NO RIGIDBODY FOUND!");
             return;
         }
 
@@ -126,7 +124,7 @@ public class CarCollision : MonoBehaviour
             bodyScript = carRigidbody.gameObject.AddComponent<CarBodyCollision>();
 
         bodyScript.Initialize(this);
-        LogHelper.Log("✓ Rigidbody setup complete");
+        LogHelper.Log("Rigidbody setup complete");
     }
 
     void ApplyBaseRigidbodySettings()
@@ -147,8 +145,6 @@ public class CarCollision : MonoBehaviour
             if (!hasCrashed)
             {
                 AudioManager.Instance?.PlaySFX("CarCrash");
-
-                // MMVibrationManager.Haptic(HapticTypes.MediumImpact);
 
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);
@@ -176,7 +172,6 @@ public class CarCollision : MonoBehaviour
             carRigidbody.constraints = RigidbodyConstraints.None;
             carRigidbody.useGravity = true;
 
-            // Re-apply correct linear damping after enabling gravity
 #if UNITY_6000_0_OR_NEWER
             carRigidbody.linearDamping = isPlayer ? linearDampingPlayer : linearDampingAI;
 #else

@@ -14,7 +14,6 @@ public class VIPUnlockHandler : BaseCarUnlockHandler
 
     public override bool CanUnlock()
     {
-        // Check IAP purchase status
         bool hasVIPPurchase = dataManager.gameData.inApp.GetRemoveAds();
         return hasVIPPurchase && GetLockedCarsInPage().Count > 0;
     }

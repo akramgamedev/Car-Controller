@@ -80,47 +80,6 @@ public class SplineCarController : MonoBehaviour
         skidMarks = GetComponent<CarSkidMarks>();
 
         InitializeCarChild();
-
-        // if (splineContainer == null)
-        // {
-        //     LogHelper.LogError("Spline Container not assigned!");
-        //     return;
-        // }
-
-        // if (carChild == null)
-        // {
-        //     foreach (Transform child in transform)
-        //     {
-        //         if (child.CompareTag("Car") && child.gameObject.activeInHierarchy)
-        //         {
-        //             carChild = child;
-        //             LogHelper.Log("Auto-assigned car child: " + child.name);
-        //             break;
-        //         }
-        //     }
-        // }
-
-        // //fallback method if not tagged Car found
-        // if (carChild == null && transform.childCount > 0)
-        // {
-        //     carChild = transform.GetChild(0);
-        //     LogHelper.Log($"Auto-assigned car child: {carChild.name}");
-        // }
-
-        // totalSplineLength = splineContainer.Spline.GetLength();
-
-        // Vector3 startPos = splineContainer.EvaluatePosition(0f);
-        // transform.position = new Vector3(startPos.x, transform.position.y, startPos.z);
-
-        // Vector3 startTangent = splineContainer.EvaluateTangent(0f);
-        // startTangent.y = 0;
-        // startTangent.Normalize();
-        // baseRotation = Quaternion.LookRotation(startTangent);
-        // transform.rotation = baseRotation;
-
-        // carChild.localRotation = Quaternion.identity;
-
-        // skidMarks.Initialize(carChild);
     }
 
     private void InitializeCarChild()
@@ -138,7 +97,6 @@ public class SplineCarController : MonoBehaviour
             }
         }
 
-        // Fallback method if no tagged Car found
         if (carChild == null && transform.childCount > 0)
         {
             carChild = transform.GetChild(0);
@@ -200,14 +158,12 @@ public class SplineCarController : MonoBehaviour
 
         carChild = null;
 
-        // Log all children
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
             LogHelper.Log($"Child {i}: {child.name}, Active: {child.gameObject.activeInHierarchy}, Tag: {child.tag}");
         }
 
-        // Try to find car with "Car" tag
         foreach (Transform child in transform)
         {
             if (child.gameObject.activeInHierarchy)
@@ -215,13 +171,12 @@ public class SplineCarController : MonoBehaviour
                 if (child.CompareTag("Car"))
                 {
                     carChild = child;
-                    LogHelper.Log($"✓ Found car child with Car tag: {child.name}");
+                    LogHelper.Log($"Found car child with Car tag: {child.name}");
                     break;
                 }
             }
         }
 
-        // Fallback to first active child
         if (carChild == null)
         {
             foreach (Transform child in transform)
@@ -229,7 +184,7 @@ public class SplineCarController : MonoBehaviour
                 if (child.gameObject.activeInHierarchy)
                 {
                     carChild = child;
-                    LogHelper.Log($"✓ Found car child (fallback): {carChild.name}");
+                    LogHelper.Log($"Found car child (fallback): {carChild.name}");
                     break;
                 }
             }
@@ -237,7 +192,7 @@ public class SplineCarController : MonoBehaviour
 
         if (carChild == null)
         {
-            LogHelper.LogError("❌ NO CAR CHILD FOUND!");
+            LogHelper.LogError("NO CAR CHILD FOUND!");
             return;
         }
 
@@ -246,7 +201,7 @@ public class SplineCarController : MonoBehaviour
         if (skidMarks != null)
         {
             skidMarks.Initialize(carChild);
-            LogHelper.Log("✓ Skid marks reinitialized");
+            LogHelper.Log("Skid marks reinitialized");
         }
     }
 
@@ -262,7 +217,7 @@ public class SplineCarController : MonoBehaviour
 
         InitializeSpline();
 
-        LogHelper.Log("✓ Spline refresh complete");
+        LogHelper.Log("Spline refresh complete");
     }
     public void SetupNewLevel(SplineContainer newSpline)
     {
@@ -277,7 +232,7 @@ public class SplineCarController : MonoBehaviour
         splineContainer = newSpline;
         InitializeSpline();
 
-        LogHelper.Log("✓ New level setup complete");
+        LogHelper.Log("New level setup complete");
     }
 
     void Update()
@@ -293,9 +248,6 @@ public class SplineCarController : MonoBehaviour
 
     void HandleInput()
     {
-        // -----------------------
-        // BEFORE GAME START
-        // -----------------------
         if (!gameStarted)
         {
             bool isOverUI = false;
@@ -305,7 +257,6 @@ public class SplineCarController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
                 isOverUI = EventSystem.current.IsPointerOverGameObject();
 #else
-            // ADD HERE - FIRST LOCATION
             isOverUI = EventSystem.current.IsPointerOverGameObject(-1);
             if (!isOverUI && Input.touchCount > 0)
             {
@@ -314,7 +265,6 @@ public class SplineCarController : MonoBehaviour
 #endif
             }
 
-            // Detect tap anywhere that is NOT UI
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0) && !isOverUI)
             {
@@ -334,9 +284,6 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        // -----------------------
-        // AFTER GAME START
-        // -----------------------
         if (!allowTouch)
         {
             isTouching = false;
@@ -350,7 +297,6 @@ public class SplineCarController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
             touchingUI = EventSystem.current.IsPointerOverGameObject();
 #else
-        // ADD HERE - SECOND LOCATION
         touchingUI = EventSystem.current.IsPointerOverGameObject(-1);
         if (!touchingUI && Input.touchCount > 0)
         {
@@ -384,7 +330,6 @@ public class SplineCarController : MonoBehaviour
 
     void HandleMovement()
     {
-        // FORCE STOP CHECK - MUST BE FIRST
         if (forceStopped)
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 3f * Time.deltaTime);
@@ -396,31 +341,25 @@ public class SplineCarController : MonoBehaviour
             return;
         }
 
-        // Check if reached end
         if (reachedEnd && !loopSpline)
         {
             currentSpeed = 0f;
             return;
         }
 
-        // Handle acceleration/deceleration based on input
         if (isTouching)
             currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
         else
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * 2.2f * Time.deltaTime);
 
-        // Stop completely at low speeds when not touching
         if (currentSpeed < 0.3f && !isTouching)
             currentSpeed = 0f;
 
-        // Don't move if speed is too low
         if (currentSpeed <= 0.01f) return;
 
-        // Calculate movement along spline
         float speedOnSpline = currentSpeed / totalSplineLength;
         splineProgress += speedOnSpline * Time.deltaTime;
 
-        // Handle loop or end
         if (splineProgress >= 1f)
         {
             if (loopSpline)
@@ -435,7 +374,6 @@ public class SplineCarController : MonoBehaviour
 
         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
 
-        // Calculate rotation
         float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
         Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
         Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
@@ -464,7 +402,6 @@ public class SplineCarController : MonoBehaviour
             transform.rotation = baseRotation;
         }
 
-        // Apply position with side drift offset
         Vector3 rightDir = transform.right;
         Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
         transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);

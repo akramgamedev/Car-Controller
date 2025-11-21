@@ -35,7 +35,6 @@ public class DropoffPoint : MonoBehaviour
         Collider col = GetComponent<Collider>();
         col.isTrigger = true;
 
-        // Hide the passenger initially (they're in the car)
         if (passenger != null)
         {
             passenger.gameObject.SetActive(false);
@@ -53,10 +52,8 @@ public class DropoffPoint : MonoBehaviour
     {
         LogHelper.Log($"OnTriggerEnter detected: {other.gameObject.name} (Tag: {other.tag})");
 
-        // Check parent for PassengerCarrier since collider might be on child
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
 
-        // If not found on this GameObject, check parent
         if (car == null)
         {
             car = other.GetComponentInParent<PassengerCarrier>();
@@ -77,10 +74,8 @@ public class DropoffPoint : MonoBehaviour
             isCarInRange = true;
             currentCar = car;
 
-            // Request the car to stop
             car.RequestStop();
 
-            // Find the door point on the car if not manually assigned
             if (carDoorPoint == null)
             {
                 CarDoorPoint doorPoint = car.GetComponentInChildren<CarDoorPoint>();
@@ -127,7 +122,6 @@ public class DropoffPoint : MonoBehaviour
 
         AudioManager.Instance?.PlaySFX("OpenDoor");
 
-        // Prepare passenger for exit
         if (carDoorPoint != null && passenger != null)
         {
             LogHelper.Log($"Preparing passenger to exit car");
@@ -168,7 +162,6 @@ public class DropoffPoint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Check both the collider and its parent
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
         if (car == null)
         {
@@ -190,7 +183,6 @@ public class DropoffPoint : MonoBehaviour
 
         if (passenger == null || currentCar == null) return;
 
-        // Remove passenger from car
         currentCar.SetPassenger(false);
         currentCar.ResumeFromPickup();
 

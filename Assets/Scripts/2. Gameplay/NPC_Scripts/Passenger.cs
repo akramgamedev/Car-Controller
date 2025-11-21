@@ -73,7 +73,6 @@ public class Passenger : MonoBehaviour
         targetDoor = doorTransform;
         currentState = PassengerState.MovingToCar;
         
-        // Set animator to walk
         if (animator != null)
         {
             animator.SetFloat("Speed", moveSpeed / 3f);
@@ -82,21 +81,18 @@ public class Passenger : MonoBehaviour
         LogHelper.Log($"Passenger started moving to car door at {doorTransform.position}");
     }
 
-    // Set which pickup point to notify
     public void SetPickupPoint(PickupPoint pickupPoint)
     {
         currentPickupPoint = pickupPoint;
         LogHelper.Log($"Pickup point assigned to passenger");
     }
     
-    // Set which dropoff point to notify
     public void SetDropoffPoint(DropoffPoint dropoff)
     {
         currentDropoffPoint = dropoff;
         LogHelper.Log($"Dropoff point assigned to passenger");
     }
     
-    // Called when passenger triggers with door during pickup
     public void OnReachedDoor()
     {
         LogHelper.Log($"Passenger reached door - notifying pickup point!");
@@ -119,20 +115,16 @@ public class Passenger : MonoBehaviour
             return;
         }
         
-        // Calculate direction
         Vector3 direction = (targetDoor.position - transform.position).normalized;
-        direction.y = 0; // Keep movement on ground level
+        direction.y = 0;
         
-        // Move towards the door
         transform.position += direction * moveSpeed * Time.deltaTime;
         
-        // Update animator with speed
         if (animator != null)
         {
             animator.SetFloat("Speed", moveSpeed / 3f);
         }
 
-        // Rotate to face the door
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);

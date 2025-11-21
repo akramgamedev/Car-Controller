@@ -7,8 +7,8 @@ public class GlobalEnums
     [System.Serializable]
     public enum GameState
     {
-        MainMenu, //Reset
-        GamePlay, //GameStart
+        MainMenu,
+        GamePlay,
         GameLoose,
         GameWin,
         Pause,

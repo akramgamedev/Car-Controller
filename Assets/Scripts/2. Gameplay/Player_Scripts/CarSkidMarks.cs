@@ -28,10 +28,8 @@ public class CarSkidMarks : MonoBehaviour
 
     void Start()
     {
-        // Automatically find the active car with tag "Car"
         carChild = FindActiveCarChild();
 
-        // Continue only if we found one
         if (carChild != null)
         {
             SetupTrailRenderers();
@@ -42,7 +40,6 @@ public class CarSkidMarks : MonoBehaviour
         }
     }
 
-    // 🔍 Finds the first active child with the "Car" tag
     Transform FindActiveCarChild()
     {
         foreach (Transform child in transform)
@@ -55,14 +52,12 @@ public class CarSkidMarks : MonoBehaviour
 
     void SetupTrailRenderers()
     {
-        // destroy existing trail objects (if any) to avoid reusing wrong parents
         if (leftTrailObject != null) Destroy(leftTrailObject);
         if (rightTrailObject != null) Destroy(rightTrailObject);
 
         leftTrailObject = new GameObject("LeftDriftTrail");
         rightTrailObject = new GameObject("RightDriftTrail");
 
-        // parent to carChild (if available) so local pos/rot make sense
         if (carChild != null)
         {
             leftTrailObject.transform.SetParent(carChild, false);
@@ -74,7 +69,6 @@ public class CarSkidMarks : MonoBehaviour
             rightTrailObject.transform.SetParent(transform, false);
         }
 
-        // reset transforms so local positions equal local wheel offsets
         leftTrailObject.transform.localPosition = Vector3.zero;
         leftTrailObject.transform.localRotation = Quaternion.identity;
         leftTrailObject.transform.localScale = Vector3.one;
@@ -101,7 +95,6 @@ public class CarSkidMarks : MonoBehaviour
         trail.startWidth = trailWidth;
         trail.endWidth = trailWidth;
 
-        // color gradient
         Gradient gradient = new Gradient();
         gradient.mode = GradientMode.Blend;
         gradient.SetKeys(
@@ -120,18 +113,14 @@ public class CarSkidMarks : MonoBehaviour
         );
         trail.colorGradient = gradient;
 
-        // simple width curve
         AnimationCurve widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
         trail.widthCurve = widthCurve;
 
-        // material
         trail.material = new Material(Shader.Find("Sprites/Default"));
         trail.material.color = trailColor;
         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         trail.receiveShadows = false;
 
-        // IMPORTANT: keep the trail transform rotation neutral.
-        // If you need the trail to face up, use the trail's localPosition/parent instead of rotating it.
         trail.alignment = LineAlignment.View; // safer: aligns with camera view; avoids transform Z issues
         trail.transform.localRotation = Quaternion.identity;
         trail.textureMode = LineTextureMode.Stretch;
@@ -141,11 +130,9 @@ public class CarSkidMarks : MonoBehaviour
 
     public void Initialize(Transform car)
     {
-        // assign new car
         carChild = car;
         AutoDetectWheelsPosition();
 
-        // recreate trails parented to the new car and reset transforms
         SetupTrailRenderers();
     }
 
@@ -154,22 +141,18 @@ public class CarSkidMarks : MonoBehaviour
         if (leftTrail == null || rightTrail == null || carChild == null || leftTrailObject == null || rightTrailObject == null)
             return;
 
-        // --- Local wheel offsets relative to the visual car mesh (carChild) ---
         Vector3 leftWheelLocal = new Vector3(-wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
         Vector3 rightWheelLocal = new Vector3(wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
 
-        // Convert local offsets to world space for raycasts
         Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
         Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
 
         RaycastHit hit;
         float raycastDistance = 2f;
 
-        // Initialize with world positions
         Vector3 leftFinalWorld = leftWheelWorld;
         Vector3 rightFinalWorld = rightWheelWorld;
 
-        // --- Ground detection (raycasts) ---
         if (Physics.Raycast(leftWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
             leftFinalWorld = hit.point + Vector3.up * 0.02f;
         else
@@ -180,7 +163,6 @@ public class CarSkidMarks : MonoBehaviour
         else
             rightFinalWorld.y = carChild.position.y + 0.02f;
 
-        // --- FIXED: Set positions correctly depending on parent space ---
         if (leftTrailObject.transform.parent == carChild)
         {
             leftTrailObject.transform.localPosition = carChild.InverseTransformPoint(leftFinalWorld);
@@ -192,7 +174,6 @@ public class CarSkidMarks : MonoBehaviour
             rightTrailObject.transform.position = rightFinalWorld;
         }
 
-        // --- Drift & brake mark logic ---
         if (isTouching && currentSpeed > minBrakeSpeed)
             highSpeedTimer += Time.deltaTime;
         else if (currentSpeed < minBrakeSpeed * 0.7f)
@@ -228,7 +209,6 @@ public class CarSkidMarks : MonoBehaviour
         previousSpeed = currentSpeed;
 
 #if UNITY_EDITOR
-        // Optional: visualize wheel positions for debugging
         Debug.DrawLine(leftFinalWorld, leftFinalWorld + Vector3.up * 0.3f, Color.red);
         Debug.DrawLine(rightFinalWorld, rightFinalWorld + Vector3.up * 0.3f, Color.green);
 #endif

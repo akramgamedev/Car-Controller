@@ -119,7 +119,6 @@ public class CarGridUI : MonoBehaviour
     {
         if (adsRewardText == null) return;
 
-        // Show the reward amount on the ads button
         adsRewardText.text = $"+${adsRewardAmount}";
     }
 
@@ -153,23 +152,18 @@ public class CarGridUI : MonoBehaviour
 
     void OnAdsButtonPressed()
     {
-        // Show interstitial ad, then give reward
         AdsManager.Instance?.ShowInterstitialAd(() =>
         {
-            // This callback runs after ad is closed
             GiveAdsReward();
         });
     }
 
     void GiveAdsReward()
     {
-        // Give coins to player
         StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(adsRewardAmount, GlobalEnums.CurrencyType.Coin);
 
         LogHelper.Log($"Player earned {adsRewardAmount} coins from ad on page {pageIndex}!");
 
-        // Optional: Show reward popup
-        // UIManager.Instance?.ShowRewardPopup(adsRewardAmount);
     }
 
     void RefreshButtonState()

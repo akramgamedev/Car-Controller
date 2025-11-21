@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class LevelData : MonoBehaviour
+public class LevelHandler : MonoBehaviour
 {
     [Header("Level Info")]
     [SerializeField] private int levelNumber;
     [SerializeField] private string levelName;
+
+    [Header("Level Rewards")]
+    [SerializeField] private int levelCompletionCoins = 100;
+    [SerializeField] private int levelCompletionKeys = 1;
 
     [Header("Spline Setup")]
     [SerializeField] private SplineContainer levelSplineContainer;
@@ -16,24 +20,7 @@ public class LevelData : MonoBehaviour
     public int LevelNumber => levelNumber;
     public SplineContainer LevelSplineContainer => levelSplineContainer;
 
-    // public void ActivateLevel(SplineCarController playerCar)
-    // {
-    //     if (isActive) return;
-
-    //     gameObject.SetActive(true);
-    //     isActive = true;
-    //     ResetLevel();
-
-    //     if (playerCar != null && levelSplineContainer != null)
-    //     {
-    //         playerCar.splineContainer = levelSplineContainer;
-    //         LogHelper.Log($"Spline assigned to Player for Level {levelNumber}: {levelName}");
-    //     }
-
-    //     LogHelper.Log($"Level {levelNumber} - {levelName} activated");
-    // }
-
-     public void ActivateLevel(SplineCarController playerCar)
+    public void ActivateLevel(SplineCarController playerCar)
     {
         if (isActive) return;
 
@@ -43,9 +30,8 @@ public class LevelData : MonoBehaviour
 
         if (playerCar != null && levelSplineContainer != null)
         {
-            // Use SetupNewLevel instead of just assigning the spline
             playerCar.SetupNewLevel(levelSplineContainer);
-            
+
             LogHelper.Log($"✓ Spline assigned and initialized for Level {levelNumber}: {levelName}");
         }
         else
@@ -67,12 +53,23 @@ public class LevelData : MonoBehaviour
         isActive = false;
 
         LogHelper.Log($"Level {levelNumber} - {levelName} deactivated");
-        
+
     }
 
     public void ResetLevel()
     {
-        // Add any reset logic you might want later, like respawning pickups or resetting checkpoints
         LogHelper.Log($"Level {levelNumber} reset");
+    }
+    public void GiveCompletionReward()
+    {
+        if (levelCompletionCoins > 0)
+        {
+            StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(levelCompletionCoins, GlobalEnums.CurrencyType.Coin);
+        }
+        else
+        {
+            StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(levelCompletionKeys, GlobalEnums.CurrencyType.Key);
+
+        }
     }
 }

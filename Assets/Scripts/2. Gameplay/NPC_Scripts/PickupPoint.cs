@@ -33,7 +33,6 @@ public class PickupPoint : MonoBehaviour
         Collider col = GetComponent<Collider>();
         col.isTrigger = true;
 
-        // Store marker's original rotation
         if (marker != null)
         {
             markerOriginalRotation = marker.rotation;
@@ -46,10 +45,8 @@ public class PickupPoint : MonoBehaviour
     {
         LogHelper.Log($"OnTriggerEnter detected: {other.gameObject.name} (Tag: {other.tag})");
 
-        // IMPORTANT: Check parent for PassengerCarrier since collider is on child
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
 
-        // If not found on this GameObject, check parent
         if (car == null)
         {
             car = other.GetComponentInParent<PassengerCarrier>();
@@ -70,13 +67,10 @@ public class PickupPoint : MonoBehaviour
             isCarInRange = true;
             currentCar = car;
 
-            // Request the car to stop
             car.RequestStop();
 
-            // Find the door point on the car if not manually assigned
             if (carDoorPoint == null)
             {
-                // Search in parent's children for door point
                 CarDoorPoint doorPoint = car.GetComponentInChildren<CarDoorPoint>();
                 if (doorPoint != null)
                 {
@@ -85,14 +79,12 @@ public class PickupPoint : MonoBehaviour
                 }
             }
 
-            // Start marker rotation
             if (marker != null)
             {
                 isMarkerRotating = true;
                 markerRotationTimer = 0f;
             }
 
-            // Start the pickup sequence after a short delay
             Invoke(nameof(StartPickupSequence), 0.5f);
         }
         else if (car == null)
@@ -113,12 +105,10 @@ public class PickupPoint : MonoBehaviour
 
         onCarStopped?.Invoke();
 
-        // Start passenger movement to car
         if (carDoorPoint != null && passenger != null)
         {
             LogHelper.Log($"Starting passenger movement to door");
 
-            // Tell the passenger which door to walk to and which pickup point to notify
             passenger.SetPickupPoint(this);
             passenger.StartMovingToCar(carDoorPoint);
         }
@@ -128,7 +118,6 @@ public class PickupPoint : MonoBehaviour
         }
     }
 
-    // Called by CarDoorPoint when passenger triggers with it
     public void OnPassengerReachedDoor()
     {
         LogHelper.Log($"Passenger reached door - entering car!");
@@ -143,7 +132,6 @@ public class PickupPoint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Check both the collider and its parent
         PassengerCarrier car = other.GetComponent<PassengerCarrier>();
         if (car == null)
         {
@@ -165,15 +153,12 @@ public class PickupPoint : MonoBehaviour
 
         if (passenger == null || currentCar == null) return;
 
-        // Enter the car
         passenger.EnterCar();
         passengerPickedUp = true;
 
-        // Set passenger in car and resume movement
         currentCar.SetPassenger(true);
         currentCar.ResumeFromPickup();
 
-        // Stop marker rotation and hide it
         if (marker != null)
         {
             isMarkerRotating = false;

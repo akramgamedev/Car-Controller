@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// Manages passenger pickup/dropoff tracking for level completion
-/// Works with SEPARATE passenger objects at pickup and dropoff points
-/// </summary>
 public class PassengerLevelManager : MonoBehaviour
 {
     [Header("Passenger Configuration")]
@@ -19,15 +15,13 @@ public class PassengerLevelManager : MonoBehaviour
     public UnityEvent onLevelStart;
     public UnityEvent onLevelSuccess;
     public UnityEvent onLevelFail;
-    public UnityEvent<int, int> onPassengerCountChanged; // delivered, total
+    public UnityEvent<int, int> onPassengerCountChanged;
 
-    // Tracking
     private int totalPassengers;
     private int passengersDelivered;
     private bool levelActive = false;
     private bool levelCompleted = false;
 
-    // Track which passenger is currently picked up
     private PassengerPair currentPickedUpPair = null;
 
     private void OnEnable()
@@ -50,7 +44,6 @@ public class PassengerLevelManager : MonoBehaviour
 
         LogHelper.Log($"[PassengerLevelManager] Level initialized with {totalPassengers} passengers");
 
-        // Register listeners for ALL pickup and dropoff points
         foreach (var pair in passengers)
         {
             if (pair.pickupPoint != null && pair.dropoffPoint != null)
@@ -58,11 +51,9 @@ public class PassengerLevelManager : MonoBehaviour
                 pair.isPickedUp = false;
                 pair.isDelivered = false;
 
-                // Listen to pickup event
                 pair.pickupPoint.onPassengerPickedUp.RemoveListener(() => OnPassengerPickedUp(pair));
                 pair.pickupPoint.onPassengerPickedUp.AddListener(() => OnPassengerPickedUp(pair));
 
-                // Listen to dropoff event
                 pair.dropoffPoint.onPassengerDroppedOff.RemoveListener(() => OnPassengerDroppedOff(pair));
                 pair.dropoffPoint.onPassengerDroppedOff.AddListener(() => OnPassengerDroppedOff(pair));
             }
@@ -78,7 +69,6 @@ public class PassengerLevelManager : MonoBehaviour
 
     private void CleanupLevel()
     {
-        // Remove all listeners
         foreach (var pair in passengers)
         {
             if (pair.pickupPoint != null)
@@ -92,7 +82,6 @@ public class PassengerLevelManager : MonoBehaviour
         }
     }
 
-    // Called when player picks up passenger at pickup point
     private void OnPassengerPickedUp(PassengerPair pair)
     {
         if (levelCompleted || pair.isPickedUp) return;
@@ -104,32 +93,27 @@ public class PassengerLevelManager : MonoBehaviour
         AudioManager.Instance?.PlayUI("PassengerPickup");
     }
 
-    // Called when player drops off passenger at dropoff point
     private void OnPassengerDroppedOff(PassengerPair pair)
     {
         if (levelCompleted) return;
 
-        // Check if this passenger was already delivered
         if (pair.isDelivered)
         {
             LogHelper.LogWarning($"[PassengerLevelManager] Passenger already delivered at {pair.dropoffPoint.name}!");
             return;
         }
 
-        // Check if passenger was picked up first
         if (!pair.isPickedUp)
         {
             LogHelper.LogWarning($"[PassengerLevelManager] Trying to dropoff without pickup at {pair.dropoffPoint.name}!");
             return;
         }
 
-        // OPTIONAL: Verify this is the correct dropoff for current passenger
         if (currentPickedUpPair != pair)
         {
             LogHelper.LogWarning($"[PassengerLevelManager] Wrong dropoff point! Expected {currentPickedUpPair?.dropoffPoint.name}, got {pair.dropoffPoint.name}");
         }
 
-        // Mark as delivered
         pair.isDelivered = true;
         passengersDelivered++;
         currentPickedUpPair = null;
@@ -140,7 +124,6 @@ public class PassengerLevelManager : MonoBehaviour
         UpdatePassengerUI();
         onPassengerCountChanged?.Invoke(passengersDelivered, totalPassengers);
 
-        // Check if all passengers delivered
         if (passengersDelivered >= totalPassengers)
         {
             CompleteLevel();
@@ -156,19 +139,13 @@ public class PassengerLevelManager : MonoBehaviour
 
         LogHelper.Log("[PassengerLevelManager] LEVEL SUCCESS! All passengers delivered!");
 
+        LevelManager_Temporary.Instance?.OnLevelCompleted();
+        UIManager.Instance?.ShowLevelSuccess();
+
         AudioManager.Instance?.PlayUI("LevelComplete");
         onLevelSuccess?.Invoke();
 
-       // Invoke(nameof(LoadNextLevel), 2f);
     }
-
-    // private void LoadNextLevel()
-    // {
-    //     if (LevelManager_Temporary.Instance != null)
-    //     {
-    //         LevelManager_Temporary.Instance.LoadNextLevel();
-    //     }
-    // }
 
     public void FailLevel(string reason = "Level Failed")
     {
@@ -206,13 +183,11 @@ public class PassengerLevelManager : MonoBehaviour
         }
     }
 
-    // Public getters
     public int GetPassengersDelivered() => passengersDelivered;
     public int GetTotalPassengers() => totalPassengers;
     public bool IsLevelComplete() => levelCompleted;
     public PassengerPair GetCurrentPickedUpPair() => currentPickedUpPair;
 
-    // Helper to check if player has a passenger
     public bool HasPassenger() => currentPickedUpPair != null;
 
     [ContextMenu("Auto-Setup Pairs by Index")]
@@ -225,7 +200,6 @@ public class PassengerLevelManager : MonoBehaviour
 
         LogHelper.Log($"Found {pickups.Length} pickups and {dropoffs.Length} dropoffs");
 
-        // Match by index (Pickup 0 -> Dropoff 0, Pickup 1 -> Dropoff 1, etc.)
         int pairCount = Mathf.Min(pickups.Length, dropoffs.Length);
 
         for (int i = 0; i < pairCount; i++)

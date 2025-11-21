@@ -9,16 +9,16 @@ public class RoadPathLine : MonoBehaviour
     public List<Transform> roadPoints;
 
     [Header("Settings")]
-    public float yOffset = 0.05f;  // Slightly above road
-    public float eraseDistance = 3f; // How far behind car the line disappears
-    public int curveResolution = 20; // Smoothness per segment
+    public float yOffset = 0.05f;
+    public float eraseDistance = 3f;
+    public int curveResolution = 20;
 
     [Header("Line Appearance")]
     public float lineWidth = 0.25f;
-    public Color lineColor = new Color(0.1f, 0.1f, 0.6f); // Navy blue
+    public Color lineColor = new Color(0.1f, 0.1f, 0.6f);
 
     [Header("Real-time Editing")]
-    public bool updateInPlayMode = true; // Enable to edit waypoints in play mode
+    public bool updateInPlayMode = true;
 
     private LineRenderer line;
     private List<Vector3> fullPath = new List<Vector3>();
@@ -49,14 +49,12 @@ public class RoadPathLine : MonoBehaviour
 
     void Update()
     {
-        // Check if we need to regenerate path in play mode
         if (updateInPlayMode && HasWaypointsChanged())
         {
             RegeneratePath();
             CacheWaypointPositions();
         }
 
-        // Update line appearance if changed
         if (lineWidth != lastLineWidth)
         {
             line.startWidth = lineWidth;
@@ -159,7 +157,6 @@ public class RoadPathLine : MonoBehaviour
 
     private Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
-        // Catmull-Rom spline interpolation
         return 0.5f * (
             (2 * p1) +
             (-p0 + p2) * t +

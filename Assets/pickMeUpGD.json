@@ -1,6 +1,6 @@
 {
     "carData": {
-        "selectedCarIndex": 4,
+        "selectedCarIndex": 0,
         "cars": [
             {
                 "isUnlocked": true,
@@ -15,25 +15,25 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 0,
                 "identifier": "cash_car_2",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 0,
                 "identifier": "cash_car_3",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 0,
                 "identifier": "cash_car_4",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 1,
                 "identifier": "chest_car_0",
                 "pageIndex": 0
@@ -121,8 +121,8 @@
         "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 18000,
-        "keys": 207
+        "cash": 124,
+        "keys": 0
     },
     "level": {
         "unlockedLevelNumber": 1,

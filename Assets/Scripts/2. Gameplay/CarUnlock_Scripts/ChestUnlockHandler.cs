@@ -30,10 +30,8 @@ public class ChestUnlockHandler : BaseCarUnlockHandler
             return false;
         }
 
-        // Deduct keys
         StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(-keyCost, GlobalEnums.CurrencyType.Key);
 
-        // Unlock random car
         List<int> lockedCars = GetLockedCarsInPage();
         unlockedCarIndex = UnlockRandomCar(lockedCars);
 

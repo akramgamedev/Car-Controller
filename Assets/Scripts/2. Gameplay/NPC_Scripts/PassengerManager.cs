@@ -17,7 +17,6 @@ public class PassengerManager : MonoBehaviour
     
     private void Start()
     {
-        // Subscribe to pickup and dropoff events
         foreach (var pickup in pickupPoints)
         {
             pickup.onPassengerPickedUp.AddListener(OnPassengerPickedUp);
@@ -80,7 +79,6 @@ public class PassengerManager : MonoBehaviour
         }
     }
     
-    // Optional: Display stats
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 40, 300, 30), $"Picked up: {passengersPickedUp} | Dropped off: {passengersDroppedOff}");
