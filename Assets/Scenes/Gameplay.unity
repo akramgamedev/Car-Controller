@@ -4273,7 +4273,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.675
+  m_Value: 0.737
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13996,8 +13996,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 314426804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.675, y: 0}
-  m_AnchorMax: {x: 0.675, y: 1}
+  m_AnchorMin: {x: 0.737, y: 0}
+  m_AnchorMax: {x: 0.737, y: 1}
   m_AnchoredPosition: {x: -14, y: -1}
   m_SizeDelta: {x: 77.8188, y: -16.8624}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15638,6 +15638,8 @@ Transform:
   - {fileID: 1431848134}
   - {fileID: 1566235802}
   - {fileID: 1406269474}
+  - {fileID: 733350585}
+  - {fileID: 2107695300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &718537258
@@ -15972,6 +15974,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729703122}
   m_CullTransparentMesh: 1
+--- !u!1 &733350584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 733350585}
+  - component: {fileID: 733350586}
+  m_Layer: 0
+  m_Name: SettingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &733350585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733350584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 716145935}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &733350586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733350584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfcbe8a23c91c9a46896e5ccc526a63d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
+  dataManager: {fileID: 1406269475}
+  vibrationController: {fileID: 2107695301}
+  music:
+    onSprite: {fileID: 0}
+    offSprite: {fileID: 0}
+    image: {fileID: 0}
+    alertOnString: Music ON
+    alertOffString: Music OFF
+  sound:
+    onSprite: {fileID: 0}
+    offSprite: {fileID: 0}
+    image: {fileID: 0}
+    alertOnString: Sound ON
+    alertOffString: Sound OFF
+  vibration:
+    onSprite: {fileID: 0}
+    offSprite: {fileID: 0}
+    image: {fileID: 0}
+    alertOnString: Haptics ON
+    alertOffString: Haptics OFF
+  musicVolumeSlider: {fileID: 195419709}
+  effectsVolumeSlider: {fileID: 1806821645}
+  alertText: {fileID: 0}
+  alertTargetPos: {fileID: 0}
+  alertTextCanvasGroup: {fileID: 0}
 --- !u!1 &739255956
 GameObject:
   m_ObjectHideFlags: 0
@@ -17819,7 +17890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarGridUI
   pageIndex: 3
-  unlockType: 1
+  unlockType: 0
   unlockButton: {fileID: 1756338783}
   priceText: {fileID: 0}
   buttonText: {fileID: 0}
@@ -18645,7 +18716,7 @@ RectTransform:
   m_Father: {fileID: 1014508560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.675, y: 1}
+  m_AnchorMax: {x: 0.737, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -27080,6 +27151,7 @@ GameObject:
   - component: {fileID: 1351755350}
   - component: {fileID: 1351755352}
   - component: {fileID: 1351755351}
+  - component: {fileID: 1351755353}
   m_Layer: 5
   m_Name: HapticsOnImg
   m_TagString: Untagged
@@ -27144,6 +27216,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351755349}
   m_CullTransparentMesh: 1
+--- !u!114 &1351755353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351755349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1351755351}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 733350586}
+        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
+        m_MethodName: MusicToggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1353424924
 GameObject:
   m_ObjectHideFlags: 0
@@ -28075,7 +28203,7 @@ MonoBehaviour:
   buttonText: {fileID: 1145482482}
   adsButton: {fileID: 2134582816}
   adsRewardText: {fileID: 1003140525}
-  adsRewardAmount: 150
+  adsRewardAmount: 100
   progressionFillImage: {fileID: 0}
   carImages: []
 --- !u!4 &1390274385
@@ -38247,7 +38375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarGridUI
   pageIndex: 5
-  unlockType: 3
+  unlockType: 0
   unlockButton: {fileID: 0}
   priceText: {fileID: 0}
   buttonText: {fileID: 0}
@@ -41220,7 +41348,7 @@ MonoBehaviour:
   buttonText: {fileID: 303374952}
   adsButton: {fileID: 922638719}
   adsRewardText: {fileID: 1915535}
-  adsRewardAmount: 200
+  adsRewardAmount: 100
   progressionFillImage: {fileID: 0}
   carImages: []
 --- !u!4 &2058269181
@@ -41513,6 +41641,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104775103}
   m_CullTransparentMesh: 1
+--- !u!1 &2107695299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107695300}
+  - component: {fileID: 2107695301}
+  m_Layer: 0
+  m_Name: vibrationController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2107695300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107695299}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 716145935}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2107695301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107695299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57afeaea845ff1845bdd54bad1cfc02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VibrationController
+  dataManager: {fileID: 1406269475}
 --- !u!1 &2112959388
 GameObject:
   m_ObjectHideFlags: 0
@@ -42086,7 +42259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarGridUI
   pageIndex: 4
-  unlockType: 2
+  unlockType: 0
   unlockButton: {fileID: 0}
   priceText: {fileID: 0}
   buttonText: {fileID: 0}

@@ -130,9 +130,11 @@
         "unlockAllLevels": false
     },
     "setting": {
-        "musicSetting": true,
+        "musicSetting": false,
         "soundSetting": true,
-        "vibrationSetting": true
+        "vibrationSetting": true,
+        "musicVolume": 1.0,
+        "effectsVolume": 1.0
     },
     "profile": {
         "profileIndex": 0,
