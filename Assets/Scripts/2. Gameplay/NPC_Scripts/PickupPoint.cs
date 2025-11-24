@@ -8,6 +8,7 @@ using UnityEngine.Rendering.Universal;
 public class PickupPoint : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] VibrationController vibrationController;
     public Passenger passenger;
     public Transform carDoorPoint;
     public Transform marker;
@@ -62,7 +63,9 @@ public class PickupPoint : MonoBehaviour
 
             AudioManager.Instance?.PlayUI("Pickup");
 
-          //  MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+            vibrationController.SuccessVibration();
+            LogHelper.Log("pickup point vibration called");
+
 
             isCarInRange = true;
             currentCar = car;

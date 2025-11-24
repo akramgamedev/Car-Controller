@@ -15,38 +15,23 @@ public class SettingsManager : MonoBehaviour
         public Sprite onSprite;
         public Sprite offSprite;
         public Image image;
-        public string alertOnString;
-        public string alertOffString;
     }
 
     [SerializeField] private DataManager dataManager;
     [SerializeField] private VibrationController vibrationController;
 
     [Header("Setting Toggles")]
-    [SerializeField] private SettingObject music;
-    [SerializeField] private SettingObject sound;
     [SerializeField] private SettingObject vibration;
 
     [Header("Volume Sliders (Optional)")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider effectsVolumeSlider;
 
-    [Header("Alert Animation")]
-    [SerializeField] private TextMeshProUGUI alertText;
-    [SerializeField] private Transform alertTargetPos;
-    [SerializeField] private CanvasGroup alertTextCanvasGroup;
-
     private Vector3 alertStartPos;
     private Tween alertTween;
 
     private void Start()
     {
-        if (alertText != null)
-        {
-            alertText.gameObject.SetActive(false);
-            alertStartPos = alertText.transform.position;
-        }
-        
         InitializeSettings();
         InitializeSliders();
     }
@@ -55,12 +40,11 @@ public class SettingsManager : MonoBehaviour
     {
         // Music Setting
         bool isMusicOn = dataManager.gameData.setting.IsMusicSettingON();
-        SetSettingVisual(music, isMusicOn);
         ApplyMusicSetting(isMusicOn, false); // false = don't show alert on init
 
         // Sound Setting
         bool isSoundOn = dataManager.gameData.setting.IsSoundSettingON();
-        SetSettingVisual(sound, isSoundOn);
+
         ApplySoundSetting(isSoundOn, false);
 
         // Vibration Setting
@@ -101,78 +85,21 @@ public class SettingsManager : MonoBehaviour
             image.sprite = sprite;
         }
     }
-
-    private void PlayAlertAnimation(string message)
-    {
-        if (alertText == null) return;
-
-        alertText.gameObject.SetActive(false);
-        alertTween?.Kill();
-        alertTextCanvasGroup.alpha = 1;
-        alertText.text = message;
-        alertText.gameObject.SetActive(true);
-
-        float duration = 1f;
-        alertText.transform.position = alertStartPos;
-
-        alertTween = alertText.transform.DOMove(alertTargetPos.position, duration)
-            .SetUpdate(true)
-            .OnComplete(() =>
-            {
-                alertTextCanvasGroup.DOFade(0, duration * 0.3f)
-                    .SetUpdate(true)
-                    .OnComplete(() =>
-                    {
-                        alertText.gameObject.SetActive(false);
-                    });
-            });
-    }
-
     // ========== PUBLIC METHODS FOR UI BUTTONS ==========
-
-    public void MusicToggle()
-    {
-        bool newValue = !dataManager.gameData.setting.IsMusicSettingON();
-        dataManager.gameData.setting.MusicSettingChange(newValue);
-        SetSettingVisual(music, newValue);
-        ApplyMusicSetting(newValue, true);
-        
-        // Save the data
-        dataManager.SaveGameData();
-        
-        // Play button click sound
-        AudioManager.Instance?.PlayUI("ButtonClick");
-    }
-
-    public void SoundToggle()
-    {
-        bool newValue = !dataManager.gameData.setting.IsSoundSettingON();
-        dataManager.gameData.setting.SoundSettingChange(newValue);
-        SetSettingVisual(sound, newValue);
-        ApplySoundSetting(newValue, true);
-        
-        // Save the data
-        dataManager.SaveGameData();
-        
-        // Play button click sound
-        AudioManager.Instance?.PlayUI("ButtonClick");
-    }
 
     public void VibrationToggle()
     {
         bool newValue = !dataManager.gameData.setting.IsVibrationSettingON();
         dataManager.gameData.setting.VibrationSettingChange(newValue);
         SetSettingVisual(vibration, newValue);
-        
+
         if (vibrationController != null)
             vibrationController.VibrationSetting(newValue);
-        
-        string message = newValue ? vibration.alertOnString : vibration.alertOffString;
-        PlayAlertAnimation(message);
-        
+
+
         // Save the data
         dataManager.SaveGameData();
-        
+
         // Play button click sound
         AudioManager.Instance?.PlayUI("ButtonClick");
     }
@@ -180,12 +107,12 @@ public class SettingsManager : MonoBehaviour
     public void OnMusicVolumeChanged(float volume)
     {
         dataManager.gameData.setting.SetMusicVolume(volume);
-        
+
         if (dataManager.gameData.setting.IsMusicSettingON())
         {
             AudioManager.Instance?.SetMusicVolume(volume);
         }
-        
+
         // Save the data
         dataManager.SaveGameData();
     }
@@ -193,13 +120,13 @@ public class SettingsManager : MonoBehaviour
     public void OnEffectsVolumeChanged(float volume)
     {
         dataManager.gameData.setting.SetEffectsVolume(volume);
-        
+
         if (dataManager.gameData.setting.IsSoundSettingON())
         {
             AudioManager.Instance?.SetSFXVolume(volume);
             AudioManager.Instance?.SetUIVolume(volume);
         }
-        
+
         // Save the data
         dataManager.SaveGameData();
     }
@@ -215,17 +142,13 @@ public class SettingsManager : MonoBehaviour
             // Turn music ON with saved volume
             float savedVolume = dataManager.gameData.setting.musicVolume;
             AudioManager.Instance.SetMusicVolume(savedVolume);
-            
-            if (showAlert)
-                PlayAlertAnimation(music.alertOnString);
+
         }
         else
         {
             // Turn music OFF (mute)
             AudioManager.Instance.SetMusicVolume(0f);
-            
-            if (showAlert)
-                PlayAlertAnimation(music.alertOffString);
+
         }
     }
 
@@ -239,18 +162,14 @@ public class SettingsManager : MonoBehaviour
             float savedVolume = dataManager.gameData.setting.effectsVolume;
             AudioManager.Instance.SetSFXVolume(savedVolume);
             AudioManager.Instance.SetUIVolume(savedVolume);
-            
-            if (showAlert)
-                PlayAlertAnimation(sound.alertOnString);
+
         }
         else
         {
             // Turn sound OFF (mute)
             AudioManager.Instance.SetSFXVolume(0f);
             AudioManager.Instance.SetUIVolume(0f);
-            
-            if (showAlert)
-                PlayAlertAnimation(sound.alertOffString);
+
         }
     }
 }
@@ -299,7 +218,7 @@ public class SettingsManager : MonoBehaviour
 //     {
 //         SetSetting(music, dataManager.gameData.setting.IsMusicSettingON());
 //         SoundsManager.instance.MusicSetting(dataManager.gameData.setting.IsMusicSettingON());
-     
+
 //         SetSetting(sound, dataManager.gameData.setting.IsSoundSettingON());
 //         SoundsManager.instance.SoundSetting(dataManager.gameData.setting.IsSoundSettingON());
 

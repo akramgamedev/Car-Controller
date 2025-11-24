@@ -25,6 +25,10 @@ public sealed partial class StaticEvents
         public static Action OnHideLoading;
 
     }
+    public static class Sfx
+    {
+        public static Action<GlobalEnums.AudioSfx> OnPlaySfx;
+    }
     public static class CarUnlockEvents
     {
         public static Action<int, GlobalEnums.CarUnlockType> OnCarUnlocked;

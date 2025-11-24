@@ -32,6 +32,14 @@ public class SoundsManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
     }
+    void OnEnable()
+    {
+        
+    }
+    void OnDisable()
+    {
+        
+    }
     public void PlaySound(GlobalEnums.AudioSfx audioSfx)
     {
         if (sfxAudioSource == null || sfxAudioSource.mute)

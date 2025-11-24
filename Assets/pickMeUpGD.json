@@ -121,7 +121,7 @@
         "progressionFillAmount": 0.5
     },
     "economy": {
-        "cash": 29,
+        "cash": 33,
         "keys": 0
     },
     "level": {
@@ -130,11 +130,11 @@
         "unlockAllLevels": false
     },
     "setting": {
-        "musicSetting": false,
+        "musicSetting": true,
         "soundSetting": true,
         "vibrationSetting": true,
-        "musicVolume": 1.0,
-        "effectsVolume": 1.0
+        "musicVolume": 0.0,
+        "effectsVolume": 0.0
     },
     "profile": {
         "profileIndex": 0,

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class DropoffPoint : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] VibrationController vibrationController;
     public Passenger passenger;
     public Transform carDoorPoint;
     public Transform exitWalkTarget;
@@ -69,7 +70,8 @@ public class DropoffPoint : MonoBehaviour
 
             AudioManager.Instance?.PlayUI("DropOff");
 
-         //   MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+            vibrationController.SuccessVibration();
+            LogHelper.Log("drop off point vibration called");
 
             isCarInRange = true;
             currentCar = car;

@@ -1,5 +1,6 @@
 //using MoreMountains.NiceVibrations;
 using UnityEngine;
+using Lofelt.NiceVibrations;
 
 public class CarCollision : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CarCollision : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody carRigidbody;
     [SerializeField] private SplineCarController splineController;
+    [SerializeField] private VibrationController vibrationController;
 
     private Transform carBodyTransform;
     private bool hasCrashed = false;
@@ -145,6 +147,11 @@ public class CarCollision : MonoBehaviour
             if (!hasCrashed)
             {
                 AudioManager.Instance?.PlaySFX("CarCrash");
+
+            // Vibration on car crash
+                if (isPlayer && vibrationController != null)
+                    vibrationController.LooseVibration();
+                    LogHelper.Log("car crash vibration called");
 
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);
