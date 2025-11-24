@@ -2337,6 +2337,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4446538183318362355, guid: 14b81319e9b519f478893fbe09308c6a, type: 3}
+      propertyPath: passenger
+      value: 
+      objectReference: {fileID: 2104554574}
+    - target: {fileID: 4446538183318362355, guid: 14b81319e9b519f478893fbe09308c6a, type: 3}
+      propertyPath: carDoorPoint
+      value: 
+      objectReference: {fileID: 1312831475}
     - target: {fileID: 9123102870242159985, guid: 14b81319e9b519f478893fbe09308c6a, type: 3}
       propertyPath: m_Name
       value: pickup point
@@ -6559,7 +6567,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1217431449}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnRestartButtonPressed
+        m_MethodName: RetryButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9828,7 +9836,16 @@ PrefabInstance:
     - {fileID: -5899413249992296526, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1550846653046909007, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104554574}
+    - targetCorrespondingSourceObject: {fileID: 1550846653046909007, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104554573}
+    - targetCorrespondingSourceObject: {fileID: 1550846653046909007, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104554572}
   m_SourcePrefab: {fileID: 100100000, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
 --- !u!4 &432622047 stripped
 Transform:
@@ -16261,7 +16278,7 @@ GameObject:
   - component: {fileID: 757544311}
   - component: {fileID: 757544312}
   m_Layer: 0
-  m_Name: Level_Manager_Temporary
+  m_Name: Level_Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16297,7 +16314,7 @@ MonoBehaviour:
   allLevels:
   - {fileID: 714980088}
   - {fileID: 572585208}
-  loadFirstLevelOnStart: 0
+  playerCar: {fileID: 1990154358}
 --- !u!1001 &760541958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22656,29 +22673,13 @@ PrefabInstance:
       addedObject: {fileID: 1146054165}
     - targetCorrespondingSourceObject: {fileID: 1550846653046909007, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1146054164}
+      addedObject: {fileID: 1146054168}
   m_SourcePrefab: {fileID: 100100000, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
 --- !u!4 &1146054163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4903416363237408232, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
   m_PrefabInstance: {fileID: 1146054162}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1146054164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802823765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c8b946e52af5140b98ec5ed795896f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Passenger
-  moveSpeed: 3
-  exitWalkTarget: {fileID: 860433186}
-  currentState: 0
-  animator: {fileID: 0}
 --- !u!65 &1146054165
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22722,11 +22723,27 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1146054168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802823765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c8b946e52af5140b98ec5ed795896f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Passenger
+  moveSpeed: 3
+  exitWalkTarget: {fileID: 0}
+  currentState: 0
+  animator: {fileID: 0}
 --- !u!1001 &1146142108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24276,6 +24293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 026c707fe44f65144a6068fc6685ebcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  dataManager: {fileID: 1406269475}
+  levelManager: {fileID: 757544312}
   mainMenuPanel: {fileID: 407129171}
   levelSuccessScreen: {fileID: 507560320}
   levelFailScreen: {fileID: 966980271}
@@ -29660,6 +29679,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1499622628}
     m_Modifications:
+    - target: {fileID: 2755577933816672297, guid: 1c79d353d7344dd41b44c9851f3f744e, type: 3}
+      propertyPath: passenger
+      value: 
+      objectReference: {fileID: 1146054168}
+    - target: {fileID: 2755577933816672297, guid: 1c79d353d7344dd41b44c9851f3f744e, type: 3}
+      propertyPath: carDoorPoint
+      value: 
+      objectReference: {fileID: 1312831475}
+    - target: {fileID: 2755577933816672297, guid: 1c79d353d7344dd41b44c9851f3f744e, type: 3}
+      propertyPath: exitWalkTarget
+      value: 
+      objectReference: {fileID: 1344015486}
     - target: {fileID: 5039733964083282523, guid: 1c79d353d7344dd41b44c9851f3f744e, type: 3}
       propertyPath: m_Name
       value: dropoff point
@@ -32209,9 +32240,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 757544312}
-        m_TargetAssemblyTypeName: LevelManager_Temporary, Assembly-CSharp
-        m_MethodName: LoadNextLevel
+      - m_Target: {fileID: 1217431449}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: NextButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41336,6 +41367,77 @@ RectTransform:
   m_AnchoredPosition: {x: -5.0000305, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2104554570 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1550846653046909007, guid: 3081b2e8476d3324d9294fc350dda5d5, type: 3}
+  m_PrefabInstance: {fileID: 432622046}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &2104554572
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104554570}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &2104554573
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104554570}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2104554574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104554570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c8b946e52af5140b98ec5ed795896f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Passenger
+  moveSpeed: 3
+  exitWalkTarget: {fileID: 0}
+  currentState: 0
+  animator: {fileID: 0}
 --- !u!1 &2104775103
 GameObject:
   m_ObjectHideFlags: 0

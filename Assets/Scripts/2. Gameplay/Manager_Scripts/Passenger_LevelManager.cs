@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PassengerLevelManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PassengerLevelManager : MonoBehaviour
     [Header("UI References (Optional)")]
     public TMPro.TextMeshProUGUI passengerCountText;
 
+//Change To actions if not needed in inspector 
+// Move to static events class
     [Header("Events")]
     public UnityEvent onLevelStart;
     public UnityEvent onLevelSuccess;
@@ -138,13 +141,9 @@ public class PassengerLevelManager : MonoBehaviour
         levelActive = false;
 
         LogHelper.Log("[PassengerLevelManager] LEVEL SUCCESS! All passengers delivered!");
-
-        LevelManager_Temporary.Instance?.OnLevelCompleted();
-        UIManager.Instance?.ShowLevelSuccess();
-
+        StaticEvents.GameEvents.OnGameWin?.Invoke();
+        // Check if this sound me be played using OnGameWin subscription in AudioManager
         AudioManager.Instance?.PlayUI("LevelComplete");
-        onLevelSuccess?.Invoke();
-
     }
 
     public void FailLevel(string reason = "Level Failed")
@@ -155,21 +154,11 @@ public class PassengerLevelManager : MonoBehaviour
         levelActive = false;
 
         LogHelper.Log($"[PassengerLevelManager] LEVEL FAILED: {reason}");
-
+        StaticEvents.GameEvents.OnGameLoose?.Invoke();
+        // Check if this sound me be played using OnGameLoose subscription in AudioManager
         AudioManager.Instance?.PlayUI("LevelFailed");
-        onLevelFail?.Invoke();
 
-        Invoke(nameof(ReloadLevel), 2f);
     }
-
-    private void ReloadLevel()
-    {
-        if (LevelManager_Temporary.Instance != null)
-        {
-            LevelManager_Temporary.Instance.ReloadCurrentLevel();
-        }
-    }
-
     public void OnCarDestroyed()
     {
         FailLevel("Car destroyed!");

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class LevelUnlockData
 {
-    public int unlockedLevelNumber;
+    public int unlockedLevelIndex;
     public int levelAttemptRate;
     public bool unlockAllLevels;
 
@@ -12,7 +12,7 @@ public class LevelUnlockData
     {
         unlockAllLevels = false;
         levelAttemptRate = 1;
-        unlockedLevelNumber = 1;
+        unlockedLevelIndex = 0;
     }
 
     public void SetUnlockAllLevel()
@@ -25,14 +25,14 @@ public class LevelUnlockData
         return unlockAllLevels;
     }
 
-    public void SetUnlockedLevelNumber(int value)
+    public void SetUnlockedLevelIndex(int value)
     {
-        unlockedLevelNumber = value;
+        unlockedLevelIndex = value;
     }
 
-    public int GetUnlockedLevelNumber()
+    public int GetUnlockedLevelIndex()
     {
-        return unlockedLevelNumber;
+        return unlockedLevelIndex;
     }
 
     public void SetLevelAttemptRate(int count)

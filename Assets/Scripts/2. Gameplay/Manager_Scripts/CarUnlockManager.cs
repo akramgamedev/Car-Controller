@@ -45,12 +45,12 @@ public class CarUnlockManager : MonoBehaviour
 
     void OnEnable()
     {
-        StaticEvents.GameEvents.OnLevelComplete += OnLevelCompleted;
+        StaticEvents.GameEvents.OnGameWin += OnLevelCompleted;
     }
 
     void OnDisable()
     {
-        StaticEvents.GameEvents.OnLevelComplete -= OnLevelCompleted;
+        StaticEvents.GameEvents.OnGameWin -= OnLevelCompleted;
     }
 
     void Start()

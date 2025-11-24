@@ -38,4 +38,8 @@ public class LogHelper : MonoBehaviour
         if (instance != null && instance.enableLogs)
             Debug.LogWarning(message);
     }
+    // Add different Categories of Log here 
+    // Say ,
+    //  ads log
+    //  Game Logic Log
 }

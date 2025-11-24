@@ -33,7 +33,7 @@ public class CarGridUI : MonoBehaviour
     void OnEnable()
     {
         StaticEvents.CarUnlockEvents.OnCarUnlocked += OnCarUnlocked;
-        StaticEvents.GameEvents.OnLevelComplete += OnLevelComplete;
+        StaticEvents.GameEvents.OnGameWin += OnLevelComplete;
         StaticEvents.GameEconomy.OnCurrencyChange += OnCurrencyChanged;
 
 
@@ -44,7 +44,7 @@ public class CarGridUI : MonoBehaviour
     void OnDisable()
     {
         StaticEvents.CarUnlockEvents.OnCarUnlocked -= OnCarUnlocked;
-        StaticEvents.GameEvents.OnLevelComplete -= OnLevelComplete;
+        StaticEvents.GameEvents.OnGameWin -= OnLevelComplete;
         StaticEvents.GameEconomy.OnCurrencyChange -= OnCurrencyChanged;
     }
 

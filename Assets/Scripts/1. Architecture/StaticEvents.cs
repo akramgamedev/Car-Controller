@@ -7,14 +7,12 @@ public sealed partial class StaticEvents
 {
     public static class GameEvents
     {
-        public static Action OnMainMenu;
-        public static Action OnGameplay;
-        public static Action OnGameWin;
+        public static Action OnMainMenu; // On Main Menu Screen
+        public static Action OnGameplay;// On Gameplay Screen
+        public static Action OnGameWin; //On Game Win Screen
         public static Action OnGameLoose;
         public static Action OnGamePause;
         public static Action OnGameResume;
-        public static Action OnLevelComplete;
-        // public static Action<int> OnLevelTaskComplete;
     }
     public static class GameEconomy
     {

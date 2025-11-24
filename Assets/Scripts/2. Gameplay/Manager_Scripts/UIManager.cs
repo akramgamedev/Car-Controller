@@ -9,6 +9,9 @@ using System;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+    [Header("Managers")]
+    [SerializeField] DataManager dataManager;
+    [SerializeField] LevelManager levelManager;
 
     [Header("UI Panels")]
     [SerializeField] private GameObject mainMenuPanel;
@@ -59,11 +62,17 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         StaticEvents.GameEconomy.OnCurrencyChange += OnCurrencyChanged;
+        StaticEvents.GameEvents.OnGameWin += OnLevelComplete;
+        StaticEvents.GameEvents.OnGameLoose += OnGameLoose;
+        StaticEvents.GameEvents.OnGameplay += OnGameStart;
     }
 
     void OnDisable()
     {
         StaticEvents.GameEconomy.OnCurrencyChange -= OnCurrencyChanged;
+        StaticEvents.GameEvents.OnGameWin -= OnLevelComplete;
+        StaticEvents.GameEvents.OnGameLoose -= OnGameLoose;
+        StaticEvents.GameEvents.OnGameplay -= OnGameStart;
     }
 
     private void Start()
@@ -236,21 +245,6 @@ public class UIManager : MonoBehaviour
         UpdateCameraState();
 
     }
-    public void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void ReturnToMainMenu()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Optional
-    }
-
-    public void OnRestartButtonPressed()
-    {
-        RestartLevel();
-    }
-
     private void UpdateCameraState()
     {
         if (worldCanvasCam == null || mainCamera == null) return;
@@ -275,5 +269,30 @@ public class UIManager : MonoBehaviour
     {
         if (KeysText != null)
             KeysText.text = amount.ToString();
+    }
+    void OnGameStart()
+    {
+      //No implementation for now  
+    }
+    void OnLevelComplete()
+    {
+        Invoke(nameof(ShowLevelSuccess),3);
+    }
+    void OnGameLoose()
+    {
+        Invoke(nameof(ShowLevelFail),1);
+    }
+    public void NextButtonPressed()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
+    }
+    //Not Needed For Now
+    public void HomeButtonPressed()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
+    }
+    public void RetryButtonPressed()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }
