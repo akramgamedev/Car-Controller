@@ -9,8 +9,8 @@ public class PassengerLevelManager : MonoBehaviour
     [Tooltip("All pickup-dropoff pairs in this level")]
     public List<PassengerPair> passengers = new List<PassengerPair>();
 
-    [Header("UI References (Optional)")]
-    public TMPro.TextMeshProUGUI passengerCountText;
+    //[Header("UI References (Optional)")]
+    //public TMPro.TextMeshProUGUI passengerCountText;
 
 //Change To actions if not needed in inspector 
 // Move to static events class
@@ -66,7 +66,7 @@ public class PassengerLevelManager : MonoBehaviour
             }
         }
 
-        UpdatePassengerUI();
+        //UpdatePassengerUI();
         onLevelStart?.Invoke();
     }
 
@@ -124,7 +124,7 @@ public class PassengerLevelManager : MonoBehaviour
         LogHelper.Log($"[PassengerLevelManager] Passenger delivered! Progress: {passengersDelivered}/{totalPassengers}");
 
         AudioManager.Instance?.PlayUI("PassengerDropoff");
-        UpdatePassengerUI();
+       // UpdatePassengerUI();
         onPassengerCountChanged?.Invoke(passengersDelivered, totalPassengers);
 
         if (passengersDelivered >= totalPassengers)
@@ -164,13 +164,13 @@ public class PassengerLevelManager : MonoBehaviour
         FailLevel("Car destroyed!");
     }
 
-    private void UpdatePassengerUI()
-    {
-        if (passengerCountText != null)
-        {
-            passengerCountText.text = $"Passengers: {passengersDelivered}/{totalPassengers}";
-        }
-    }
+    // private void UpdatePassengerUI()
+    // {
+    //     if (passengerCountText != null)
+    //     {
+    //         passengerCountText.text = $"Passengers: {passengersDelivered}/{totalPassengers}";
+    //     }
+    // }
 
     public int GetPassengersDelivered() => passengersDelivered;
     public int GetTotalPassengers() => totalPassengers;

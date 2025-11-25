@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class KeyCollectible : MonoBehaviour
 {
-    [SerializeField] private int keyValue = 10;
+    [SerializeField] private int keyValue = 1;
 
     private bool isCollected = false;
 

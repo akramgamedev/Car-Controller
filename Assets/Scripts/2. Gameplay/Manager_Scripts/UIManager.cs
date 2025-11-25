@@ -9,6 +9,9 @@ using System;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+    [Header("Vibration Controller Reference")]
+    [SerializeField] VibrationController vibrationController;
+
     [Header("Managers")]
     [SerializeField] DataManager dataManager;
     [SerializeField] LevelManager levelManager;
@@ -44,7 +47,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Currency UI")]
     [SerializeField] private TextMeshProUGUI coinsText;
-    [SerializeField] private TextMeshProUGUI KeysText;
+    [SerializeField] private Image[] keysSlot;
+    //[SerializeField] private TextMeshProUGUI KeysText;
 
     private bool isGameStarted = false;
     public bool IsGameStarted => isGameStarted;
@@ -197,18 +201,21 @@ public class UIManager : MonoBehaviour
 
     public void ShowSettingsScreen()
     {
+        vibrationController?.ButtonVibration();
         settingsScreen.SetActive(true);
         UpdateCameraState();
     }
 
     public void HideSettingScreen()
     {
+        vibrationController?.ButtonVibration();
         settingsScreen.SetActive(false);
         UpdateCameraState();
     }
 
     public void ShowSelectionScreen()
     {
+        vibrationController?.ButtonVibration();
         selectionScreen.SetActive(true);
         stage.SetActive(true);
         selectedCar.SetActive(true);
@@ -219,6 +226,7 @@ public class UIManager : MonoBehaviour
 
     public void HideSelectionScreen()
     {
+        vibrationController?.ButtonVibration();
         selectionScreen.SetActive(false);
         stage.SetActive(false);
         selectedCar.SetActive(false);
@@ -229,6 +237,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowVIPScreen()
     {
+        vibrationController?.ButtonVibration();
         VIPScreen.SetActive(true);
         mainMenuPanel.SetActive(false);
         cashBar.SetActive(false);
@@ -238,6 +247,7 @@ public class UIManager : MonoBehaviour
 
     public void HideVIPScreen()
     {
+        vibrationController?.ButtonVibration();
         VIPScreen.SetActive(false);
         mainMenuPanel.SetActive(true);
         cashBar.SetActive(true);
@@ -265,34 +275,41 @@ public class UIManager : MonoBehaviour
             coinsText.text = amount.ToString();
     }
 
-    public void UpdateKeysUI(int amount)
+    public void UpdateKeysUI(int keysAmount)
     {
-        if (KeysText != null)
-            KeysText.text = amount.ToString();
+        for (int i = 0; i < keysSlot.Length; i++)
+        {
+            if (keysSlot[i] != null)
+                keysSlot[i].enabled = i < keysAmount;
+        }
     }
+
     void OnGameStart()
     {
-      //No implementation for now  
+        //No implementation for now  
     }
     void OnLevelComplete()
     {
-        Invoke(nameof(ShowLevelSuccess),3);
+        Invoke(nameof(ShowLevelSuccess), 3);
     }
     void OnGameLoose()
     {
-        Invoke(nameof(ShowLevelFail),1);
+        Invoke(nameof(ShowLevelFail), 1);
     }
     public void NextButtonPressed()
     {
+        vibrationController?.ButtonVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
     }
     //Not Needed For Now
     public void HomeButtonPressed()
     {
+        vibrationController?.ButtonVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
     }
     public void RetryButtonPressed()
     {
+        vibrationController?.ButtonVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }

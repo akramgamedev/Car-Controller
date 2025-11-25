@@ -57,7 +57,7 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_2",
                 "pageIndex": 0
@@ -87,7 +87,7 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_7",
                 "pageIndex": 0
@@ -117,15 +117,15 @@
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 1,
+        "completedLevels": 5,
         "progressionFillAmount": 0.5
     },
     "economy": {
-        "cash": 33,
-        "keys": 0
+        "cash": 287,
+        "keys": 4
     },
     "level": {
-        "unlockedLevelIndex": 1,
+        "unlockedLevelIndex": 2,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
@@ -133,8 +133,8 @@
         "musicSetting": true,
         "soundSetting": true,
         "vibrationSetting": true,
-        "musicVolume": 0.0,
-        "effectsVolume": 0.0
+        "musicVolume": 0.5,
+        "effectsVolume": 0.699999988079071
     },
     "profile": {
         "profileIndex": 0,

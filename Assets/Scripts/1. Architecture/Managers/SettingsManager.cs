@@ -117,6 +117,7 @@ public class SettingsManager : MonoBehaviour
         dataManager.SaveGameData();
     }
 
+
     public void OnEffectsVolumeChanged(float volume)
     {
         dataManager.gameData.setting.SetEffectsVolume(volume);

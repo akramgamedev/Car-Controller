@@ -40,7 +40,7 @@ public class CarUnlockManager : MonoBehaviour
         }
         Instance = this;
 
-       
+
     }
 
     void OnEnable()
@@ -146,6 +146,17 @@ public class CarUnlockManager : MonoBehaviour
             if (unlockHandlers[3].TryUnlock(out int unlockedCarIndex))
             {
                 LogHelper.Log($"Successfully unlocked chest car {unlockedCarIndex}!");
+
+                dataManager.gameData.economy.keys = 0;
+
+                //    int currentKeys = StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key);
+
+                StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(
+                    dataManager.gameData.economy.keys,
+                    GlobalEnums.CurrencyType.Key
+                    );
+
+                    dataManager.SaveGameData();
             }
             else
             {

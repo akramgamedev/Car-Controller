@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PageManager : MonoBehaviour
 {
+    [SerializeField] VibrationController vibrationController;
     public GameObject[] pages;
     private int currentPageIndex = 0;
 
@@ -13,6 +14,7 @@ public class PageManager : MonoBehaviour
 
     public void ShowPage(int pageIndex)
     {
+        vibrationController?.ButtonVibration();
         for (int i = 0; i < pages.Length; i++)
         {
             pages[i].SetActive(false);
@@ -27,6 +29,7 @@ public class PageManager : MonoBehaviour
 
     public void NextPage()
     {
+        vibrationController?.ButtonVibration();
         if (currentPageIndex < pages.Length - 1)
         {
             ShowPage(currentPageIndex + 1);
@@ -35,6 +38,7 @@ public class PageManager : MonoBehaviour
 
     public void PreviousPage()
     {
+        vibrationController?.ButtonVibration();
         if (currentPageIndex > 0)
         {
             ShowPage(currentPageIndex - 1);

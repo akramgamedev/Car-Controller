@@ -10,7 +10,7 @@ public class DropoffPoint : MonoBehaviour
     [SerializeField] VibrationController vibrationController;
     public Passenger passenger;
     public Transform carDoorPoint;
-    public Transform exitWalkTarget;
+   // public Transform exitWalkTarget;
     public Transform marker;
     public Transform carBody;
 
@@ -131,8 +131,8 @@ public class DropoffPoint : MonoBehaviour
             passenger.ExitCar(carDoorPoint.position);
             passenger.SetDropoffPoint(this);
 
-            if (exitWalkTarget != null)
-                passenger.exitWalkTarget = exitWalkTarget;
+            // if (exitWalkTarget != null)
+            //     passenger.exitWalkTarget = exitWalkTarget;
         }
         else
         {

@@ -40,7 +40,7 @@ public class GameEconomyManager : MonoBehaviour
                         Keys = 0;
                     dataManager.gameData.economy.SetKeys(Keys);
 
-                    UIManager.Instance?.UpdateCoinsUI(Keys);
+                    UIManager.Instance?.UpdateKeysUI(Keys);
                     break;
                 }
             default:
