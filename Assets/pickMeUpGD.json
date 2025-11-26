@@ -81,7 +81,7 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_6",
                 "pageIndex": 0
@@ -115,13 +115,37 @@
                 "unlockType": 3,
                 "identifier": "vip_car_2",
                 "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_5",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_6",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_7",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_8",
+                "pageIndex": 0
             }
         ],
-        "completedLevels": 5,
+        "completedLevels": 7,
         "progressionFillAmount": 0.5
     },
     "economy": {
-        "cash": 287,
+        "cash": 487,
         "keys": 4
     },
     "level": {

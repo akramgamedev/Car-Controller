@@ -201,21 +201,21 @@ public class UIManager : MonoBehaviour
 
     public void ShowSettingsScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         settingsScreen.SetActive(true);
         UpdateCameraState();
     }
 
     public void HideSettingScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         settingsScreen.SetActive(false);
         UpdateCameraState();
     }
 
     public void ShowSelectionScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         selectionScreen.SetActive(true);
         stage.SetActive(true);
         selectedCar.SetActive(true);
@@ -226,7 +226,7 @@ public class UIManager : MonoBehaviour
 
     public void HideSelectionScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         selectionScreen.SetActive(false);
         stage.SetActive(false);
         selectedCar.SetActive(false);
@@ -237,7 +237,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowVIPScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         VIPScreen.SetActive(true);
         mainMenuPanel.SetActive(false);
         cashBar.SetActive(false);
@@ -247,7 +247,7 @@ public class UIManager : MonoBehaviour
 
     public void HideVIPScreen()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         VIPScreen.SetActive(false);
         mainMenuPanel.SetActive(true);
         cashBar.SetActive(true);
@@ -298,18 +298,18 @@ public class UIManager : MonoBehaviour
     }
     public void NextButtonPressed()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
     }
     //Not Needed For Now
     public void HomeButtonPressed()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex); // Optional 
     }
     public void RetryButtonPressed()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }

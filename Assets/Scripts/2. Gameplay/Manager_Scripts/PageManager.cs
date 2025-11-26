@@ -14,7 +14,7 @@ public class PageManager : MonoBehaviour
 
     public void ShowPage(int pageIndex)
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         for (int i = 0; i < pages.Length; i++)
         {
             pages[i].SetActive(false);
@@ -29,7 +29,7 @@ public class PageManager : MonoBehaviour
 
     public void NextPage()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         if (currentPageIndex < pages.Length - 1)
         {
             ShowPage(currentPageIndex + 1);
@@ -38,7 +38,7 @@ public class PageManager : MonoBehaviour
 
     public void PreviousPage()
     {
-        vibrationController?.ButtonVibration();
+        vibrationController?.SuccessVibration();
         if (currentPageIndex > 0)
         {
             ShowPage(currentPageIndex - 1);
