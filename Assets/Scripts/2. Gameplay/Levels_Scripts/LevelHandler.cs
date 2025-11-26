@@ -39,10 +39,10 @@ public class LevelHandler : MonoBehaviour
             {
                 pathLine.car = playerCar.transform;
                 pathLine.SetSpline(levelSplineContainer);
-                LogHelper.Log($"✓ Path line configured for Level {levelNumber}");
+                LogHelper.Log($"Path line configured for Level {levelNumber}");
             }
 
-            LogHelper.Log($"✓ Spline assigned and initialized for Level {levelNumber}: {levelName}");
+            LogHelper.Log($"Spline assigned and initialized for Level {levelNumber}: {levelName}");
         }
         else
         {

@@ -116,7 +116,7 @@ public class RoadPathLine : MonoBehaviour
 
         for (int i = 0; i < sampleCount; i++)
         {
-            float t = i / (float)(sampleCount - 1); // Normalize to 0-1
+            float t = i / (float)(sampleCount - 1);
 
             Vector3 localPos = currentSpline.Spline.EvaluatePosition(t);
 
@@ -162,6 +162,7 @@ public class RoadPathLine : MonoBehaviour
             {
                 minDist = dist;
                 index = i;
+                            
             }
         }
 
