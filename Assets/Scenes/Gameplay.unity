@@ -14707,6 +14707,7 @@ MonoBehaviour:
   levelCompletionCoins: 100
   levelCompletionKeys: 1
   levelSplineContainer: {fileID: 2008255071}
+  pathLine: {fileID: 605329391}
 --- !u!4 &572585209
 Transform:
   m_ObjectHideFlags: 0
@@ -15045,7 +15046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &605329390
 Transform:
   m_ObjectHideFlags: 0
@@ -15074,24 +15075,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   car: {fileID: 1393089765}
-  roadPoints:
-  - {fileID: 1196367048}
-  - {fileID: 1823247881}
-  - {fileID: 1004735578}
-  - {fileID: 824077223}
-  - {fileID: 1727244398}
-  - {fileID: 756970820}
-  - {fileID: 1146676096}
-  - {fileID: 1577521738}
-  - {fileID: 1687549540}
-  - {fileID: 1369903383}
-  - {fileID: 159546567}
-  yOffset: 0.05
+  yOffset: 0.66
   eraseDistance: 10
-  curveResolution: 20
+  samplesPerUnit: 10
+  minSamples: 100
   lineWidth: 0.8
-  lineColor: {r: 0.1882353, g: 0.19607843, b: 0.23921569, a: 1}
-  updateInPlayMode: 1
+  lineColor: {r: 0.3314347, g: 0.42359227, b: 0.5283019, a: 1}
 --- !u!120 &605329392
 LineRenderer:
   serializedVersion: 2
@@ -17818,6 +17807,7 @@ MonoBehaviour:
   levelCompletionCoins: 25
   levelCompletionKeys: 1
   levelSplineContainer: {fileID: 1728895452}
+  pathLine: {fileID: 605329391}
 --- !u!114 &714980089
 MonoBehaviour:
   m_ObjectHideFlags: 0
