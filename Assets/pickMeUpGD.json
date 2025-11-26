@@ -141,15 +141,15 @@
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 1,
-        "progressionFillAmount": 0.5
+        "completedLevels": 0,
+        "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 29,
+        "cash": 0,
         "keys": 1
     },
     "level": {
-        "unlockedLevelIndex": 1,
+        "unlockedLevelIndex": 0,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },

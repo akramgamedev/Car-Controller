@@ -16,7 +16,7 @@ public class LevelHandler : MonoBehaviour
     [SerializeField] private SplineContainer levelSplineContainer;
 
     [Header("Path Line")]
-    [SerializeField] private RoadPathLine pathLine; // Reference to the path line renderer
+    [SerializeField] private RoadPathLine pathLine;
 
     private bool isActive = false;
 
@@ -35,7 +35,6 @@ public class LevelHandler : MonoBehaviour
         {
             playerCar.SetupNewLevel(levelSplineContainer);
 
-            // Setup path line to follow the same spline
             if (pathLine != null)
             {
                 pathLine.car = playerCar.transform;
@@ -60,7 +59,6 @@ public class LevelHandler : MonoBehaviour
     {
         if (!isActive) return;
 
-        // Clear the path line when deactivating
         if (pathLine != null)
         {
             pathLine.ClearPath();
