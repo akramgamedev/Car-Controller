@@ -242,7 +242,7 @@ public class SplineCarController : MonoBehaviour
         HandleInput();
         HandleMovement();
         HandleDrift();
-        HandleDriftParticles();
+        //HandleDriftParticles();
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
     }
 
@@ -488,14 +488,14 @@ public class SplineCarController : MonoBehaviour
         carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
     }
 
-    void HandleDriftParticles()
-    {
-        if (driftParticles == null) return;
-        bool shouldDrift = Mathf.Abs(currentDriftAngle) > 8f && currentSpeed > minDriftSpeed;
+    // void HandleDriftParticles()
+    // {
+    //     if (driftParticles == null) return;
+    //     bool shouldDrift = Mathf.Abs(currentDriftAngle) > 8f && currentSpeed > minDriftSpeed;
 
-        if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
-        else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
-    }
+    //     if (shouldDrift && !driftParticles.isPlaying) driftParticles.Play();
+    //     else if (!shouldDrift && driftParticles.isPlaying) driftParticles.Stop();
+    // }
 
     public void SetTouchEnabled(bool enabled)
     {

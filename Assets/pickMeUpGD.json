@@ -121,35 +121,17 @@
                 "unlockType": 2,
                 "identifier": "progression_car_8",
                 "pageIndex": 0
-            },
-            {
-                "isUnlocked": false,
-                "unlockType": 3,
-                "identifier": "vip_car_0",
-                "pageIndex": 0
-            },
-            {
-                "isUnlocked": false,
-                "unlockType": 3,
-                "identifier": "vip_car_1",
-                "pageIndex": 0
-            },
-            {
-                "isUnlocked": false,
-                "unlockType": 3,
-                "identifier": "vip_car_2",
-                "pageIndex": 0
             }
         ],
-        "completedLevels": 1,
-        "progressionFillAmount": 0.5
+        "completedLevels": 0,
+        "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 29,
-        "keys": 1
+        "cash": 8,
+        "keys": 5
     },
     "level": {
-        "unlockedLevelIndex": 1,
+        "unlockedLevelIndex": 0,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
