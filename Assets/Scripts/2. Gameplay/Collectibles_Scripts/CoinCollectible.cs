@@ -3,6 +3,7 @@ using UnityEngine;
 public class CoinCollectible : MonoBehaviour
 {
     [SerializeField] private int coinValue = 10;
+    [SerializeField] private ParticleSystem cashParticle;
 
     private bool isCollected = false;
 
@@ -15,6 +16,7 @@ public class CoinCollectible : MonoBehaviour
             isCollected = true;
             StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(coinValue, GlobalEnums.CurrencyType.Coin);
             AudioManager.Instance?.PlaySFX("CashRegister");
+            cashParticle.Play();
             gameObject.SetActive(false);
         }
     }
