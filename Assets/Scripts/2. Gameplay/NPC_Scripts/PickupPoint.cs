@@ -179,7 +179,6 @@ public class PickupPoint : MonoBehaviour
         isMarkerRotating = false;
         markerRotationTimer = 0f;
 
-        // Reset marker rotation and show it
         if (marker != null)
         {
             marker.rotation = markerOriginalRotation;
@@ -195,17 +194,14 @@ public class PickupPoint : MonoBehaviour
         {
             markerRotationTimer += Time.deltaTime;
 
-            // Rotate for the specified duration
             if (markerRotationTimer < markerRotateDuration)
             {
                 marker.Rotate(Vector3.forward * markerRotateSpeed * Time.deltaTime, Space.Self);
             }
             else
             {
-                // After duration, smoothly return to original rotation
                 marker.rotation = Quaternion.Slerp(marker.rotation, markerOriginalRotation, Time.deltaTime * 5f);
 
-                // Stop rotating once close enough to original rotation
                 if (Quaternion.Angle(marker.rotation, markerOriginalRotation) < 1f)
                 {
                     marker.rotation = markerOriginalRotation;

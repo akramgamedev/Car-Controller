@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CarSkidMarks : MonoBehaviour
 {
+    [Header("Trail Material")]
+    public Material trailMaterial;
+
     [Header("Trail Color Settings")]
     public Color trailColor = Color.black;
     [Range(0f, 1f)] public float trailAlpha = 0.9f;
@@ -23,6 +26,8 @@ public class CarSkidMarks : MonoBehaviour
     private GameObject leftTrailObject;
     private GameObject rightTrailObject;
     private Transform carChild;
+
+    public bool IsShowingTrails { get; private set; } = false;
 
 
 
@@ -116,15 +121,25 @@ public class CarSkidMarks : MonoBehaviour
         AnimationCurve widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
         trail.widthCurve = widthCurve;
 
-        trail.material = new Material(Shader.Find("Sprites/Default"));
+        //trail.material = new Material(Shader.Find("Sprites/Default"));
+        if (trailMaterial != null)
+        {
+            trail.material = trailMaterial;
+        }
+        else
+        {
+            LogHelper.LogWarning("Trail material not assigned! Using default.");
+            //trail.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
         trail.material.color = trailColor;
         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         trail.receiveShadows = false;
 
-        trail.alignment = LineAlignment.View; // safer: aligns with camera view; avoids transform Z issues
+        trail.alignment = LineAlignment.View;
         trail.transform.localRotation = Quaternion.identity;
         trail.textureMode = LineTextureMode.Stretch;
-        trail.minVertexDistance = 0.05f; // smaller so trails are continuous for small wheel motion
+        trail.minVertexDistance = 0.05f;
         trail.generateLightingData = false;
     }
 
@@ -205,6 +220,8 @@ public class CarSkidMarks : MonoBehaviour
         rightTrail.emitting = shouldShowTrails;
 
         leftTrail.startWidth = rightTrail.startWidth = rightTrail.endWidth = leftTrail.endWidth = trailWidth;
+
+        IsShowingTrails = shouldShowTrails;
 
         previousSpeed = currentSpeed;
 

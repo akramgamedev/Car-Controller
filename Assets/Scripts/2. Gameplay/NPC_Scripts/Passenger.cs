@@ -32,7 +32,6 @@ public class Passenger : MonoBehaviour
         originalPosition = transform.position;
         originalRotation = transform.rotation;
         
-        // Try to get animator if not assigned
         if (animator == null)
         {
             animator = GetComponent<Animator>();

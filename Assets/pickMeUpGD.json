@@ -81,7 +81,7 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_2",
                 "pageIndex": 0
@@ -123,15 +123,15 @@
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 2,
+        "completedLevels": 0,
         "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 134,
+        "cash": 4,
         "keys": 0
     },
     "level": {
-        "unlockedLevelIndex": 2,
+        "unlockedLevelIndex": 0,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },

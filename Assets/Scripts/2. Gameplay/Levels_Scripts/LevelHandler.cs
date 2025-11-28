@@ -80,6 +80,8 @@ public class LevelHandler : MonoBehaviour
         if (levelCompletionCoins > 0)
         {
             StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(levelCompletionCoins, GlobalEnums.CurrencyType.Coin);
+
+            UIManager.Instance.AddCoinsEarned(levelCompletionCoins);
         }
         else
         {

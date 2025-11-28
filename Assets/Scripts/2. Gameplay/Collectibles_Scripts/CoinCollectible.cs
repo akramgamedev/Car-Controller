@@ -15,6 +15,7 @@ public class CoinCollectible : MonoBehaviour
         {
             isCollected = true;
             StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(coinValue, GlobalEnums.CurrencyType.Coin);
+            UIManager.Instance.AddCoinsEarned(coinValue);
             AudioManager.Instance?.PlaySFX("CashRegister");
             cashParticle.Play();
             gameObject.SetActive(false);

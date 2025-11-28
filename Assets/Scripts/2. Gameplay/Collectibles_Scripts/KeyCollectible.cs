@@ -3,7 +3,7 @@ using UnityEngine;
 public class KeyCollectible : MonoBehaviour
 {
     [SerializeField] private int keyValue = 1;
-    [SerializeField] private ParticleSystem keyParticle;
+    // [SerializeField] private ParticleSystem keyParticle;
 
     private bool isCollected = false;
 
@@ -15,7 +15,7 @@ public class KeyCollectible : MonoBehaviour
         {
             isCollected = true;
             StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(keyValue, GlobalEnums.CurrencyType.Key);
-            keyParticle.Play();
+            //       keyParticle.Play();
             AudioManager.Instance?.PlaySFX("CashRegister");
             gameObject.SetActive(false);
         }

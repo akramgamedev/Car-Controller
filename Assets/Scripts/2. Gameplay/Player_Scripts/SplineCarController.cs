@@ -6,6 +6,11 @@ using DG.Tweening;
 [RequireComponent(typeof(CarSkidMarks))]
 public class SplineCarController : MonoBehaviour
 {
+    [Header("Car Sound Settings")]
+    [SerializeField] private float minEnginePitch = 0.6f;
+    [SerializeField] private float maxEnginePitch = 1.8f;
+    private bool engineSoundPlaying = false;
+
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
     public bool loopSpline = false;
@@ -49,6 +54,8 @@ public class SplineCarController : MonoBehaviour
     public float centerReturnSpeed = 0.12f;
     [Range(0f, 1f)]
     public float frontPivotRatio = 0.3f;
+    [Header("Drift Sound Settings")]
+    public float trailStartAngle = 12f;
 
     private Rigidbody rb;
     private float totalSplineLength;
@@ -60,6 +67,7 @@ public class SplineCarController : MonoBehaviour
     private float highSpeedTimer = 0f;
 
     private CarSkidMarks skidMarks;
+    private bool driftSoundPlaying = false;
 
     [Header("Car Stopping")]
     public bool forceStopped = false;
@@ -80,6 +88,36 @@ public class SplineCarController : MonoBehaviour
         skidMarks = GetComponent<CarSkidMarks>();
 
         InitializeCarChild();
+    }
+
+    void OnDisable()
+    {
+        if (engineSoundPlaying)
+        {
+            AudioManager.Instance.StopCarEngine();
+            engineSoundPlaying = false;
+        }
+
+        if (driftSoundPlaying)
+        {
+            AudioManager.Instance.StopCarDrift();
+            driftSoundPlaying = false;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (engineSoundPlaying)
+        {
+            AudioManager.Instance.StopCarEngine();
+            engineSoundPlaying = false;
+        }
+        if (driftSoundPlaying)
+        {
+            AudioManager.Instance.StopCarDrift();
+            driftSoundPlaying = false;
+        }
+
     }
 
     private void InitializeCarChild()
@@ -242,8 +280,10 @@ public class SplineCarController : MonoBehaviour
         HandleInput();
         HandleMovement();
         HandleDrift();
+        HandleEngineSound();
         //HandleDriftParticles();
         skidMarks.HandleDriftTrails(isTouching, currentSpeed, currentDriftAngle, ref previousSpeed, ref highSpeedTimer);
+        HandleDriftSound();
     }
 
     void HandleInput()
@@ -486,6 +526,61 @@ public class SplineCarController : MonoBehaviour
         }
 
         carChild.localRotation = Quaternion.Euler(0f, currentDriftAngle, 0f);
+    }
+
+    void HandleDriftSound()
+    {
+        if (!gameStarted) return;
+
+        // Sync directly with skid marks trail state
+        bool shouldPlayDrift = skidMarks.IsShowingTrails;
+
+        if (shouldPlayDrift && !driftSoundPlaying)
+        {
+            float intensity = Mathf.Clamp01(Mathf.Abs(currentDriftAngle) / maxDriftAngle);
+            if (intensity < 0.4f) intensity = 0.5f; // Minimum intensity for braking
+
+            AudioManager.Instance.PlayCarDrift(intensity);
+            driftSoundPlaying = true;
+        }
+        else if (shouldPlayDrift && driftSoundPlaying)
+        {
+            // Update drift sound intensity dynamically
+            float intensity = Mathf.Clamp01(Mathf.Abs(currentDriftAngle) / maxDriftAngle);
+            if (intensity < 0.4f) intensity = 0.5f;
+
+            AudioManager.Instance.PlayCarDrift(intensity);
+        }
+        else if (!shouldPlayDrift && driftSoundPlaying)
+        {
+            AudioManager.Instance.StopCarDrift();
+            driftSoundPlaying = false;
+        }
+    }
+
+    void HandleEngineSound()
+    {
+        if (!gameStarted) return;
+
+        if (currentSpeed > 0.1f && !engineSoundPlaying)
+        {
+            AudioManager.Instance.PlayCarEngine("CarEngine", minEnginePitch);
+            engineSoundPlaying = true;
+        }
+        if (currentSpeed <= 0.1f && engineSoundPlaying)
+        {
+            AudioManager.Instance.StopCarEngine();
+            engineSoundPlaying = false;
+            return;
+        }
+
+        if (engineSoundPlaying)
+        {
+            float speedRatio = Mathf.InverseLerp(0f, maxSpeed, currentSpeed);
+            float targetPitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, speedRatio);
+            AudioManager.Instance.PlayCarEngine("CarEngine", targetPitch);
+        }
+
     }
 
     // void HandleDriftParticles()

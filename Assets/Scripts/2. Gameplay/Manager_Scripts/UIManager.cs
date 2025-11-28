@@ -47,8 +47,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Currency UI")]
     [SerializeField] private TextMeshProUGUI coinsText;
+    [SerializeField] private TextMeshProUGUI levelEarningsText;
     [SerializeField] private Image[] keysSlot;
     //[SerializeField] private TextMeshProUGUI KeysText;
+
+    private int levelCoinsEarned = 0;
 
     private bool isGameStarted = false;
     public bool IsGameStarted => isGameStarted;
@@ -168,7 +171,11 @@ public class UIManager : MonoBehaviour
         seq.Join(rect.DOLocalMoveZ(-600f, 0.6f).SetEase(Ease.InOutCubic));
         seq.Join(cg.DOFade(0, 0.65f));
 
-        seq.OnComplete(() => { mainMenuPanel.SetActive(false); });
+        seq.OnComplete(() =>
+        {
+            mainMenuPanel.SetActive(false);
+            AudioManager.Instance.PlayLoop("BGMusic");
+        });
 
         hud.SetActive(true);
         UpdateCameraState();
@@ -178,8 +185,14 @@ public class UIManager : MonoBehaviour
     {
         UpdateCoinsUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin));
         UpdateKeysUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key));
+
+        if (levelEarningsText != null)
+        {
+            levelEarningsText.text = "$" + levelCoinsEarned.ToString();
+        }
         //hud.SetActive(false);
         levelSuccessScreen.SetActive(true);
+        levelCoinsEarned = 0;
         UpdateCameraState();
     }
     public void HideLevelSuccessScreen()
@@ -269,6 +282,11 @@ public class UIManager : MonoBehaviour
         mainCamera.gameObject.SetActive(!shouldEnableCamera);
     }
 
+    public void AddCoinsEarned(int amount)
+    {
+        levelCoinsEarned += amount;
+    }
+
     public void UpdateCoinsUI(int amount)
     {
         if (coinsText != null)
@@ -290,10 +308,14 @@ public class UIManager : MonoBehaviour
     }
     void OnLevelComplete()
     {
+        AudioManager.Instance.StopLoop();
+
         Invoke(nameof(ShowLevelSuccess), 3);
     }
     void OnGameLoose()
     {
+        AudioManager.Instance.StopLoop();
+
         Invoke(nameof(ShowLevelFail), 1);
     }
     public void NextButtonPressed()
