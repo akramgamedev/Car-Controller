@@ -95,7 +95,8 @@ public class RoadPathLine : MonoBehaviour
         line.startWidth = lineWidth;
         line.endWidth = lineWidth;
 
-        var mat = new Material(Shader.Find("Unlit/Color"));
+        // var mat = new Material(Shader.Find("Unlit/Color"));
+        var mat = new Material(Shader.Find("Sprites/Default"));
         mat.color = lineColor;
         line.material = mat;
     }
@@ -162,7 +163,7 @@ public class RoadPathLine : MonoBehaviour
             {
                 minDist = dist;
                 index = i;
-                            
+
             }
         }
 
