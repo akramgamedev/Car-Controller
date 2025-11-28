@@ -84,7 +84,7 @@ public class CountryLevelIndicator : MonoBehaviour
 
         UpdateBars();
 
-        Debug.Log($"[Country Indicator] Country: {countries[currentCountryIndex].countryName} | " +
+        LogHelper.Log($"[Country Indicator] Country: {countries[currentCountryIndex].countryName} | " +
                   $"Level: {currentLevelInCountry + 1}/{countries[currentCountryIndex].levelCount}");
     }
 

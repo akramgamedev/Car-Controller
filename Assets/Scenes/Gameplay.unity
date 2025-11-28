@@ -17577,7 +17577,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 7ff81d3a3e8c8cf48a73b62fdc5704cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17647,7 +17647,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -47816,8 +47816,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2089443, y: 1.1945508, z: 5.1293125}
-  m_Center: {x: 0.00000005960466, y: 0.7604492, z: 0.11834338}
+  m_Size: {x: 2.2089443, y: 1.328021, z: 5.1293125}
+  m_Center: {x: 0.00000011920929, y: 0.693714, z: 0.11834335}
 --- !u!1 &1806557254
 GameObject:
   m_ObjectHideFlags: 0

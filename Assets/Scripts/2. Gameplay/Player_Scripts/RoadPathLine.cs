@@ -94,11 +94,6 @@ public class RoadPathLine : MonoBehaviour
         line.useWorldSpace = true;
         line.startWidth = lineWidth;
         line.endWidth = lineWidth;
-
-        // var mat = new Material(Shader.Find("Unlit/Color"));
-        var mat = new Material(Shader.Find("Sprites/Default"));
-        mat.color = lineColor;
-        line.material = mat;
     }
 
     private void RegeneratePath()
