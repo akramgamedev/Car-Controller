@@ -10,7 +10,7 @@ public class TrafficTriggerZone : MonoBehaviour
 
     [Header("Trigger Settings")]
     [SerializeField] private bool oneTimeActivation = true;
-    // [SerializeField] private bool stopCarsOnExit = false;
+    //[SerializeField] private bool stopCarsOnExit = false;
 
     private bool hasBeenTriggered = false;
 
