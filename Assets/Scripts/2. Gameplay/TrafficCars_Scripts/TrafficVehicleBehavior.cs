@@ -6,8 +6,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
     [SerializeField] private float normalSpeed = 10f;
 
     [Header("Horn Settings")]
-    //[SerializeField] private AudioSource hornAudioSource;
-    // [SerializeField] private float hornCooldown = 3f;
 
     [SerializeField] private float hornInterval = 1f;
 
@@ -15,7 +13,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
     [SerializeField] private TrafficVehicle trafficVehicle;
     [SerializeField] private ForwardTrafficCar forwardTrafficCar;
 
-    // private float lastHornTime = 0f;
     private bool isStopped = false;
     private bool isSlowing = false;
     private Coroutine hornCoroutine;
@@ -32,10 +29,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
             forwardTrafficCar = GetComponent<ForwardTrafficCar>();
         }
 
-        // if (hornAudioSource == null)
-        // {
-        //     hornAudioSource = GetComponent<AudioSource>();
-        // }
 
         LogHelper.Log($"TrafficVehicleBehavior initialized on {gameObject.name}");
     }
@@ -62,7 +55,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
             StopCoroutine(hornCoroutine);
         }
         hornCoroutine = StartCoroutine(HornRepeatedly());
-        //PlayHorn();
 
     }
 
@@ -124,24 +116,8 @@ public class TrafficVehicleBehavior : MonoBehaviour
 
     private void PlayHorn()
     {
-        //if (Time.time - lastHornTime < hornCooldown) return;
-
         AudioManager.Instance.PlaySFX("CarBeep");
-        //lastHornTime = Time.time;
-
         LogHelper.Log($"Horn played (AudioManager) on {gameObject.name}");
-
-        // if (hornAudioSource != null && hornClip != null)
-        // {
-        //     hornAudioSource.PlayOneShot(hornClip);
-        //     lastHornTime = Time.time;
-        //     LogHelper.Log($"Horn played on {gameObject.name}");
-        // }
-        // else if (AudioManager.Instance != null)
-        // {
-        //     AudioManager.Instance.PlaySFX("CarBeep");
-        //     lastHornTime = Time.time;
-        // }
     }
 
     private void OnDrawGizmosSelected()
@@ -157,109 +133,3 @@ public class TrafficVehicleBehavior : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + leftBound);
     }
 }
-
-
-// using UnityEngine;
-
-// public class TrafficVehicleBehavior : MonoBehaviour
-// {
-//     [Header("Speed Settings")]
-//     [SerializeField] private float normalSpeed = 10f;
-
-//     [Header("Horn Settings")]
-//     [SerializeField] private AudioSource hornAudioSource;
-//     [SerializeField] private AudioClip hornClip;
-//     [SerializeField] private float hornCooldown = 3f;
-
-//     [Header("References")]
-//     [SerializeField] private TrafficVehicle trafficVehicle;
-//     [SerializeField] private ForwardTrafficCar forwardTrafficCar;
-
-//     private float lastHornTime = 0f;
-//     private bool isStopped = false;
-//     private bool isSlowing = false;
-
-//     private void Start()
-//     {
-//         if (trafficVehicle == null)
-//         {
-//             trafficVehicle = GetComponent<TrafficVehicle>();
-//         }
-
-//         if (forwardTrafficCar == null)
-//         {
-//             forwardTrafficCar = GetComponent<ForwardTrafficCar>();
-//         }
-
-//         if (hornAudioSource == null)
-//         {
-//             hornAudioSource = GetComponent<AudioSource>();
-//         }
-//     }
-
-//     public void StopForPlayer()
-//     {
-//         if (isStopped) return;
-
-//         isStopped = true;
-//         isSlowing = false;
-
-//         if (trafficVehicle != null)
-//         {
-//             trafficVehicle.StopMoving();
-//         }
-
-//         PlayHorn();
-//         LogHelper.Log($"{gameObject.name} stopped for player");
-//     }
-
-//     public void SlowForPlayer(float slowSpeed)
-//     {
-//         if (isStopped || isSlowing) return;
-
-//         isSlowing = true;
-
-//         if (forwardTrafficCar != null)
-//         {
-//             forwardTrafficCar.SetSpeed(slowSpeed);
-//         }
-
-//         LogHelper.Log($"{gameObject.name} slowing down");
-//     }
-
-//     public void ResumeNormalSpeed()
-//     {
-//         if (!isStopped && !isSlowing) return;
-
-//         isStopped = false;
-//         isSlowing = false;
-
-//         if (trafficVehicle != null)
-//         {
-//             trafficVehicle.StartMoving();
-//         }
-
-//         if (forwardTrafficCar != null)
-//         {
-//             forwardTrafficCar.SetSpeed(normalSpeed);
-//         }
-
-//         LogHelper.Log($"{gameObject.name} resumed normal speed");
-//     }
-
-//     private void PlayHorn()
-//     {
-//         if (Time.time - lastHornTime < hornCooldown) return;
-
-//         if (hornAudioSource != null && hornClip != null)
-//         {
-//             hornAudioSource.PlayOneShot(hornClip);
-//             lastHornTime = Time.time;
-//         }
-//         else if (AudioManager.Instance != null)
-//         {
-//             AudioManager.Instance.PlaySFX("CarHorn");
-//             lastHornTime = Time.time;
-//         }
-//     }
-// }
