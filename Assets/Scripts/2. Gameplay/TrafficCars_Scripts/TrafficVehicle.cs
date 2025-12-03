@@ -9,7 +9,7 @@ public abstract class TrafficVehicle : MonoBehaviour
     [SerializeField] protected bool saveInitialPosition = true;
 
     protected bool isMoving = false;
-    protected bool isDisabled = false;
+    public bool IsDisabled => isDisabled;
 
     private Vector3 initialPosition;
     private Quaternion initialRotation;
