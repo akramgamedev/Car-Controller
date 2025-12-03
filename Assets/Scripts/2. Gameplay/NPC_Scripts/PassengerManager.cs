@@ -38,7 +38,7 @@ public class PassengerManager : MonoBehaviour
         }
         
         onPassengerPickedUp?.Invoke();
-        Debug.Log($"Passenger picked up! Total: {passengersPickedUp}");
+        LogHelper.Log($"Passenger picked up! Total: {passengersPickedUp}");
     }
     
     private void OnPassengerDroppedOff()
@@ -51,7 +51,7 @@ public class PassengerManager : MonoBehaviour
         }
         
         onPassengerDroppedOff?.Invoke();
-        Debug.Log($"Passenger dropped off! Total: {passengersDroppedOff}");
+        LogHelper.Log($"Passenger dropped off! Total: {passengersDroppedOff}");
     }
     
     public void ResetAllPoints()

@@ -51,7 +51,7 @@ public class DataManager : MonoBehaviour
         gameData = saveData.Load<GameData>();
         if (gameData == null)
         {
-            Debug.LogError("DataNotSaved");
+            LogHelper.LogError("DataNotSaved");
             SaveWithDefaultValues();
             return;
         }

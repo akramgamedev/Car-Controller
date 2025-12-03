@@ -24,19 +24,19 @@ public class LogHelper : MonoBehaviour
     public static void Log(string message)
     {
         if (instance != null && instance.enableLogs)
-            Debug.Log(message);
+            UnityEngine.Debug.Log(message);
     }
 
     public static void LogError(string message)
     {
         if (instance != null && instance.enableLogs)
-            Debug.LogError(message);
+            UnityEngine.Debug.LogError(message);
     }
 
     public static void LogWarning(string message)
     {
         if (instance != null && instance.enableLogs)
-            Debug.LogWarning(message);
+            UnityEngine.Debug.LogWarning(message);
     }
     // Add different Categories of Log here 
     // Say ,

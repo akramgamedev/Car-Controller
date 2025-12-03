@@ -15,10 +15,10 @@ public class ParticleEffectsLibrary : MonoBehaviour {
 
 		// Warn About Lengths of Arrays not matching
 		if (ParticleEffectSpawnOffsets.Length != TotalEffects) {
-			Debug.LogError ("ParticleEffectsLibrary-ParticleEffectSpawnOffset: Not all arrays match length, double check counts.");
+			LogHelper.LogError ("ParticleEffectsLibrary-ParticleEffectSpawnOffset: Not all arrays match length, double check counts.");
 		}
 		if (ParticleEffectPrefabs.Length != TotalEffects) {
-			Debug.LogError ("ParticleEffectsLibrary-ParticleEffectPrefabs: Not all arrays match length, double check counts.");
+			LogHelper.LogError ("ParticleEffectsLibrary-ParticleEffectPrefabs: Not all arrays match length, double check counts.");
 		}
 
 		// Setup Starting PE Name String

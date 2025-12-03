@@ -66,7 +66,7 @@ namespace EpicToonFX
                 currentProjectile++;
             else
                 currentProjectile = 0;
-			selectedProjectileButton.getProjectileNames();
+            selectedProjectileButton.getProjectileNames();
         }
 
         public void previousEffect() //Changes selected projectile to the previous. Used by UI
@@ -75,7 +75,7 @@ namespace EpicToonFX
                 currentProjectile--;
             else
                 currentProjectile = projectiles.Length - 1;
-			selectedProjectileButton.getProjectileNames();
+            selectedProjectileButton.getProjectileNames();
         }
 
         public void AdjustSpeed(float newSpeed) //Used by UI to set projectile speed

@@ -8,7 +8,8 @@ public abstract class TrafficVehicle : MonoBehaviour
     [Header("Reset Settings")]
     [SerializeField] protected bool saveInitialPosition = true;
 
-    protected bool isMoving = false;
+    public  bool isMoving = false;
+    protected bool isDisabled = false;
     public bool IsDisabled => isDisabled;
 
     private Vector3 initialPosition;
@@ -36,12 +37,14 @@ public abstract class TrafficVehicle : MonoBehaviour
         if (!isDisabled)
         {
             isMoving = true;
+            LogHelper.Log($"{gameObject.name} StartMoving() called - isMoving = {isMoving}");
         }
     }
 
     public virtual void StopMoving()
     {
         isMoving = false;
+        LogHelper.Log($"{gameObject.name} StopMoving() called - isMoving = {isMoving}");
     }
 
     public virtual void DisabledVehicle()

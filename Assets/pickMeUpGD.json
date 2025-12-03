@@ -58,6 +58,114 @@
             },
             {
                 "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_9",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_10",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_11",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_12",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_13",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_14",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_15",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_16",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_17",
+                "pageIndex": 1
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_18",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_19",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_20",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_21",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_22",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_23",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_24",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_25",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 0,
+                "identifier": "cash_car_26",
+                "pageIndex": 2
+            },
+            {
+                "isUnlocked": false,
                 "unlockType": 1,
                 "identifier": "chest_car_0",
                 "pageIndex": 0
@@ -66,6 +174,48 @@
                 "isUnlocked": false,
                 "unlockType": 1,
                 "identifier": "chest_car_1",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_2",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_3",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_4",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_5",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_6",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_7",
+                "pageIndex": 0
+            },
+            {
+                "isUnlocked": false,
+                "unlockType": 1,
+                "identifier": "chest_car_8",
                 "pageIndex": 0
             },
             {
@@ -127,7 +277,7 @@
         "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 0,
+        "cash": 31,
         "keys": 0
     },
     "level": {
