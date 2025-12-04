@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class CloseCallSystem : MonoBehaviour
 {
     [Header("Close Call Settings")]
-    [SerializeField] private float proDistance = 4f;
-    [SerializeField] private float greatDistance = 3f;
-    [SerializeField] private float whoahDistance = 2f;
-    [SerializeField] private float dangerDistance = 1.5f;
+    [SerializeField] private float proDistance = 5.58f;
+    [SerializeField] private float greatDistance = 4.9f;
+    [SerializeField] private float whoahDistance = 4.04f;
+    [SerializeField] private float dangerDistance = 3.49f;
 
     [Header("Traffic Control Settings")]
-    [SerializeField] private float trafficSlowDistance = 6f;
-    [SerializeField] private float trafficStopDistance = 4f;
-    [SerializeField] private float trafficResumeDistance = 10f;
+    [SerializeField] private float trafficSlowDistance = 8f;
+    [SerializeField] private float trafficStopDistance = 5f;
+    [SerializeField] private float trafficResumeDistance = 6.2f;
     [SerializeField] private float slowSpeed = 3f;
 
     [Header("UI References")]
@@ -26,6 +26,10 @@ public class CloseCallSystem : MonoBehaviour
     [SerializeField] private CanvasGroup closeCallCanvasGroup;
     [SerializeField] private float messageDuration = 1.5f;
     [SerializeField] private float fadeSpeed = 3f;
+
+    [Header("World Space Emoji System")]
+    [SerializeField] private WorldSpaceEmojiPool emojiPool;
+    [SerializeField] private bool useWorldSpaceEmojis=true;
 
     [Header("Detection Settings")]
     [SerializeField] private float detectionRadius = 15f;
