@@ -457,6 +457,37 @@ Transform:
   - {fileID: 79429223}
   m_Father: {fileID: 714980087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5782125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5782126}
+  m_Layer: 6
+  m_Name: -------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5782126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1990154359}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &11623048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,11 +1164,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6278679022727761801, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 531210211}
   m_SourcePrefab: {fileID: 100100000, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
 --- !u!4 &28141748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8235257184698030407, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+  m_PrefabInstance: {fileID: 28141747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &28141749 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6278679022727761801, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
   m_PrefabInstance: {fileID: 28141747}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &34296383 stripped
@@ -4852,6 +4891,7 @@ GameObject:
   - component: {fileID: 155906548}
   - component: {fileID: 155906547}
   - component: {fileID: 155906546}
+  - component: {fileID: 155906549}
   m_Layer: 6
   m_Name: ai_car
   m_TagString: Car
@@ -4911,6 +4951,22 @@ Transform:
   - {fileID: 481044640}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &155906549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155906545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1001 &161841839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5859,6 +5915,7 @@ GameObject:
   - component: {fileID: 197082337}
   - component: {fileID: 197082336}
   - component: {fileID: 197082335}
+  - component: {fileID: 197082338}
   m_Layer: 6
   m_Name: ai_car
   m_TagString: Car
@@ -5918,6 +5975,22 @@ Transform:
   - {fileID: 455556597}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &197082338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197082334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &200369614
 GameObject:
   m_ObjectHideFlags: 0
@@ -10561,6 +10634,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 331395079}
+    - targetCorrespondingSourceObject: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 331395082}
     - targetCorrespondingSourceObject: {fileID: 1454922132574831019, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 331395078}
@@ -10684,6 +10760,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &331395082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331395076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1001 &333039551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12012,6 +12104,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 348945492}
   m_CullTransparentMesh: 1
+--- !u!1 &351533106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351533107}
+  m_Layer: 0
+  m_Name: -------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &351533107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351533106}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1212227479}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &358157089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14011,6 +14134,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 629115410522440415, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       insertIndex: -1
       addedObject: {fileID: 411566029}
+    - targetCorrespondingSourceObject: {fileID: 629115410522440415, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1185591048}
     - targetCorrespondingSourceObject: {fileID: 8576256232776463199, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       insertIndex: -1
       addedObject: {fileID: 411566033}
@@ -16925,6 +17051,7 @@ GameObject:
   - component: {fileID: 483521756}
   - component: {fileID: 483521755}
   - component: {fileID: 483521754}
+  - component: {fileID: 483521757}
   m_Layer: 6
   m_Name: ai_car
   m_TagString: Car
@@ -16984,6 +17111,22 @@ Transform:
   - {fileID: 1742401023}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &483521757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483521753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1001 &485349858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17463,6 +17606,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1429068107714059535, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 489940901}
+    - targetCorrespondingSourceObject: {fileID: 1429068107714059535, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 489940904}
     - targetCorrespondingSourceObject: {fileID: 5072579974077511110, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 489940900}
@@ -17586,6 +17732,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &489940904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489940898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &494292760
 GameObject:
   m_ObjectHideFlags: 0
@@ -17922,6 +18084,7 @@ GameObject:
   - component: {fileID: 497571857}
   - component: {fileID: 497571856}
   - component: {fileID: 497571855}
+  - component: {fileID: 497571858}
   m_Layer: 6
   m_Name: ai_car
   m_TagString: Car
@@ -17981,6 +18144,22 @@ Transform:
   - {fileID: 1672923302}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &497571858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497571854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &498306205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1675774527451106100, guid: fc2bb168cfde0f740979f3555308d27c, type: 3}
@@ -18710,6 +18889,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 517664590}
+    - targetCorrespondingSourceObject: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 896558735}
     - targetCorrespondingSourceObject: {fileID: 1454922132574831019, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 517664593}
@@ -19558,12 +19740,28 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3496540862183502037, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
   m_PrefabInstance: {fileID: 28141747}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 28141749}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 517e8b5bfaf820e47aad454e8b36ddc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &531210211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28141749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &531333347
 GameObject:
   m_ObjectHideFlags: 0
@@ -26602,6 +26800,7 @@ GameObject:
   - component: {fileID: 752109987}
   - component: {fileID: 752109986}
   - component: {fileID: 752109985}
+  - component: {fileID: 752109988}
   m_Layer: 6
   m_Name: ai_car
   m_TagString: Car
@@ -26661,6 +26860,22 @@ Transform:
   - {fileID: 775159749}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &752109988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752109984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1001 &753796235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29736,6 +29951,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3956252346361003922, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
   m_PrefabInstance: {fileID: 517664587}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &896558735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517664588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &896847613
 GameObject:
   m_ObjectHideFlags: 0
@@ -35143,6 +35374,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5016627997332510208, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1065606695}
+    - targetCorrespondingSourceObject: {fileID: 5016627997332510208, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1065606700}
     - targetCorrespondingSourceObject: {fileID: 6684318561502498143, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1065606699}
@@ -35261,6 +35495,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3711638, y: 5.280815, z: 1.192212}
   m_Center: {x: 0.00022560364, y: -0.22189617, z: 0.7014255}
+--- !u!114 &1065606700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065606693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1068061841
 GameObject:
   m_ObjectHideFlags: 0
@@ -36302,6 +36552,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2632049473729016107, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1116767276}
+    - targetCorrespondingSourceObject: {fileID: 2632049473729016107, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2053296874}
     - targetCorrespondingSourceObject: {fileID: 5898339899067349402, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1116767280}
@@ -38301,6 +38554,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2153172350024471630, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
   m_PrefabInstance: {fileID: 411566026}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1185591048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411566027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1191594914
 GameObject:
   m_ObjectHideFlags: 0
@@ -38925,6 +39194,7 @@ Transform:
   - {fileID: 1170307217}
   - {fileID: 265010189}
   - {fileID: 2076481292}
+  - {fileID: 351533107}
   - {fileID: 1715427437}
   - {fileID: 700282349}
   - {fileID: 1580284298}
@@ -43676,6 +43946,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7839077716115683150, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1363187177}
+    - targetCorrespondingSourceObject: {fileID: 7839077716115683150, guid: a6ae580e13614df4cba1741a16406651, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1363187182}
     - targetCorrespondingSourceObject: {fileID: 296560350401586395, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1363187180}
@@ -43794,6 +44067,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &1363187182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363187175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1364443660
 GameObject:
   m_ObjectHideFlags: 0
@@ -52482,6 +52771,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4057839703569220997, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1615014736}
+    - targetCorrespondingSourceObject: {fileID: 4057839703569220997, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1615014739}
     - targetCorrespondingSourceObject: {fileID: 5895603111095009305, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1615014735}
@@ -52605,6 +52897,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &1615014739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615014733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1001 &1615562549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56183,6 +56491,7 @@ GameObject:
   - component: {fileID: 1725988202}
   - component: {fileID: 1725988201}
   - component: {fileID: 1725988200}
+  - component: {fileID: 1725988203}
   m_Layer: 6
   m_Name: AI_CarParent
   m_TagString: Car
@@ -56242,6 +56551,22 @@ Transform:
   - {fileID: 1805813959}
   m_Father: {fileID: 1439369489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1725988203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725988199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1728895451
 GameObject:
   m_ObjectHideFlags: 0
@@ -62196,6 +62521,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4772327077202618464, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1887170586}
+    - targetCorrespondingSourceObject: {fileID: 4772327077202618464, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1887170591}
     - targetCorrespondingSourceObject: {fileID: 6437424617251625031, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1887170589}
@@ -62314,6 +62642,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &1887170591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887170584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1889919420
 GameObject:
   m_ObjectHideFlags: 0
@@ -64049,6 +64393,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7848523040798058431, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1935135719}
+    - targetCorrespondingSourceObject: {fileID: 7848523040798058431, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1935135724}
     - targetCorrespondingSourceObject: {fileID: 490766468279555001, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1935135722}
@@ -64167,6 +64514,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrafficCarCollision
   vehicleController: {fileID: 0}
   playCollisionSound: 1
+--- !u!114 &1935135724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935135717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &1935340884
 GameObject:
   m_ObjectHideFlags: 0
@@ -65853,6 +66216,7 @@ Transform:
   - {fileID: 4377721539700690961}
   - {fileID: 8829276767289569178}
   - {fileID: 6328712248104408878}
+  - {fileID: 5782126}
   - {fileID: 2978753279946025863}
   - {fileID: 2910354725893614978}
   - {fileID: 2335198200339993614}
@@ -67092,6 +67456,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3274265939810863423, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
   m_PrefabInstance: {fileID: 1116767273}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2053296874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116767274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51058488ce6424444827f329a3c47e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficVehicleBehavior
+  normalSpeed: 10
+  hornInterval: 1.5
+  trafficVehicle: {fileID: 0}
+  forwardTrafficCar: {fileID: 0}
 --- !u!1 &2053844013
 GameObject:
   m_ObjectHideFlags: 0
