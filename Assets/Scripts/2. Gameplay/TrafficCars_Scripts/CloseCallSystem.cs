@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class CloseCallSystem : MonoBehaviour
 {
@@ -17,7 +18,11 @@ public class CloseCallSystem : MonoBehaviour
     [SerializeField] private float slowSpeed = 3f;
 
     [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI closeCallText;
+    [SerializeField] private Image closeCallImage;
+    [SerializeField] private Sprite proSprite;
+    [SerializeField] private Sprite greatSprite;
+    [SerializeField] private Sprite whoahSprite;
+    [SerializeField] private Sprite dangerSprite;
     [SerializeField] private CanvasGroup closeCallCanvasGroup;
     [SerializeField] private float messageDuration = 1.5f;
     [SerializeField] private float fadeSpeed = 3f;
@@ -34,9 +39,9 @@ public class CloseCallSystem : MonoBehaviour
 
     private void Start()
     {
-        if (closeCallText != null)
+        if (closeCallImage != null)
         {
-            closeCallText.enabled = false;
+            closeCallImage.enabled = false;
         }
 
         if (closeCallCanvasGroup != null)
@@ -166,27 +171,27 @@ public class CloseCallSystem : MonoBehaviour
 
     private void ShowCloseCallMessage(string message)
     {
-        if (closeCallText == null) return;
+        if (closeCallImage == null) return;
 
         messageTimer = messageDuration;
         isShowingMessage = true;
 
-        closeCallText.text = message;
-        closeCallText.enabled = true;
+        //closeCallImage.text = message;
+        closeCallImage.enabled = true;
 
         switch (message)
         {
             case "PRO!":
-                closeCallText.color = new Color(0.2f, 1f, 0.2f);
+                closeCallImage.sprite = proSprite;
                 break;
             case "GREAT!":
-                closeCallText.color = new Color(0.3f, 0.8f, 1f);
+                closeCallImage.sprite = greatSprite;
                 break;
             case "WHOAH!":
-                closeCallText.color = new Color(1f, 0.8f, 0f);
+                closeCallImage.sprite = whoahSprite;
                 break;
             case "DANGER!":
-                closeCallText.color = new Color(1f, 0.2f, 0.2f);
+                closeCallImage.sprite = dangerSprite;
                 break;
         }
     }
@@ -213,14 +218,14 @@ public class CloseCallSystem : MonoBehaviour
             {
                 closeCallCanvasGroup.alpha = Mathf.Lerp(closeCallCanvasGroup.alpha, 0f, fadeSpeed * Time.deltaTime);
 
-                if (closeCallCanvasGroup.alpha < 0.01f && closeCallText != null)
+                if (closeCallCanvasGroup.alpha < 0.01f && closeCallImage != null)
                 {
-                    closeCallText.enabled = false;
+                    closeCallImage.enabled = false;
                 }
             }
-            else if (closeCallText != null)
+            else if (closeCallImage != null)
             {
-                closeCallText.enabled = false;
+                closeCallImage.enabled = false;
             }
         }
     }
