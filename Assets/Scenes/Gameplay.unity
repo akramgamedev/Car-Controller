@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1101,6 +1101,11 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19813282, guid: 39f586f40e7d928499bfe946ffb04ad5, type: 3}
   m_PrefabInstance: {fileID: 26156724}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &27983535 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 5706096182384423716, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+  m_PrefabInstance: {fileID: 4304361224460413225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &28141747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1579,6 +1584,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &46052724
 GameObject:
   m_ObjectHideFlags: 0
@@ -4967,6 +4978,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &161841839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5991,6 +6008,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &200369614
 GameObject:
   m_ObjectHideFlags: 0
@@ -6620,7 +6643,7 @@ Transform:
   m_GameObject: {fileID: 222178533}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 67.71054, y: 0.53050995, z: -35.522102}
+  m_LocalPosition: {x: 70.8, y: 0.53050995, z: -35.522102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6643,7 +6666,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1135499967}
 --- !u!114 &222178536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6679,6 +6702,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &225733184
 GameObject:
   m_ObjectHideFlags: 0
@@ -9863,6 +9892,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &310570287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10351,6 +10386,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &327782192
 GameObject:
   m_ObjectHideFlags: 0
@@ -10478,7 +10519,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -4.47, y: 27.49, z: -46.25}
+  m_LocalPosition: {x: -4.5, y: 37.446, z: -89.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10522,7 +10563,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_TaaSettings:
     m_Quality: 3
-    m_FrameInfluence: 0.1
+    m_FrameInfluence: 0.100000024
     m_JitterScale: 1
     m_MipBias: 0
     m_VarianceClampScale: 0.9
@@ -10776,6 +10817,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &333039551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15384,6 +15431,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &450996835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7219982626421072508, guid: 18df29e9f43b3f5418b89354c054d0bb, type: 3}
@@ -17127,6 +17180,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &485349858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17748,6 +17807,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &494292760
 GameObject:
   m_ObjectHideFlags: 0
@@ -18160,6 +18225,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &498306205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1675774527451106100, guid: fc2bb168cfde0f740979f3555308d27c, type: 3}
@@ -18411,6 +18482,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &501507776
 GameObject:
   m_ObjectHideFlags: 0
@@ -19762,6 +19839,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &531333347
 GameObject:
   m_ObjectHideFlags: 0
@@ -25320,7 +25403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &714980087
 Transform:
   m_ObjectHideFlags: 0
@@ -26074,6 +26157,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &733350584
 GameObject:
   m_ObjectHideFlags: 0
@@ -26876,6 +26965,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &753796235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28166,7 +28261,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1011086432}
 --- !u!114 &813340193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28202,6 +28297,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &813884978
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29967,6 +30068,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &896847613
 GameObject:
   m_ObjectHideFlags: 0
@@ -32540,6 +32647,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1003140523
 GameObject:
   m_ObjectHideFlags: 0
@@ -33687,7 +33800,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1011326473}
 --- !u!114 &1022687872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33723,6 +33836,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &1026395038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35511,6 +35630,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1068061841
 GameObject:
   m_ObjectHideFlags: 0
@@ -36457,6 +36582,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &1113668514 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1529631555787141094, guid: 5aadc3498dd794f41811046a0df279de, type: 3}
@@ -38570,6 +38701,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1191594914
 GameObject:
   m_ObjectHideFlags: 0
@@ -40595,7 +40732,6 @@ GameObject:
   - component: {fileID: 1265764296}
   - component: {fileID: 1265764295}
   - component: {fileID: 1265764294}
-  - component: {fileID: 1265764298}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -40696,18 +40832,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &1265764298
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265764293}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &1266445396
 GameObject:
   m_ObjectHideFlags: 0
@@ -44097,6 +44221,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1364443660
 GameObject:
   m_ObjectHideFlags: 0
@@ -45123,7 +45253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 517e8b5bfaf820e47aad454e8b36ddc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForwardTrafficCar
-  moveSpeed: 20
+  moveSpeed: 10
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
@@ -45225,6 +45355,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &1385196684 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2755577933816672297, guid: 1c79d353d7344dd41b44c9851f3f744e, type: 3}
@@ -51405,6 +51541,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1576029903
 GameObject:
   m_ObjectHideFlags: 0
@@ -52931,6 +53073,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1615562549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56585,6 +56733,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1728895451
 GameObject:
   m_ObjectHideFlags: 0
@@ -57534,6 +57688,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &1747923763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60194,7 +60354,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1369794834}
 --- !u!114 &1811745430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60230,6 +60390,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1814216203
 GameObject:
   m_ObjectHideFlags: 0
@@ -62676,6 +62842,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1889919420
 GameObject:
   m_ObjectHideFlags: 0
@@ -64548,6 +64720,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1935340884
 GameObject:
   m_ObjectHideFlags: 0
@@ -65766,7 +65944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1964996973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -66412,7 +66590,7 @@ MonoBehaviour:
   greatSprite: {fileID: 21300000, guid: 0e9dac676613df540ad6dddef87d0d2a, type: 3}
   whoahSprite: {fileID: 21300000, guid: 4b2435723e475404fa374ff001320304, type: 3}
   dangerSprite: {fileID: 21300000, guid: a848648d576501047bb2b21a8a460352, type: 3}
-  closeCallCanvasGroup: {fileID: 1265764298}
+  closeCallCanvasGroup: {fileID: 0}
   messageDuration: 1.5
   fadeSpeed: 3
   detectionRadius: 10
@@ -67569,6 +67747,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 5
+  carBrakeDistance: 3
+  emergencyStopDistance: 2
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2053844013
 GameObject:
   m_ObjectHideFlags: 0
@@ -68358,6 +68542,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
+  carSafeDistance: 8
+  carBrakeDistance: 5
+  emergencyStopDistance: 3.31
+  trafficCarLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &2093954284
 GameObject:
   m_ObjectHideFlags: 0
@@ -75056,24 +75246,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!1 &1691510015201862117
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4212587395288177086}
-  - component: {fileID: 3327175150497960244}
-  - component: {fileID: 2234183198926463881}
-  m_Layer: 0
-  m_Name: Directional Light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &1692136526056092041
 Transform:
   m_ObjectHideFlags: 0
@@ -76316,35 +76488,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!114 &2234183198926463881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691510015201862117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_CustomShadowLayers: 0
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 1
-  m_RenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_ShadowRenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_Version: 4
-  m_LightLayerMask: 1
-  m_ShadowLayerMask: 1
-  m_RenderingLayers: 1
-  m_ShadowRenderingLayers: 1
 --- !u!4 &2242137828976965568
 Transform:
   m_ObjectHideFlags: 0
@@ -76859,21 +77002,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &2457534918158400619
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3903819448743830572}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: -0.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3423904933246161903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2458254012219535677 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6325358763072691933, guid: 90d521a9da7d52d49a3b188e5e2f9c8b, type: 3}
@@ -79201,71 +79329,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8981241978166360299}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -90}
---- !u!108 &3327175150497960244
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691510015201862117}
-  m_Enabled: 1
-  serializedVersion: 11
-  m_Type: 1
-  m_Color: {r: 1, g: 0.9785366, b: 0.92, a: 1}
-  m_Intensity: 2
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 0.8
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 10343
-  m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
 --- !u!23 &3329412087271219400
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -79513,8 +79576,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7704219295158652494}
-  - {fileID: 4212587395288177086}
-  - {fileID: 2457534918158400619}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3449983000725726116
@@ -80194,23 +80255,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5442829229367955605}
   m_Mesh: {fileID: 2463308065451703684, guid: c921b37913d13e9489d7dbcdb4867d3d, type: 3}
---- !u!1 &3903819448743830572
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2457534918158400619}
-  - component: {fileID: 6330778485804785816}
-  m_Layer: 0
-  m_Name: Reflection Probe
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!33 &3914265280372670296
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -80896,21 +80940,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9215584, y: 1.9580476, z: 5.2955627}
   m_Center: {x: 0.0024261475, y: 1.0154263, z: 0.17224121}
---- !u!4 &4212587395288177086
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691510015201862117}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.94154704, y: 0.05778137, z: -0.25228673, w: -0.21564305}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3423904933246161903}
-  m_LocalEulerAnglesHint: {x: -205.8, y: -30, z: 0}
 --- !u!33 &4225966502108775506
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81043,6 +81072,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 3496540862183502037, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: vehicleRigidbody
+      value: 
+      objectReference: {fileID: 27983535}
     - target: {fileID: 3981802169384952987, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -85986,39 +86019,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2337860820231450918, guid: ca565a4e09cdcb44f8194ab541da61dd, type: 3}
   m_PrefabInstance: {fileID: 5499735819629126245}
   m_PrefabAsset: {fileID: 0}
---- !u!215 &6330778485804785816
-ReflectionProbe:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3903819448743830572}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Type: 0
-  m_Mode: 0
-  m_RefreshMode: 0
-  m_TimeSlicingMode: 1
-  m_Resolution: 128
-  m_UpdateFrequency: 0
-  m_BoxSize: {x: 10, y: 10, z: 10}
-  m_BoxOffset: {x: 0, y: 3.8, z: 0}
-  m_NearClip: 0.3
-  m_FarClip: 1000
-  m_ShadowDistance: 100
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 51
-  m_IntensityMultiplier: 1
-  m_BlendDistance: 0.5
-  m_HDR: 1
-  m_BoxProjection: 0
-  m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
-  m_Importance: 1
-  m_CustomBakedTexture: {fileID: 0}
 --- !u!33 &6339900066902172081
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -89889,13 +89889,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4191535679487467689}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34064183, y: -0.24219044, z: 0.091274686, w: 0.9038672}
+  m_LocalRotation: {x: 0.2716677, y: -0.30790606, z: 0.15206687, w: 0.8990363}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3423904933246161903}
-  m_LocalEulerAnglesHint: {x: 41.3, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.6, y: -35.4, z: 7.5}
 --- !u!33 &7708751307338958789
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -91400,8 +91400,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.9785366, b: 0.92, a: 1}
-  m_Intensity: 2
+  m_Color: {r: 1, g: 0.9492924, b: 0.88235295, a: 1}
+  m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -91410,7 +91410,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.297
+    m_Strength: 0.717
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 3.16

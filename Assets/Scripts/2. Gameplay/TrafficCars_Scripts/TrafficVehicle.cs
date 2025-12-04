@@ -3,12 +3,12 @@ using UnityEngine;
 public abstract class TrafficVehicle : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] protected float moveSpeed = 10f;
+    [SerializeField] public float moveSpeed = 10f;
 
     [Header("Reset Settings")]
     [SerializeField] protected bool saveInitialPosition = true;
 
-    public  bool isMoving = false;
+    public bool isMoving = false;
     protected bool isDisabled = false;
     public bool IsDisabled => isDisabled;
 
