@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TrafficVehicleBehavior : MonoBehaviour
@@ -13,9 +14,9 @@ public class TrafficVehicleBehavior : MonoBehaviour
     [SerializeField] private ForwardTrafficCar forwardTrafficCar;
 
     [Header("Car to Car safety")]
-    [SerializeField] private float carSafeDistance = 8f; // Increased for better detection
-    [SerializeField] private float carBrakeDistance = 5f; // Increased
-    [SerializeField] private float emergencyStopDistance = 2f; // NEW: Emergency stop
+    [SerializeField] private float carSafeDistance = 8f;
+    [SerializeField] private float carBrakeDistance = 5f;
+    [SerializeField] private float emergencyStopDistance = 2f;
 
     public LayerMask trafficCarLayer;
 
@@ -36,7 +37,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
             forwardTrafficCar = GetComponent<ForwardTrafficCar>();
         }
 
-        // Debug: Check layer mask
         LogHelper.Log($"TrafficVehicleBehavior initialized on {gameObject.name}");
         LogHelper.Log($"Layer Mask Value: {trafficCarLayer.value}");
         LogHelper.Log($"My Layer: {gameObject.layer} ({LayerMask.LayerToName(gameObject.layer)})");
@@ -138,26 +138,21 @@ public class TrafficVehicleBehavior : MonoBehaviour
 
     private void DetectCarAhead()
     {
-        // Cast ray from slightly above the car
         Vector3 rayStart = transform.position + Vector3.up * 0.5f;
         Vector3 rayDirection = transform.forward;
 
-        // Use RaycastAll to detect all cars in front
         RaycastHit[] hits = Physics.RaycastAll(rayStart, rayDirection, carSafeDistance, trafficCarLayer);
 
-        // Debug the raycast
         Debug.DrawRay(rayStart, rayDirection * carSafeDistance, Color.green, 0.1f);
 
         if (hits.Length > 0)
         {
-            // Find the closest car ahead (that's not ourselves)
             RaycastHit closestHit = new RaycastHit();
             float closestDistance = Mathf.Infinity;
             bool foundCar = false;
 
             foreach (RaycastHit hit in hits)
             {
-                // Skip if it's ourselves
                 if (hit.transform.gameObject == gameObject ||
                     hit.transform.IsChildOf(transform) ||
                     transform.IsChildOf(hit.transform))
@@ -188,7 +183,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
 
                     LogHelper.Log($"{gameObject.name} detected {carAhead.gameObject.name} at distance {distance:F2}");
 
-                    // EMERGENCY STOP - Very close!
                     if (distance <= emergencyStopDistance)
                     {
                         LogHelper.LogWarning($"EMERGENCY STOP! {gameObject.name} too close to {carAhead.gameObject.name}");
@@ -196,7 +190,6 @@ public class TrafficVehicleBehavior : MonoBehaviour
                         return;
                     }
 
-                    // If car ahead is stopped, we should stop too
                     if (carAhead.isStopped)
                     {
                         if (distance <= carBrakeDistance)
@@ -206,19 +199,16 @@ public class TrafficVehicleBehavior : MonoBehaviour
                         }
                         else
                         {
-                            // Slow down as we approach
                             float slowSpeed = Mathf.Lerp(2f, normalSpeed * 0.3f, distance / carBrakeDistance);
                             SlowForPlayer(slowSpeed);
                             return;
                         }
                     }
-                    // If car ahead is slowing, we should slow too
                     else if (carAhead.isSlowing)
                     {
                         SlowForPlayer(forwardTrafficCar == null ? 3f : forwardTrafficCar.moveSpeed * 0.7f);
                         return;
                     }
-                    // Car ahead is moving normally but close, slow down a bit
                     else if (distance <= carBrakeDistance)
                     {
                         SlowForPlayer(normalSpeed * 0.8f);
@@ -228,14 +218,12 @@ public class TrafficVehicleBehavior : MonoBehaviour
             }
         }
 
-        // Only resume if we're not stopped for player
         if (!stoppedForPlayer && (isStopped || isSlowing))
         {
             ResumeNormalSpeed();
         }
     }
 
-    // Alternative detection using trigger colliders (if raycast fails)
     private void OnTriggerEnter(Collider other)
     {
         if (((1 << other.gameObject.layer) & trafficCarLayer) != 0)
