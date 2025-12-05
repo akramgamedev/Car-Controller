@@ -1193,6 +1193,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 3496540862183502037, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: vehicleRigidbody
+      value: 
+      objectReference: {fileID: 1141956600}
     - target: {fileID: 5706096182384423716, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
       propertyPath: m_Constraints
       value: 56
@@ -1200,6 +1204,42 @@ PrefabInstance:
     - target: {fileID: 6278679022727761801, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
       propertyPath: m_Name
       value: AI_CarParent 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6278679022727761801, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061092408, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061113258, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061288108, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061294636, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061300696, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061329144, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061340068, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282297757061340516, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8235257184698030407, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5583,7 +5623,7 @@ GameObject:
   - component: {fileID: 155906547}
   - component: {fileID: 155906546}
   - component: {fileID: 155906549}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ai_car
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -5606,7 +5646,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 481044642}
 --- !u!114 &155906547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5658,12 +5698,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &161841839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6883,7 +6923,7 @@ GameObject:
   - component: {fileID: 197082336}
   - component: {fileID: 197082335}
   - component: {fileID: 197082338}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ai_car
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -6906,7 +6946,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 455556599}
 --- !u!114 &197082336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6958,12 +6998,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &200369614
 GameObject:
   m_ObjectHideFlags: 0
@@ -12281,11 +12321,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1454922132574831019, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1911783070348482563, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3956252346361003922, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12329,15 +12369,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5552615255677280384, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6861468977095550381, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7283914741751337066, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Name
@@ -12345,7 +12385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_TagString
@@ -12453,7 +12493,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 331395077}
 --- !u!114 &331395080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12503,12 +12543,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &333039551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16052,7 +16092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 629115410522440415, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 629115410522440415, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_TagString
@@ -16100,23 +16140,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2939360707060263987, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3769284046577126338, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5010937862302650950, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5703658898203811419, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8576256232776463199, guid: 256fd788cb2871b46a7e5c9423751286, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16167,7 +16207,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 411566031}
 --- !u!114 &411566030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17469,15 +17509,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2909673291032541480, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3287276608633407323, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4335302968224646627, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5138617294997396793, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17521,11 +17561,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5156730631691761763, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6411143946284675318, guid: 5cdc112a67cd70b4fa2cb34644b91fa0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19089,19 +19129,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3569726460958881044, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6131540882343091014, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7497652691942306907, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8062871443773798777, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8297202104020909541, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Name
@@ -19109,7 +19149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8297202104020909541, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19209,7 +19249,7 @@ GameObject:
   - component: {fileID: 483521755}
   - component: {fileID: 483521754}
   - component: {fileID: 483521757}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ai_car
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -19232,7 +19272,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1742401025}
 --- !u!114 &483521755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19284,12 +19324,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &485349858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19768,7 +19808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1429068107714059535, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1429068107714059535, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_TagString
@@ -19776,11 +19816,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1888591013525592459, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4073431327926633615, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4227812072180092527, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19824,15 +19864,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4964424216445318136, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5072579974077511110, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7862980919593067652, guid: d12c7073982952d45a639a1e24900ad0, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19936,7 +19976,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 489940899}
 --- !u!114 &489940902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19986,12 +20026,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &494292760
 GameObject:
   m_ObjectHideFlags: 0
@@ -20329,7 +20369,7 @@ GameObject:
   - component: {fileID: 497571856}
   - component: {fileID: 497571855}
   - component: {fileID: 497571858}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ai_car
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -20352,7 +20392,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1672923304}
 --- !u!114 &497571856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20404,12 +20444,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &498306205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1675774527451106100, guid: fc2bb168cfde0f740979f3555308d27c, type: 3}
@@ -21065,11 +21105,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1454922132574831019, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1911783070348482563, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3956252346361003922, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21113,15 +21153,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5552615255677280384, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6861468977095550381, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7283914741751337066, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Name
@@ -21129,7 +21169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8358570039804894936, guid: b35f433fc86f44245a7e91e088bbeee1, type: 3}
       propertyPath: m_TagString
@@ -21184,7 +21224,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 517664592}
 --- !u!114 &517664591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22018,12 +22058,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &531333347
 GameObject:
   m_ObjectHideFlags: 0
@@ -29767,7 +29807,7 @@ GameObject:
   - component: {fileID: 752109986}
   - component: {fileID: 752109985}
   - component: {fileID: 752109988}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ai_car
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -29790,7 +29830,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 775159751}
 --- !u!114 &752109986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29842,12 +29882,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &753796235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30368,19 +30408,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3569726460958881044, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6131540882343091014, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7497652691942306907, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8062871443773798777, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8297202104020909541, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Name
@@ -30388,7 +30428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8297202104020909541, guid: 0abb4ed303bd866459a6f7f5fe87a62b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33751,12 +33791,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &896847613
 GameObject:
   m_ObjectHideFlags: 0
@@ -39833,7 +39873,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 259954422854965578, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1884110083366437713, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39877,11 +39917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3070091171724418540, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4498371490325921717, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5016627997332510208, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Name
@@ -39889,7 +39929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5016627997332510208, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5016627997332510208, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_TagString
@@ -39897,11 +39937,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6684318561502498143, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7654066054268948881, guid: 860f72e78f4b1394b97e41133b05b8fd, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39952,7 +39992,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1065606697}
 --- !u!114 &1065606696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40050,12 +40090,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1068061841
 GameObject:
   m_ObjectHideFlags: 0
@@ -41092,7 +41132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2632049473729016107, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2632049473729016107, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_TagString
@@ -41140,23 +41180,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5053788843743517907, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5519593308805767831, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5898339899067349402, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7752127015869472491, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7984885105092595752, guid: 04baae95a8e19af4a92c92a69a99ee63, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -41207,7 +41247,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1116767278}
 --- !u!114 &1116767277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42106,6 +42146,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1139026793}
   m_CullTransparentMesh: 1
+--- !u!54 &1141956600 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 5706096182384423716, guid: 3c5fe30c72421854d8484c0763163561, type: 3}
+  m_PrefabInstance: {fileID: 28141747}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1143430416
 GameObject:
   m_ObjectHideFlags: 0
@@ -43625,12 +43670,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1188748067
 GameObject:
   m_ObjectHideFlags: 0
@@ -49358,19 +49403,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 296560350401586395, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3385673883564463839, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3505149886670170989, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3882000502180606250, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4364927492814436233, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49414,7 +49459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7264434731253304016, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7839077716115683150, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Name
@@ -49422,7 +49467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7839077716115683150, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7839077716115683150, guid: a6ae580e13614df4cba1741a16406651, type: 3}
       propertyPath: m_TagString
@@ -49477,7 +49522,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1363187179}
 --- !u!114 &1363187178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49575,12 +49620,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1363191792
 GameObject:
   m_ObjectHideFlags: 0
@@ -59070,7 +59115,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2762660503084711988, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3164171495455225082, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59118,7 +59163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4057839703569220997, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4057839703569220997, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_TagString
@@ -59126,19 +59171,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5895603111095009305, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7001843817514349418, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7070044573155324413, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7384451042745154165, guid: 2d40be19aec1dd14fbe10dad844968d8, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -59242,7 +59287,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1615014734}
 --- !u!114 &1615014737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59292,12 +59337,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1001 &1615562549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61597,11 +61642,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2190536378234254205, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3396896415189435675, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3513640304945359509, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61645,7 +61690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5604934841905578147, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6516979211417635972, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Name
@@ -61653,11 +61698,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6516979211417635972, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7202883304534819120, guid: 076514aeb81349b4396f078011eb58fa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63369,7 +63414,7 @@ GameObject:
   - component: {fileID: 1725988201}
   - component: {fileID: 1725988200}
   - component: {fileID: 1725988203}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: AI_CarParent
   m_TagString: Car
   m_Icon: {fileID: 0}
@@ -63392,7 +63437,7 @@ MonoBehaviour:
   saveInitialPosition: 0
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1805813960}
 --- !u!114 &1725988201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63444,12 +63489,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1728895451
 GameObject:
   m_ObjectHideFlags: 0
@@ -64164,7 +64209,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 714401222607321956, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2006126540111714071, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Name
@@ -64172,11 +64217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2006126540111714071, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2890808981152528488, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4953150907823436250, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64220,11 +64265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507247877924808209, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8291501269191379964, guid: 4c0feb6edb91f2548bf71e1bede99b80, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -66950,7 +66995,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 308424639125621893, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3250376002870699476, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Name
@@ -66958,7 +67003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3250376002870699476, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3250376002870699476, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_IsActive
@@ -66966,11 +67011,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3654369527812660745, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6049099644715884226, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6560245026380304675, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_LocalPosition.x
@@ -67014,7 +67059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6631000881994777602, guid: 5ed0948193b39014d8cc608f72adcf92, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67137,7 +67182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -4.2922974, y: 460}
+  m_AnchoredPosition: {x: -4.2922363, y: 460}
   m_SizeDelta: {x: 110.748, y: 270.203}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806557256
@@ -68473,7 +68518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 11.000061, y: -217}
+  m_AnchoredPosition: {x: 11, y: -217}
   m_SizeDelta: {x: 160, y: 158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1844398150
@@ -69981,11 +70026,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3544267825921617648, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4398963953681521985, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4772327077202618464, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Name
@@ -69993,7 +70038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4772327077202618464, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4772327077202618464, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_TagString
@@ -70001,15 +70046,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6437424617251625031, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6929986420947194263, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7243988717706107342, guid: 9a82b3af9ab80934893ecdcef4c101e1, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -70060,7 +70105,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1887170588}
 --- !u!114 &1887170587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70158,12 +70203,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1887309488
 GameObject:
   m_ObjectHideFlags: 0
@@ -71959,23 +72004,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 490766468279555001, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1550044799504967871, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2985444588387579068, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3411872329368524873, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4335353042142550744, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7848523040798058431, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Name
@@ -71983,7 +72028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7848523040798058431, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7848523040798058431, guid: e234affeebdf8d34d9e4cf03fa7a5834, type: 3}
       propertyPath: m_TagString
@@ -72078,7 +72123,7 @@ MonoBehaviour:
   saveInitialPosition: 1
   isMoving: 0
   useRigidbody: 0
-  vehicleRigidbody: {fileID: 0}
+  vehicleRigidbody: {fileID: 1935135721}
 --- !u!114 &1935135720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72176,12 +72221,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &1935340884
 GameObject:
   m_ObjectHideFlags: 0
@@ -75341,12 +75386,12 @@ MonoBehaviour:
   hornInterval: 1.5
   trafficVehicle: {fileID: 0}
   forwardTrafficCar: {fileID: 0}
-  carSafeDistance: 5
-  carBrakeDistance: 3
-  emergencyStopDistance: 2
+  carSafeDistance: 6.15
+  carBrakeDistance: 4.53
+  emergencyStopDistance: 3.33
   trafficCarLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!1 &2053844013
 GameObject:
   m_ObjectHideFlags: 0

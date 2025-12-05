@@ -84,10 +84,8 @@ public class WorldSpaceEmojiPool : MonoBehaviour
 
         EmojiData data = emojiDictionary[emojiType];
         
-        // Calculate offset position based on car direction
         Vector3 offsetPosition = worldPosition + Vector3.up * 1.5f;
         
-        // Offset slightly in the direction perpendicular to car movement
         Vector3 rightOffset = Vector3.Cross(Vector3.up, carForward).normalized * 0.5f;
         offsetPosition += rightOffset;
 
@@ -123,7 +121,6 @@ public class WorldSpaceEmojiPool : MonoBehaviour
             return emojiPool.Dequeue();
         }
 
-        // Create new emoji if pool is empty
         GameObject emoji = Instantiate(emojiPrefab, transform);
         return emoji;
     }
@@ -147,26 +144,21 @@ public class WorldSpaceEmojiPool : MonoBehaviour
                 continue;
             }
 
-            // Animate emoji
             float progress = 1f - (emoji.timer / popUpDuration);
             
-            // Move upward with float effect
             float yOffset = popUpHeight * progress;
             Vector3 targetPos = emoji.startPosition + Vector3.up * yOffset;
             emoji.gameObject.transform.position = targetPos;
 
-            // Make emoji face camera
             if (mainCamera != null)
             {
                 emoji.gameObject.transform.LookAt(mainCamera.transform);
                 emoji.gameObject.transform.Rotate(0, 180, 0);
             }
 
-            // Scale animation
             float scale = scaleCurve.Evaluate(progress);
             emoji.gameObject.transform.localScale = Vector3.one * scale * 0.8f;
 
-            // Alpha animation
             if (emoji.canvasGroup != null)
             {
                 emoji.canvasGroup.alpha = alphaCurve.Evaluate(progress);
