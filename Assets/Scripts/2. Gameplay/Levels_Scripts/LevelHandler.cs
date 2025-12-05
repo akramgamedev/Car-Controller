@@ -55,6 +55,10 @@ public class LevelHandler : MonoBehaviour
         LogHelper.Log($"Level {levelNumber} - {levelName} activated");
     }
 
+    public int GetLevelCompletionCoins()
+    {
+        return levelCompletionCoins;
+    }
     public void DeactivateLevel()
     {
         if (!isActive) return;
@@ -88,6 +92,7 @@ public class LevelHandler : MonoBehaviour
             StaticEvents.GameEconomy.OnCurrencyChange?.Invoke(levelCompletionKeys, GlobalEnums.CurrencyType.Key);
         }
     }
+
 }
 
 

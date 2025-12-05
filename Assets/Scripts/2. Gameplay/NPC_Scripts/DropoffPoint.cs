@@ -10,7 +10,7 @@ public class DropoffPoint : MonoBehaviour
     [SerializeField] VibrationController vibrationController;
     public Passenger passenger;
     public Transform carDoorPoint;
-   // public Transform exitWalkTarget;
+    // public Transform exitWalkTarget;
     public Transform marker;
     public Transform carBody;
 
@@ -23,6 +23,9 @@ public class DropoffPoint : MonoBehaviour
     [Header("Events")]
     public UnityEvent onCarStopped;
     public UnityEvent onPassengerDroppedOff;
+
+    [Header("Feedback")]
+    public int moneyReward = 44;
 
     private bool isCarInRange = false;
     private bool passengerDropped = false;
@@ -188,12 +191,46 @@ public class DropoffPoint : MonoBehaviour
         currentCar.SetPassenger(false);
         currentCar.ResumeFromPickup();
 
+        ShowFeedbackPopup();
+
         passengerDropped = true;
 
         if (marker != null)
         {
             MarkerAnimationHelper.AnimateMarkerDisappearance(marker);
             onPassengerDroppedOff?.Invoke();
+        }
+    }
+
+    private void ShowFeedbackPopup()
+    {
+        LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
+        int rewardAmount = moneyReward;
+
+        if (levelHandler != null)
+        {
+            rewardAmount = levelHandler.GetLevelCompletionCoins();
+            LogHelper.Log($"Got level completion coins: ${rewardAmount}");
+        }
+        else
+        {
+            LogHelper.LogWarning("LevelHandler not found! Using fallback reward");
+        }
+
+        // Find feedback canvas on the car
+        CustomerFeedbackPopup feedback = currentCar.GetComponentInChildren<CustomerFeedbackPopup>(true);
+
+        if (feedback != null)
+        {
+            feedback.Show(moneyReward);
+            LogHelper.Log($"Showing feedback popup with ${moneyReward}");
+
+            // Add money to UI
+            UIManager.Instance?.AddCoinsEarned(moneyReward);
+        }
+        else
+        {
+            LogHelper.LogWarning("No CustomerFeedbackPopup found on car!");
         }
     }
 
