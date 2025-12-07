@@ -24,8 +24,8 @@ public class DropoffPoint : MonoBehaviour
     public UnityEvent onCarStopped;
     public UnityEvent onPassengerDroppedOff;
 
-    [Header("Feedback")]
-    public int moneyReward = 44;
+    // [Header("Feedback")]
+    // public int moneyReward = 44;
 
     private bool isCarInRange = false;
     private bool passengerDropped = false;
@@ -205,28 +205,27 @@ public class DropoffPoint : MonoBehaviour
     private void ShowFeedbackPopup()
     {
         LevelHandler levelHandler = FindObjectOfType<LevelHandler>();
-        int rewardAmount = moneyReward;
 
-        if (levelHandler != null)
+        if (levelHandler == null)
         {
-            rewardAmount = levelHandler.GetLevelCompletionCoins();
-            LogHelper.Log($"Got level completion coins: ${rewardAmount}");
+            //LogHelper.Log($"Got level completion coins: ${rewardAmount}");
+            LogHelper.LogError("LevelHandler not found! Cannot show reward.");
+            return;
         }
-        else
-        {
-            LogHelper.LogWarning("LevelHandler not found! Using fallback reward");
-        }
+
+        int rewardAmount = levelHandler.GetLevelCompletionCoins();
+        LogHelper.Log($"Got level completion coins: ${rewardAmount}");
 
         // Find feedback canvas on the car
         CustomerFeedbackPopup feedback = currentCar.GetComponentInChildren<CustomerFeedbackPopup>(true);
 
         if (feedback != null)
         {
-            feedback.Show(moneyReward);
-            LogHelper.Log($"Showing feedback popup with ${moneyReward}");
+            feedback.Show(rewardAmount);
+            LogHelper.Log($"Showing feedback popup with ${rewardAmount}");
 
             // Add money to UI
-            UIManager.Instance?.AddCoinsEarned(moneyReward);
+            UIManager.Instance?.AddCoinsEarned(rewardAmount);
         }
         else
         {
