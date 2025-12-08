@@ -2214,7 +2214,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1178490882}
   m_SourcePrefab: {fileID: 100100000, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
 --- !u!4 &48598084 stripped
 Transform:
@@ -4469,7 +4472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c85cd9a7ace094a953af21ac38afe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableLogs: 1
+  enableLogs: 0
 --- !u!4 &114074890
 Transform:
   m_ObjectHideFlags: 0
@@ -8660,7 +8663,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1887470162}
   m_SourcePrefab: {fileID: 100100000, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
 --- !u!4 &236270202 stripped
 Transform:
@@ -16091,7 +16097,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939865465}
   m_SourcePrefab: {fileID: 100100000, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
 --- !u!4 &403439051 stripped
 Transform:
@@ -20942,6 +20951,11 @@ RectTransform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6659856759793549623, guid: fb0a4181baddda54eaa890e66d6f7293, type: 3}
   m_PrefabInstance: {fileID: 1037093653}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &511436806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+  m_PrefabInstance: {fileID: 1470221011}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &511751901
 GameObject:
@@ -42622,8 +42636,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Passenger
   moveSpeed: 3
   exitWalkTarget: {fileID: 860433186}
+  waveDetectionRadius: 15
+  rotationSpeed: 3
   currentState: 0
   animator: {fileID: 0}
+  waveAnimationName: Wave
+  playerCar: {fileID: 0}
 --- !u!136 &1146054170
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -43468,6 +43486,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172423094}
   m_Mesh: {fileID: 161142835184077690, guid: cefec390fd9e34d41af3ca50ca6ed086, type: 3}
+--- !u!1 &1178490879 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+  m_PrefabInstance: {fileID: 48598083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1178490882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178490879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62aedd4b63c4ae4289ec166ece24c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarkerBounce
+  bounceHeight: 0.3
+  bounceDuration: 0.5
+  bounceEase: 6
+  bounceLoops: -1
+  playOnStart: 1
 --- !u!1 &1179688627
 GameObject:
   m_ObjectHideFlags: 0
@@ -49484,9 +49524,16 @@ MonoBehaviour:
   moneyText: {fileID: 32504245}
   iconImage: {fileID: 2011714027}
   canvasGroup: {fileID: 1356739357}
-  floatSpeed: 1.5
-  lifetime: 2.5
-  fadeStartTime: 1.5
+  floatDistance: 2
+  totalDuration: 2.5
+  floatEase: 6
+  scaleInDuration: 0.3
+  scaleOutDuration: 0.3
+  startScale: 0.5
+  maxScale: 1.2
+  scaleInEase: 27
+  scaleOutEase: 26
+  fadeOutDuration: 0.4
   encouragementMessages:
   - Excellent Service
   - Great Job
@@ -54611,13 +54658,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1470221015}
   m_SourcePrefab: {fileID: 100100000, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
 --- !u!4 &1470221012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5402721303016359667, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
   m_PrefabInstance: {fileID: 1470221011}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1470221015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511436806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62aedd4b63c4ae4289ec166ece24c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarkerBounce
+  bounceHeight: 0.3
+  bounceDuration: 0.5
+  bounceEase: 6
+  bounceLoops: -1
+  playOnStart: 1
 --- !u!1001 &1472005849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70790,6 +70857,28 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1887470159 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+  m_PrefabInstance: {fileID: 236270201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1887470162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887470159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62aedd4b63c4ae4289ec166ece24c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarkerBounce
+  bounceHeight: 0.3
+  bounceDuration: 0.5
+  bounceEase: 6
+  bounceLoops: -1
+  playOnStart: 1
 --- !u!1 &1889919420
 GameObject:
   m_ObjectHideFlags: 0
@@ -72776,6 +72865,28 @@ Transform:
   - {fileID: 1164696503}
   m_Father: {fileID: 714980087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1939865462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 26833261924200858, guid: d0ef820a6d3afed439a3c108545cc55e, type: 3}
+  m_PrefabInstance: {fileID: 400789125}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1939865465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939865462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62aedd4b63c4ae4289ec166ece24c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarkerBounce
+  bounceHeight: 0.3
+  bounceDuration: 0.5
+  bounceEase: 6
+  bounceLoops: -1
+  playOnStart: 1
 --- !u!1 &1940182567
 GameObject:
   m_ObjectHideFlags: 0
@@ -77208,8 +77319,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Passenger
   moveSpeed: 3
   exitWalkTarget: {fileID: 0}
+  waveDetectionRadius: 15
+  rotationSpeed: 3
   currentState: 0
   animator: {fileID: 0}
+  waveAnimationName: Wave
+  playerCar: {fileID: 0}
 --- !u!1 &2104775103
 GameObject:
   m_ObjectHideFlags: 0
@@ -93486,6 +93601,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1935340885}
     m_Modifications:
+    - target: {fileID: 1420948941115341554, guid: 6ee5313ac0f614042a1a83858f80fdc0, type: 3}
+      propertyPath: waveDetectionRadius
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4590862646898627094, guid: 6ee5313ac0f614042a1a83858f80fdc0, type: 3}
       propertyPath: m_Name
       value: man-doctor
