@@ -59,7 +59,7 @@ public class CustomerFeedbackPopup : MonoBehaviour
 
         // Set money amount
         if (moneyText != null)
-            moneyText.text = $"+${moneyEarned}";
+            moneyText.text = $"+{moneyEarned}";
 
         // Set random icon if available
         if (iconImage != null && iconSprites != null && iconSprites.Length > 0)
