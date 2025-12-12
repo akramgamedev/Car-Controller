@@ -51,6 +51,8 @@ public class CloseCallSystem : MonoBehaviour
     private Dictionary<TrafficVehicleBehavior, string> carLastZone = new Dictionary<TrafficVehicleBehavior, string>();
     private float perCarCooldown = 1.0f;
 
+    private bool hasPlayerCrashed = false;
+
     private void Start()
     {
         if (closeCallImage != null)
@@ -73,9 +75,26 @@ public class CloseCallSystem : MonoBehaviour
 
     private void Update()
     {
-        DetectTrafficCars();
+        if (!hasPlayerCrashed)
+        {
+            DetectTrafficCars();
+        }
         UpdateMessageDisplay();
         UpdateCarCooldowns();
+    }
+
+    public void OnPlayerCrash()
+    {
+        hasPlayerCrashed = true;
+        HideCloseCallMessage();
+        LogHelper.Log("CloseCallSystem: Player crashed - stopping close call detection");
+
+    }
+
+    public void ResetCrashState()
+    {
+        hasPlayerCrashed = false;
+        LogHelper.Log("CloseCallSystem: Crash state reset - close calls enabled again");
     }
 
     private void UpdateCarCooldowns()
@@ -359,6 +378,23 @@ public class CloseCallSystem : MonoBehaviour
                 closeCallImage.sprite = dangerSprite;
                 break;
         }
+    }
+
+    private void HideCloseCallMessage()
+    {
+        messageTimer = 0f;
+        isShowingMessage = false;
+
+        if (closeCallCanvasGroup != null)
+        {
+            closeCallCanvasGroup.alpha = 0f;
+        }
+
+        if (closeCallImage != null)
+        {
+            closeCallImage.enabled = false;
+        }
+
     }
 
     private void UpdateMessageDisplay()

@@ -15,6 +15,7 @@ public class CarCollision : MonoBehaviour
     [SerializeField] private Rigidbody carRigidbody;
     [SerializeField] private SplineCarController splineController;
     [SerializeField] private VibrationController vibrationController;
+    [SerializeField] private CloseCallSystem closeCallSystem;
 
     private Transform carBodyTransform;
     private bool hasCrashed = false;
@@ -31,6 +32,11 @@ public class CarCollision : MonoBehaviour
 
         if (splineController == null)
             splineController = GetComponent<SplineCarController>();
+
+        if (closeCallSystem == null && isPlayer)
+        {
+            closeCallSystem = GetComponent<CloseCallSystem>();
+        }
 
         if (carRigidbody == null)
         {
@@ -148,10 +154,10 @@ public class CarCollision : MonoBehaviour
             {
                 AudioManager.Instance?.PlaySFX("CarCrash");
 
-            // Vibration on car crash
+                // Vibration on car crash
                 if (isPlayer && vibrationController != null)
                     vibrationController.LooseVibration();
-                    LogHelper.Log("car crash vibration called");
+                LogHelper.Log("car crash vibration called");
 
                 DisableSplineControl();
                 ApplyRotationFromCollision(collision);
@@ -160,6 +166,11 @@ public class CarCollision : MonoBehaviour
                 CarSkidMarks skidMarks = GetComponent<CarSkidMarks>();
                 if (skidMarks != null)
                     skidMarks.DisableTrails();
+
+                if (isPlayer && closeCallSystem != null)
+                {
+                    closeCallSystem.OnPlayerCrash();
+                }
 
                 if (isPlayer && UIManager.Instance != null)
                 {

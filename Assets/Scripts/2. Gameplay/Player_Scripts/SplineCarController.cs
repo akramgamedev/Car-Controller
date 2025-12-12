@@ -88,6 +88,15 @@ public class SplineCarController : MonoBehaviour
         skidMarks = GetComponent<CarSkidMarks>();
 
         InitializeCarChild();
+
+        if (CheckpointManager.Instance.HasCheckpoint())
+        {
+            bool loaded = CheckpointManager.Instance.LoadCheckpoint(this);
+            if (loaded)
+            {
+                LogHelper.Log("Checkpoint loaded successfully!");
+            }
+        }
     }
 
     void OnDisable()
@@ -606,5 +615,34 @@ public class SplineCarController : MonoBehaviour
         UIManager.Instance.HideMainMenu();
 
         LogHelper.Log("Game Started! UI animated and hidden. Player can now move.");
+    }
+    public float GetSplineProgress()
+    {
+        return splineProgress;
+    }
+
+    public void RestoreFromCheckpoint(float progress, Vector3 position, Quaternion rotation, float speed)
+    {
+        splineProgress = progress;
+        transform.position = position;
+        transform.rotation = rotation;
+        baseRotation = rotation;
+        currentSpeed = speed;
+
+        // Reset drift states
+        currentDriftAngle = 0f;
+        sideDriftOffset = 0f;
+        sideDriftVelocity = 0f;
+        driftVelocity = 0f;
+        targetDriftAngle = 0f;
+        isInTurn = false;
+        reachedEnd = false;
+
+        if (carChild != null)
+        {
+            carChild.localRotation = Quaternion.identity;
+        }
+
+        LogHelper.Log($"Car restored from checkpoint at progress: {progress:F3}");
     }
 }
