@@ -273,24 +273,24 @@
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 6,
-        "progressionFillAmount": 0.0
+        "completedLevels": 7,
+        "progressionFillAmount": 0.5
     },
     "economy": {
-        "cash": 287,
+        "cash": 337,
         "keys": 1
     },
     "level": {
-        "unlockedLevelIndex": 4,
+        "unlockedLevelIndex": 5,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
     "setting": {
         "musicSetting": true,
         "soundSetting": true,
-        "vibrationSetting": true,
-        "musicVolume": 0.5,
-        "effectsVolume": 0.699999988079071
+        "vibrationSetting": false,
+        "musicVolume": 0.0,
+        "effectsVolume": 0.0
     },
     "profile": {
         "profileIndex": 0,

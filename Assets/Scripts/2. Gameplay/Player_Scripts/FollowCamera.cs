@@ -55,7 +55,7 @@ public class FollowCamera : MonoBehaviour
                 followSmoothSpeed * Time.deltaTime
             );
         }
-        camTransform.rotation = fixedRotation;
+     //   camTransform.rotation = fixedRotation;
     }
 
     public void SnapToTarget()
