@@ -83,7 +83,7 @@ public class CloseCallEmojiSystem : MonoBehaviour
 
         if (!emojiSpriteDict.ContainsKey(messageType))
         {
-            Debug.LogWarning($"No emoji configured for message type: {messageType}");
+            LogHelper.LogWarning($"No emoji configured for message type: {messageType}");
             return;
         }
 

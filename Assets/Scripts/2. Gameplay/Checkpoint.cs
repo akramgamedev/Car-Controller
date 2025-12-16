@@ -31,7 +31,7 @@ public class Checkpoint : MonoBehaviour
                 
                 if (showDebugMessages)
                 {
-                    Debug.Log($"[Checkpoint] Triggered by {other.name}. Position saved!");
+                    LogHelper.Log($"[Checkpoint] Triggered by {other.name}. Position saved!");
                 }
                 
                 // Destroy checkpoint after delay
@@ -39,7 +39,7 @@ public class Checkpoint : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("[Checkpoint] Car collider found but SplineCarController not found in parent!");
+                LogHelper.LogWarning("[Checkpoint] Car collider found but SplineCarController not found in parent!");
             }
         }
     }

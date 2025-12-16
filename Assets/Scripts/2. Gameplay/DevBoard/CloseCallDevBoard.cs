@@ -257,7 +257,7 @@ public class CloseCallDevBoard : MonoBehaviour
         PlayerPrefs.SetFloat("DevBoard_SlowSpeed", slowSpeedSlider.value);
         PlayerPrefs.Save();
 
-        Debug.Log("Dev Board values saved!");
+        LogHelper.Log("Dev Board values saved!");
     }
 
     public void LoadValues()
@@ -273,7 +273,7 @@ public class CloseCallDevBoard : MonoBehaviour
             resumeDistanceSlider.value = PlayerPrefs.GetFloat("DevBoard_ResumeDistance");
             slowSpeedSlider.value = PlayerPrefs.GetFloat("DevBoard_SlowSpeed");
 
-            Debug.Log("Dev Board values loaded!");
+            LogHelper.Log("Dev Board values loaded!");
         }
     }
 }

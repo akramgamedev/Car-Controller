@@ -45,7 +45,7 @@ public class CheckpointManager : MonoBehaviour
     {
         if (car == null || car.splineContainer == null)
         {
-            Debug.LogError("[CheckpointManager] Cannot save - car or spline is null!");
+            LogHelper.LogError("[CheckpointManager] Cannot save - car or spline is null!");
             return;
         }
 
@@ -63,7 +63,7 @@ public class CheckpointManager : MonoBehaviour
         PlayerPrefs.SetString(CHECKPOINT_KEY, json);
         PlayerPrefs.Save();
 
-        Debug.Log($"[CheckpointManager] Checkpoint saved at progress: {data.splineProgress:F3}");
+        LogHelper.Log($"[CheckpointManager] Checkpoint saved at progress: {data.splineProgress:F3}");
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class CheckpointManager : MonoBehaviour
     {
         if (!HasCheckpoint())
         {
-            Debug.Log("[CheckpointManager] No checkpoint data found.");
+            LogHelper.Log("[CheckpointManager] No checkpoint data found.");
             return false;
         }
 
@@ -83,21 +83,21 @@ public class CheckpointManager : MonoBehaviour
 
         if (car == null)
         {
-            Debug.LogError("[CheckpointManager] Car controller is null!");
+            LogHelper.LogError("[CheckpointManager] Car controller is null!");
             return false;
         }
 
         // Verify spline matches
         if (car.splineContainer != null && car.splineContainer.name != data.splineName)
         {
-            Debug.LogWarning($"[CheckpointManager] Spline mismatch. Expected: {data.splineName}, Got: {car.splineContainer.name}");
+            LogHelper.LogWarning($"[CheckpointManager] Spline mismatch. Expected: {data.splineName}, Got: {car.splineContainer.name}");
             return false;
         }
 
         // Restore car state
         car.RestoreFromCheckpoint(data.splineProgress, data.position, data.rotation, data.currentSpeed);
 
-        Debug.Log($"[CheckpointManager] Checkpoint loaded at progress: {data.splineProgress:F3}");
+        LogHelper.Log($"[CheckpointManager] Checkpoint loaded at progress: {data.splineProgress:F3}");
         return true;
     }
 
@@ -121,7 +121,7 @@ public class CheckpointManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(CHECKPOINT_KEY);
         PlayerPrefs.Save();
-        Debug.Log("[CheckpointManager] Checkpoint cleared.");
+        LogHelper.Log("[CheckpointManager] Checkpoint cleared.");
     }
 
     /// <summary>

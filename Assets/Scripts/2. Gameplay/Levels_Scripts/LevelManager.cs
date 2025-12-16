@@ -41,7 +41,15 @@ public class LevelManager : MonoBehaviour
     private void OnLevelComplete()
     {
         currentLevelHandler.GiveCompletionReward();
-        LevelData.SetUnlockedLevelIndex(currentLevelIndex +1);
+
+        int nextLevelIndex = currentLevelIndex + 1;
+
+        if (nextLevelIndex >= allLevels.Count)
+        {
+            nextLevelIndex = 0;
+        }
+
+        LevelData.SetUnlockedLevelIndex(nextLevelIndex);
         DataManager.Instance.SaveGameData();
     }
     private void Start()
@@ -58,7 +66,7 @@ public class LevelManager : MonoBehaviour
             LogHelper.LogWarning("SplineCarController (Player) not found in scene");
         }
 
-         LoadLevel( Mathf.Clamp(DataManager.Instance.gameData.level.GetUnlockedLevelIndex(),0,allLevels.Count - 1));
+        LoadLevel(Mathf.Clamp(DataManager.Instance.gameData.level.GetUnlockedLevelIndex(), 0, allLevels.Count - 1));
     }
     public void LoadLevel(int levelIndex)
     {
@@ -76,7 +84,7 @@ public class LevelManager : MonoBehaviour
 
         currentLevelHandler = allLevels[levelIndex];
         currentLevelHandler.ActivateLevel(playerCar);
-       
+
         currentLevelIndex = levelIndex;
         LogHelper.Log($"Loaded Level {levelIndex}");
     }
