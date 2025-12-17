@@ -2578,7 +2578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &30720768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3619,6 +3619,7 @@ GameObject:
   - component: {fileID: 35595831}
   - component: {fileID: 35595833}
   - component: {fileID: 35595832}
+  - component: {fileID: 35595834}
   m_Layer: 5
   m_Name: settings-panel-bg
   m_TagString: Untagged
@@ -3691,6 +3692,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35595830}
   m_CullTransparentMesh: 1
+--- !u!114 &35595834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35595830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow:
+  - {fileID: 1757116542}
+  - {fileID: 613485277}
+  - {fileID: 1516936811}
+  - {fileID: 1845464629}
+  - {fileID: 1308829662}
+  - {fileID: 1678142980}
+  - {fileID: 1561038181}
+  - {fileID: 1544330723}
+  callBack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1217431449}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: HideSettingScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &39757027
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,7 +3750,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &39757028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32334,6 +32375,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 407129172}
+  - component: {fileID: 407129173}
   m_Layer: 5
   m_Name: MainMenu-Panel
   m_TagString: Untagged
@@ -32366,6 +32408,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &407129173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407129171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow:
+  - {fileID: 851001766}
+  - {fileID: 1488502993}
+  - {fileID: 1683353383}
+  - {fileID: 384779218}
+  - {fileID: 690286495}
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &407695110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56969,6 +57036,7 @@ GameObject:
   - component: {fileID: 729091597}
   - component: {fileID: 729091599}
   - component: {fileID: 729091598}
+  - component: {fileID: 729091600}
   m_Layer: 5
   m_Name: TapToPlayText
   m_TagString: Untagged
@@ -57094,6 +57162,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729091596}
   m_CullTransparentMesh: 1
+--- !u!114 &729091600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729091596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c000ef723fbab4fa529cb72822f350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TapToPlayFadeAnimation
+  minAlpha: 0.3
+  maxAlpha: 1
+  fadeDuration: 1
+  easeType: 4
 --- !u!1 &729703122
 GameObject:
   m_ObjectHideFlags: 0
@@ -59168,6 +59252,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allLevels:
+  - {fileID: 714980088}
+  - {fileID: 572585208}
+  - {fileID: 460269718}
+  - {fileID: 1875818912}
+  - {fileID: 498362156}
+  - {fileID: 1271985006}
   - {fileID: 85616341}
   playerCar: {fileID: 1990154358}
 --- !u!1001 &760839749
@@ -73444,6 +73534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 966980272}
+  - component: {fileID: 966980273}
   m_Layer: 5
   m_Name: LevelFail_Screen
   m_TagString: Untagged
@@ -73474,6 +73565,29 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &966980273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966980271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow:
+  - {fileID: 1872087032}
+  - {fileID: 1806557255}
+  - {fileID: 307109866}
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &968953286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79514,7 +79628,7 @@ MonoBehaviour:
     levelCount: 5
   - countryName: Egypt
     flagSprite: {fileID: 21300000, guid: 5e426dd38f1d73a4f9678e4441fafce7, type: 3}
-    levelCount: 7
+    levelCount: 6
   - countryName: London
     flagSprite: {fileID: 21300000, guid: 0857cf40968bcce4ea24fa97b585495e, type: 3}
     levelCount: 8
@@ -88119,7 +88233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1188349036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90970,6 +91084,12 @@ MonoBehaviour:
   settingsScreen: {fileID: 1004152948}
   selectionScreen: {fileID: 2046678071}
   VIPScreen: {fileID: 1488183198}
+  mainMenuPanelAnim: {fileID: 407129173}
+  levelSuccessScreenAnim: {fileID: 2056855132}
+  levelFailScreenAnim: {fileID: 966980273}
+  settingsScreenAnim: {fileID: 35595834}
+  selectionScreenAnim: {fileID: 2046678074}
+  VIPScreenAnim: {fileID: 1488183200}
   selectedCar: {fileID: 1212227478}
   stage: {fileID: 255337911123230237}
   worldCanvasCam: {fileID: 748248301}
@@ -99597,7 +99717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1345691055
 RectTransform:
   m_ObjectHideFlags: 0
@@ -111968,6 +112088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488183199}
+  - component: {fileID: 1488183200}
   m_Layer: 5
   m_Name: VIP PACK Screen
   m_TagString: Untagged
@@ -111997,6 +112118,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1488183200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488183198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow: []
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1488502992
 GameObject:
   m_ObjectHideFlags: 0
@@ -113140,6 +113281,7 @@ GameObject:
   - component: {fileID: 1503958820}
   - component: {fileID: 1503958822}
   - component: {fileID: 1503958821}
+  - component: {fileID: 1503958823}
   m_Layer: 5
   m_Name: bg
   m_TagString: Untagged
@@ -113165,8 +113307,8 @@ RectTransform:
   - {fileID: 531333348}
   - {fileID: 2002367998}
   - {fileID: 1314184494}
-  - {fileID: 1946476865}
   - {fileID: 280379921}
+  - {fileID: 1946476865}
   m_Father: {fileID: 1488183199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -113212,6 +113354,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503958819}
   m_CullTransparentMesh: 1
+--- !u!114 &1503958823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503958819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow: []
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1506577450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116285,9 +116447,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1217431449}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideSettingScreen
+      - m_Target: {fileID: 35595834}
+        m_TargetAssemblyTypeName: EnablePanelPopupChildGrow, Assembly-CSharp
+        m_MethodName: HidePanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -127011,7 +127173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1677465817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128254,7 +128416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1683353383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -129708,7 +129870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1708544732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131159,7 +131321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1728895452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135070,7 +135232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1777103144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152973,7 +153135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2008255071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155570,6 +155732,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2046678072}
   - component: {fileID: 2046678073}
+  - component: {fileID: 2046678074}
   m_Layer: 5
   m_Name: CarSelectionScreen
   m_TagString: Untagged
@@ -155611,6 +155774,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f582370c5e2c24b8b934aa3c011e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SafeAreaFix
+--- !u!114 &2046678074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046678071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow: []
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2050323736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155958,6 +156141,7 @@ GameObject:
   - component: {fileID: 2056855129}
   - component: {fileID: 2056855131}
   - component: {fileID: 2056855130}
+  - component: {fileID: 2056855132}
   m_Layer: 5
   m_Name: Bg
   m_TagString: Untagged
@@ -156028,6 +156212,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056855128}
   m_CullTransparentMesh: 1
+--- !u!114 &2056855132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056855128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c94247fb150540279fae55ae0d67ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnablePanelPopupChildGrow
+  easeTypeGrow: 27
+  easeTypeShrink: 26
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  childsToGrow:
+  - {fileID: 496385010}
+  - {fileID: 212314579}
+  - {fileID: 219262792}
+  - {fileID: 803182649}
+  - {fileID: 1632663003}
+  callBack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2057151754
 GameObject:
   m_ObjectHideFlags: 0

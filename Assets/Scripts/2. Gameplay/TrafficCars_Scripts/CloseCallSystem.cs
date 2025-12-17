@@ -207,6 +207,8 @@ public class CloseCallSystem : MonoBehaviour
         }
     }
 
+    //********************************************************
+
     // private void DetectTrafficCars()
     // {
     //     TrafficVehicleBehavior[] allTrafficCars = FindObjectsOfType<TrafficVehicleBehavior>();
