@@ -225,25 +225,25 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_1",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_2",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_3",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_4",
                 "pageIndex": 0
@@ -261,35 +261,35 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_7",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_8",
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 14,
-        "progressionFillAmount": 0.0
+        "completedLevels": 7,
+        "progressionFillAmount": 0.5
     },
     "economy": {
-        "cash": 737,
+        "cash": 347,
         "keys": 1
     },
     "level": {
-        "unlockedLevelIndex": 5,
+        "unlockedLevelIndex": 0,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
     "setting": {
         "musicSetting": true,
         "soundSetting": true,
-        "vibrationSetting": false,
-        "musicVolume": 0.0,
+        "vibrationSetting": true,
+        "musicVolume": 0.14455553889274598,
         "effectsVolume": 0.0
     },
     "profile": {

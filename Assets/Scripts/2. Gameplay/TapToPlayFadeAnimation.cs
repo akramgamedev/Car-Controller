@@ -27,7 +27,7 @@ public class TapToPlayFadeAnimation : MonoBehaviour
 
         if (targetGraphic == null)
         {
-            Debug.LogError("TapToPlayFadeAnimation: No Text, TextMeshProUGUI, or Image component found!");
+            LogHelper.LogError("TapToPlayFadeAnimation: No Text, TextMeshProUGUI, or Image component found!");
             enabled = false;
         }
     }
