@@ -579,7 +579,7 @@ public class UIManager : MonoBehaviour
 
     public void HideSettingScreen()
     {
-        vibrationController?.SuccessVibration();
+       // vibrationController?.SuccessVibration();
         
         if (settingsScreenAnim != null)
         {

@@ -219,13 +219,13 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_0",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_1",
                 "pageIndex": 0
@@ -237,19 +237,19 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_3",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_4",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_5",
                 "pageIndex": 0
@@ -261,35 +261,35 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_7",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_8",
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 7,
-        "progressionFillAmount": 0.5
+        "completedLevels": 16,
+        "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 347,
-        "keys": 1
+        "cash": 1063,
+        "keys": 4
     },
     "level": {
-        "unlockedLevelIndex": 0,
+        "unlockedLevelIndex": 1,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
     "setting": {
         "musicSetting": true,
         "soundSetting": true,
-        "vibrationSetting": true,
-        "musicVolume": 0.14455553889274598,
+        "vibrationSetting": false,
+        "musicVolume": 0.0,
         "effectsVolume": 0.0
     },
     "profile": {
