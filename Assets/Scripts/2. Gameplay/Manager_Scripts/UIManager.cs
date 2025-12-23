@@ -397,6 +397,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelEarningsText;
     [SerializeField] private Image[] keysSlot;
 
+    [Header("Level Text")]
+    [SerializeField] private TextMeshProUGUI currentLevelText;
+    [SerializeField] private TextMeshProUGUI levelCompletedText;
+
     private int levelCoinsEarned = 0;
     private bool isGameStarted = false;
     public bool IsGameStarted => isGameStarted;
@@ -432,6 +436,8 @@ public class UIManager : MonoBehaviour
         StartCoroutine(ShowLoadingScreen());
         UpdateCoinsUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin));
         UpdateKeysUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key));
+
+        UpdateLevelText();
     }
 
     private void OnCurrencyChanged(int amount, GlobalEnums.CurrencyType type)
@@ -458,6 +464,8 @@ public class UIManager : MonoBehaviour
         VIPScreen.SetActive(false);
         stage.SetActive(false);
         selectedCar.SetActive(false);
+
+        UpdateLevelText();
 
         UpdateCameraState();
 
@@ -523,6 +531,14 @@ public class UIManager : MonoBehaviour
 
     public void ShowLevelSuccess()
     {
+        int completedLevel = levelManager.GetCurrentLevelIndex() + 1;
+
+        if (levelCompletedText != null)
+        {
+            levelCompletedText.text = "LEVEL " + completedLevel;
+        }
+
+
         UpdateCoinsUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Coin));
         UpdateKeysUI(StaticEvents.GameEconomy.OnGetCurrency(GlobalEnums.CurrencyType.Key));
 
@@ -530,10 +546,10 @@ public class UIManager : MonoBehaviour
         {
             levelEarningsText.text = "$" + levelCoinsEarned.ToString();
         }
-        
+
         levelSuccessScreen.SetActive(true);
         // EnablePanelPopupChildGrow animation plays automatically via OnEnable
-        
+
         levelCoinsEarned = 0;
         UpdateCameraState();
     }
@@ -579,8 +595,8 @@ public class UIManager : MonoBehaviour
 
     public void HideSettingScreen()
     {
-       // vibrationController?.SuccessVibration();
-        
+        // vibrationController?.SuccessVibration();
+
         if (settingsScreenAnim != null)
         {
             settingsScreenAnim.HidePanel();
@@ -613,7 +629,7 @@ public class UIManager : MonoBehaviour
     public void HideSelectionScreen()
     {
         vibrationController?.SuccessVibration();
-        
+
         if (selectionScreenAnim != null)
         {
             selectionScreenAnim.HidePanel();
@@ -651,7 +667,7 @@ public class UIManager : MonoBehaviour
     public void HideVIPScreen()
     {
         vibrationController?.SuccessVibration();
-        
+
         if (VIPScreenAnim != null)
         {
             VIPScreenAnim.HidePanel();
@@ -705,6 +721,14 @@ public class UIManager : MonoBehaviour
             if (keysSlot[i] != null)
                 keysSlot[i].enabled = i < keysAmount;
         }
+    }
+
+    private void UpdateLevelText()
+    {
+        int currentLevel = levelManager.GetCurrentLevelIndex() + 1; // +1 because index starts at 0
+
+        if (currentLevelText != null)
+            currentLevelText.text = "LEVEL " + currentLevel;
     }
 
     void OnGameStart()
