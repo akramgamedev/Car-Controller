@@ -1,3 +1,262 @@
+// using System;
+// using UnityEngine;
+
+// public class CarSkidMarks : MonoBehaviour
+// {
+//     [Header("Trail Material")]
+//     public Material trailMaterial;
+
+//     [Header("Trail Color Settings")]
+//     public Color trailColor = Color.black;
+//     [Range(0f, 1f)] public float trailAlpha = 0.9f;
+
+//     [Header("Drift Trail Settings")]
+//     public TrailRenderer leftTrail;
+//     public TrailRenderer rightTrail;
+//     public float wheelDistance = 1.5f;
+//     public float rearWheelOffset = 1.2f;
+//     public float trailStartAngle = 12f;
+//     public float trailWidth = 0.3f;
+//     public float trailLifetime = 3f;
+
+//     [Header("Brake Mark Settings")]
+//     public float minBrakeSpeed = 12f;
+//     public float minHighSpeedDuration = 1.5f;
+
+//     private GameObject leftTrailObject;
+//     private GameObject rightTrailObject;
+//     private Transform carChild;
+
+//     public bool IsShowingTrails { get; private set; } = false;
+
+
+
+//     void Start()
+//     {
+//         carChild = FindActiveCarChild();
+
+//         if (carChild != null)
+//         {
+//             SetupTrailRenderers();
+//         }
+//         else
+//         {
+//             LogHelper.LogWarning("CarSkidMarks: No active child with 'Car' tag found under " + gameObject.name);
+//         }
+//     }
+
+//     Transform FindActiveCarChild()
+//     {
+//         foreach (Transform child in transform)
+//         {
+//             if (child.gameObject.activeInHierarchy && child.CompareTag("Car"))
+//                 return child;
+//         }
+//         return null;
+//     }
+
+//     void SetupTrailRenderers()
+//     {
+//         if (leftTrailObject != null) Destroy(leftTrailObject);
+//         if (rightTrailObject != null) Destroy(rightTrailObject);
+
+//         leftTrailObject = new GameObject("LeftDriftTrail");
+//         rightTrailObject = new GameObject("RightDriftTrail");
+
+//         if (carChild != null)
+//         {
+//             leftTrailObject.transform.SetParent(carChild, false);
+//             rightTrailObject.transform.SetParent(carChild, false);
+//         }
+//         else
+//         {
+//             leftTrailObject.transform.SetParent(transform, false);
+//             rightTrailObject.transform.SetParent(transform, false);
+//         }
+
+//         leftTrailObject.transform.localPosition = Vector3.zero;
+//         leftTrailObject.transform.localRotation = Quaternion.identity;
+//         leftTrailObject.transform.localScale = Vector3.one;
+
+//         rightTrailObject.transform.localPosition = Vector3.zero;
+//         rightTrailObject.transform.localRotation = Quaternion.identity;
+//         rightTrailObject.transform.localScale = Vector3.one;
+
+//         leftTrail = leftTrailObject.AddComponent<TrailRenderer>();
+//         rightTrail = rightTrailObject.AddComponent<TrailRenderer>();
+
+//         ConfigureTrail(leftTrail);
+//         ConfigureTrail(rightTrail);
+
+//         leftTrail.emitting = false;
+//         rightTrail.emitting = false;
+//     }
+
+//     void ConfigureTrail(TrailRenderer trail)
+//     {
+//         trail.time = trailLifetime;
+//         trail.autodestruct = false;
+
+//         trail.startWidth = trailWidth;
+//         trail.endWidth = trailWidth;
+
+//         Gradient gradient = new Gradient();
+//         gradient.mode = GradientMode.Blend;
+//         gradient.SetKeys(
+//             new GradientColorKey[] {
+//             new GradientColorKey(trailColor, 0f),
+//             new GradientColorKey(trailColor, 1f)
+//             },
+//             new GradientAlphaKey[] {
+//             new GradientAlphaKey(trailAlpha, 0.0f),
+//             new GradientAlphaKey(trailAlpha * 0.85f, 0.3f),
+//             new GradientAlphaKey(trailAlpha * 0.65f, 0.5f),
+//             new GradientAlphaKey(trailAlpha * 0.45f, 0.7f),
+//             new GradientAlphaKey(trailAlpha * 0.25f, 0.85f),
+//             new GradientAlphaKey(0f, 1.0f)
+//             }
+//         );
+//         trail.colorGradient = gradient;
+
+//         AnimationCurve widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
+//         trail.widthCurve = widthCurve;
+
+//         //trail.material = new Material(Shader.Find("Sprites/Default"));
+//         if (trailMaterial != null)
+//         {
+//             trail.material = trailMaterial;
+//         }
+//         else
+//         {
+//             LogHelper.LogWarning("Trail material not assigned! Using default.");
+//             //trail.material = new Material(Shader.Find("Sprites/Default"));
+//         }
+
+//         trail.material.color = trailColor;
+//         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+//         trail.receiveShadows = false;
+
+//         trail.alignment = LineAlignment.View;
+//         trail.transform.localRotation = Quaternion.identity;
+//         trail.textureMode = LineTextureMode.Stretch;
+//         trail.minVertexDistance = 0.05f;
+//         trail.generateLightingData = false;
+//     }
+
+//     public void Initialize(Transform car)
+//     {
+//         carChild = car;
+//         AutoDetectWheelsPosition();
+
+//         SetupTrailRenderers();
+//     }
+
+//     public void HandleDriftTrails(bool isTouching, float currentSpeed, float currentDriftAngle, ref float previousSpeed, ref float highSpeedTimer)
+//     {
+//         if (leftTrail == null || rightTrail == null || carChild == null || leftTrailObject == null || rightTrailObject == null)
+//             return;
+
+//         Vector3 leftWheelLocal = new Vector3(-wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
+//         Vector3 rightWheelLocal = new Vector3(wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
+
+//         Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
+//         Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
+
+//         RaycastHit hit;
+//         float raycastDistance = 2f;
+
+//         Vector3 leftFinalWorld = leftWheelWorld;
+//         Vector3 rightFinalWorld = rightWheelWorld;
+
+//         if (Physics.Raycast(leftWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
+//             leftFinalWorld = hit.point + Vector3.up * 0.02f;
+//         else
+//             leftFinalWorld.y = carChild.position.y + 0.02f;
+
+//         if (Physics.Raycast(rightWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
+//             rightFinalWorld = hit.point + Vector3.up * 0.02f;
+//         else
+//             rightFinalWorld.y = carChild.position.y + 0.02f;
+
+//         if (leftTrailObject.transform.parent == carChild)
+//         {
+//             leftTrailObject.transform.localPosition = carChild.InverseTransformPoint(leftFinalWorld);
+//             rightTrailObject.transform.localPosition = carChild.InverseTransformPoint(rightFinalWorld);
+//         }
+//         else
+//         {
+//             leftTrailObject.transform.position = leftFinalWorld;
+//             rightTrailObject.transform.position = rightFinalWorld;
+//         }
+
+//         if (isTouching && currentSpeed > minBrakeSpeed)
+//             highSpeedTimer += Time.deltaTime;
+//         else if (currentSpeed < minBrakeSpeed * 0.7f)
+//             highSpeedTimer = 0f;
+
+//         bool isDrifting = Mathf.Abs(currentDriftAngle) > trailStartAngle;
+//         bool showDriftMarks = isDrifting;
+
+//         float decelAmount = (previousSpeed - currentSpeed) / Mathf.Max(Time.deltaTime, 0.01f);
+//         bool isBrakingNow = !isTouching && currentSpeed < previousSpeed;
+
+//         bool cameFromSpeed = previousSpeed > 10f;
+//         bool brakingStrong = decelAmount > 3.5f;
+//         bool stillRolling = currentSpeed > 2.5f;
+
+//         bool showBrakeMarks =
+//             cameFromSpeed &&
+//             brakingStrong &&
+//             stillRolling &&
+//             isBrakingNow &&
+//             highSpeedTimer > 0.3f;
+
+//         if (currentSpeed < 2f)
+//             showBrakeMarks = false;
+
+//         bool shouldShowTrails = showDriftMarks || showBrakeMarks;
+
+//         leftTrail.emitting = shouldShowTrails;
+//         rightTrail.emitting = shouldShowTrails;
+
+//         leftTrail.startWidth = rightTrail.startWidth = rightTrail.endWidth = leftTrail.endWidth = trailWidth;
+
+//         IsShowingTrails = shouldShowTrails;
+
+//         previousSpeed = currentSpeed;
+
+// #if UNITY_EDITOR
+//         Debug.DrawLine(leftFinalWorld, leftFinalWorld + Vector3.up * 0.3f, Color.red);
+//         Debug.DrawLine(rightFinalWorld, rightFinalWorld + Vector3.up * 0.3f, Color.green);
+// #endif
+//     }
+
+//     void AutoDetectWheelsPosition()
+//     {
+//         if (carChild == null) return;
+
+//         Renderer carRenderer = carChild.GetComponent<Renderer>();
+//         if (carRenderer != null)
+//         {
+//             Bounds bounds = carRenderer.bounds;
+//             Vector3 localBoundsSize = carChild.InverseTransformVector(bounds.size);
+
+//             wheelDistance = Mathf.Abs(localBoundsSize.x) * 0.8f; // 80% of car width
+//             rearWheelOffset = Mathf.Abs(localBoundsSize.z) * 0.3f;
+
+//             LogHelper.Log("Auto-detected wheelDistance: " + wheelDistance + ", rearWheelOffset: " + rearWheelOffset);
+
+//         }
+
+//     }
+
+//     public void DisableTrails()
+//     {
+//         if (leftTrail != null) leftTrail.emitting = false;
+//         if (rightTrail != null) rightTrail.emitting = false;
+//     }
+// }
+
 using System;
 using UnityEngine;
 
@@ -27,9 +286,17 @@ public class CarSkidMarks : MonoBehaviour
     private GameObject rightTrailObject;
     private Transform carChild;
 
+    private readonly Vector3 upOffset = new Vector3(0f, 0.5f, 0f);
+    private readonly Vector3 tinyOffset = new Vector3(0f, 0.02f, 0f);
+
     public bool IsShowingTrails { get; private set; } = false;
 
+    private RaycastHit hit; // reuse struct to avoid allocations
+    private float raycastDistance = 2f;
+    private float wheelHalf; // cached half-width
 
+    private Vector3 cachedCarChildPosition;
+    private int lastPositionFrame = -1;
 
     void Start()
     {
@@ -37,6 +304,7 @@ public class CarSkidMarks : MonoBehaviour
 
         if (carChild != null)
         {
+            wheelHalf = wheelDistance * 0.5f;
             SetupTrailRenderers();
         }
         else
@@ -47,8 +315,9 @@ public class CarSkidMarks : MonoBehaviour
 
     Transform FindActiveCarChild()
     {
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
+            var child = transform.GetChild(i);
             if (child.gameObject.activeInHierarchy && child.CompareTag("Car"))
                 return child;
         }
@@ -63,16 +332,10 @@ public class CarSkidMarks : MonoBehaviour
         leftTrailObject = new GameObject("LeftDriftTrail");
         rightTrailObject = new GameObject("RightDriftTrail");
 
-        if (carChild != null)
-        {
-            leftTrailObject.transform.SetParent(carChild, false);
-            rightTrailObject.transform.SetParent(carChild, false);
-        }
-        else
-        {
-            leftTrailObject.transform.SetParent(transform, false);
-            rightTrailObject.transform.SetParent(transform, false);
-        }
+        Transform parent = carChild != null ? carChild : transform;
+
+        leftTrailObject.transform.SetParent(parent, false);
+        rightTrailObject.transform.SetParent(parent, false);
 
         leftTrailObject.transform.localPosition = Vector3.zero;
         leftTrailObject.transform.localRotation = Quaternion.identity;
@@ -96,32 +359,31 @@ public class CarSkidMarks : MonoBehaviour
     {
         trail.time = trailLifetime;
         trail.autodestruct = false;
-
         trail.startWidth = trailWidth;
         trail.endWidth = trailWidth;
 
+        // Pre-created gradient to avoid per-frame allocation
         Gradient gradient = new Gradient();
         gradient.mode = GradientMode.Blend;
         gradient.SetKeys(
-            new GradientColorKey[] {
-            new GradientColorKey(trailColor, 0f),
-            new GradientColorKey(trailColor, 1f)
+            new GradientColorKey[]
+            {
+                new GradientColorKey(trailColor, 0f),
+                new GradientColorKey(trailColor, 1f)
             },
-            new GradientAlphaKey[] {
-            new GradientAlphaKey(trailAlpha, 0.0f),
-            new GradientAlphaKey(trailAlpha * 0.85f, 0.3f),
-            new GradientAlphaKey(trailAlpha * 0.65f, 0.5f),
-            new GradientAlphaKey(trailAlpha * 0.45f, 0.7f),
-            new GradientAlphaKey(trailAlpha * 0.25f, 0.85f),
-            new GradientAlphaKey(0f, 1.0f)
+            new GradientAlphaKey[]
+            {
+                new GradientAlphaKey(trailAlpha, 0f),
+                new GradientAlphaKey(trailAlpha * 0.85f, 0.3f),
+                new GradientAlphaKey(trailAlpha * 0.65f, 0.5f),
+                new GradientAlphaKey(trailAlpha * 0.45f, 0.7f),
+                new GradientAlphaKey(trailAlpha * 0.25f, 0.85f),
+                new GradientAlphaKey(0f, 1f)
             }
         );
         trail.colorGradient = gradient;
+        trail.widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
 
-        AnimationCurve widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
-        trail.widthCurve = widthCurve;
-
-        //trail.material = new Material(Shader.Find("Sprites/Default"));
         if (trailMaterial != null)
         {
             trail.material = trailMaterial;
@@ -129,55 +391,76 @@ public class CarSkidMarks : MonoBehaviour
         else
         {
             LogHelper.LogWarning("Trail material not assigned! Using default.");
-            //trail.material = new Material(Shader.Find("Sprites/Default"));
         }
 
         trail.material.color = trailColor;
         trail.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         trail.receiveShadows = false;
-
         trail.alignment = LineAlignment.View;
-        trail.transform.localRotation = Quaternion.identity;
         trail.textureMode = LineTextureMode.Stretch;
         trail.minVertexDistance = 0.05f;
         trail.generateLightingData = false;
+        trail.transform.localRotation = Quaternion.identity;
     }
 
     public void Initialize(Transform car)
     {
         carChild = car;
         AutoDetectWheelsPosition();
-
+        wheelHalf = wheelDistance * 0.5f;
         SetupTrailRenderers();
     }
 
     public void HandleDriftTrails(bool isTouching, float currentSpeed, float currentDriftAngle, ref float previousSpeed, ref float highSpeedTimer)
     {
+        // Cache car position once per frame
+        if (lastPositionFrame != Time.frameCount)
+        {
+            cachedCarChildPosition = carChild.position;
+            lastPositionFrame = Time.frameCount;
+        }
+
         if (leftTrail == null || rightTrail == null || carChild == null || leftTrailObject == null || rightTrailObject == null)
             return;
 
-        Vector3 leftWheelLocal = new Vector3(-wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
-        Vector3 rightWheelLocal = new Vector3(wheelDistance * 0.5f, 0.05f, -rearWheelOffset);
+        // Calculate world wheel positions
+        // Vector3 leftWheelLocal = new Vector3(-wheelHalf, 0.05f, -rearWheelOffset);
+        // Vector3 rightWheelLocal = new Vector3(wheelHalf, 0.05f, -rearWheelOffset);
 
-        Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
-        Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
+        // Vector3 leftWheelWorld = carChild.TransformPoint(leftWheelLocal);
+        // Vector3 rightWheelWorld = carChild.TransformPoint(rightWheelLocal);
 
-        RaycastHit hit;
-        float raycastDistance = 2f;
+        // Cache local positions (allocate once)
+        Vector3 leftWheelLocal = new Vector3(-wheelHalf, 0.05f, -rearWheelOffset);
+        Vector3 rightWheelLocal = new Vector3(wheelHalf, 0.05f, -rearWheelOffset);
+
+        // Use Matrix4x4 for faster transformation (avoids function call overhead)
+        Matrix4x4 localToWorld = carChild.localToWorldMatrix;
+        Vector3 leftWheelWorld = localToWorld.MultiplyPoint3x4(leftWheelLocal);
+        Vector3 rightWheelWorld = localToWorld.MultiplyPoint3x4(rightWheelLocal);
 
         Vector3 leftFinalWorld = leftWheelWorld;
         Vector3 rightFinalWorld = rightWheelWorld;
 
-        if (Physics.Raycast(leftWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
-            leftFinalWorld = hit.point + Vector3.up * 0.02f;
-        else
-            leftFinalWorld.y = carChild.position.y + 0.02f;
+        // Raycast down only once per wheel
+        if (Physics.Raycast(leftWheelWorld + upOffset, Vector3.down, out hit, raycastDistance))
+            leftFinalWorld = hit.point + tinyOffset;
+        // else
+        //     leftFinalWorld.y = carChild.position.y + tinyOffset.y;
 
-        if (Physics.Raycast(rightWheelWorld + Vector3.up * 0.5f, Vector3.down, out hit, raycastDistance))
-            rightFinalWorld = hit.point + Vector3.up * 0.02f;
+        // if (Physics.Raycast(rightWheelWorld + upOffset, Vector3.down, out hit, raycastDistance))
+        //     rightFinalWorld = hit.point + tinyOffset;
+        // else
+        //     rightFinalWorld.y = carChild.position.y + tinyOffset.y;
         else
-            rightFinalWorld.y = carChild.position.y + 0.02f;
+            leftFinalWorld.y = cachedCarChildPosition.y + tinyOffset.y;
 
+        if (Physics.Raycast(rightWheelWorld + upOffset, Vector3.down, out hit, raycastDistance))
+            rightFinalWorld = hit.point + tinyOffset;
+        else
+            rightFinalWorld.y = cachedCarChildPosition.y + tinyOffset.y;
+
+        // Update trail objects positions
         if (leftTrailObject.transform.parent == carChild)
         {
             leftTrailObject.transform.localPosition = carChild.InverseTransformPoint(leftFinalWorld);
@@ -189,40 +472,28 @@ public class CarSkidMarks : MonoBehaviour
             rightTrailObject.transform.position = rightFinalWorld;
         }
 
+        // High-speed timer logic
         if (isTouching && currentSpeed > minBrakeSpeed)
             highSpeedTimer += Time.deltaTime;
         else if (currentSpeed < minBrakeSpeed * 0.7f)
             highSpeedTimer = 0f;
 
+        // Drift detection
         bool isDrifting = Mathf.Abs(currentDriftAngle) > trailStartAngle;
-        bool showDriftMarks = isDrifting;
 
         float decelAmount = (previousSpeed - currentSpeed) / Mathf.Max(Time.deltaTime, 0.01f);
         bool isBrakingNow = !isTouching && currentSpeed < previousSpeed;
 
-        bool cameFromSpeed = previousSpeed > 10f;
-        bool brakingStrong = decelAmount > 3.5f;
-        bool stillRolling = currentSpeed > 2.5f;
+        bool showBrakeMarks = previousSpeed > 10f && decelAmount > 3.5f && currentSpeed > 2.5f && isBrakingNow && highSpeedTimer > 0.3f;
+        if (currentSpeed < 2f) showBrakeMarks = false;
 
-        bool showBrakeMarks =
-            cameFromSpeed &&
-            brakingStrong &&
-            stillRolling &&
-            isBrakingNow &&
-            highSpeedTimer > 0.3f;
-
-        if (currentSpeed < 2f)
-            showBrakeMarks = false;
-
-        bool shouldShowTrails = showDriftMarks || showBrakeMarks;
+        bool shouldShowTrails = isDrifting || showBrakeMarks;
 
         leftTrail.emitting = shouldShowTrails;
         rightTrail.emitting = shouldShowTrails;
-
         leftTrail.startWidth = rightTrail.startWidth = rightTrail.endWidth = leftTrail.endWidth = trailWidth;
 
         IsShowingTrails = shouldShowTrails;
-
         previousSpeed = currentSpeed;
 
 #if UNITY_EDITOR
@@ -245,9 +516,7 @@ public class CarSkidMarks : MonoBehaviour
             rearWheelOffset = Mathf.Abs(localBoundsSize.z) * 0.3f;
 
             LogHelper.Log("Auto-detected wheelDistance: " + wheelDistance + ", rearWheelOffset: " + rearWheelOffset);
-
         }
-
     }
 
     public void DisableTrails()

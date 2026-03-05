@@ -28,6 +28,15 @@ public class RoadPathLine : MonoBehaviour
     private float totalPathLength;
     private float lastLineWidth;
     private Color lastLineColor;
+    private Transform carCache;
+    private Vector3[] remainingPathCache;
+    private int lastVisibleCount = 0;
+
+    private int lastClosestIndex = 0;
+    private int framesSinceLastSearch = 0;
+
+    private Vector3 lastCarPosition;
+    private const float MIN_CAR_MOVEMENT = 0.1f;
 
     void Awake()
     {
@@ -39,6 +48,8 @@ public class RoadPathLine : MonoBehaviour
     {
         lastLineWidth = lineWidth;
         lastLineColor = lineColor;
+        carCache = car;
+        remainingPathCache = new Vector3[2048];
     }
 
     void Update()
@@ -56,23 +67,51 @@ public class RoadPathLine : MonoBehaviour
             lastLineColor = lineColor;
         }
 
-        if (car == null || fullPath == null || fullPath.Length == 0) return;
 
-        int closestIndex = GetClosestPointIndex(car.position);
+        if (carCache == null || fullPath == null || fullPath.Length == 0) return;
+
+        float carMovementSqr = (carCache.position - lastCarPosition).sqrMagnitude;
+        if (carMovementSqr < MIN_CAR_MOVEMENT * MIN_CAR_MOVEMENT)
+            return;
+        lastCarPosition = carCache.position;
+
+        int closestIndex = GetClosestPointIndex(carCache.position);
 
         int visibleCount = Mathf.Max(0, fullPath.Length - closestIndex);
         if (visibleCount <= 1)
         {
-            line.positionCount = 0;
+            if (line.positionCount != 0)
+                line.positionCount = 0;
             return;
         }
 
-        Vector3[] remaining = new Vector3[visibleCount];
-        for (int i = 0; i < visibleCount; i++)
-            remaining[i] = fullPath[closestIndex + i];
+        // if (remainingPathCache.Length < visibleCount)
+        // {
+        //     remainingPathCache = new Vector3[visibleCount];
+        // }
 
-        line.positionCount = remaining.Length;
-        line.SetPositions(remaining);
+        // //  Vector3[] remaining = new Vector3[visibleCount];
+        // for (int i = 0; i < visibleCount; i++)
+        //     remainingPathCache[i] = fullPath[closestIndex + i];
+
+        // line.positionCount = visibleCount;
+        // line.SetPositions(remainingPathCache);
+
+        if (Mathf.Abs(visibleCount - lastVisibleCount) > 5 || lastVisibleCount == 0)
+        {
+            if (remainingPathCache.Length < visibleCount)
+            {
+                remainingPathCache = new Vector3[Mathf.NextPowerOfTwo(visibleCount)];
+            }
+
+            // for (int i = 0; i < visibleCount; i++)
+            // remainingPathCache[i] = fullPath[closestIndex + i];
+            System.Array.Copy(fullPath, closestIndex, remainingPathCache, 0, visibleCount);
+
+            line.positionCount = visibleCount;
+            line.SetPositions(remainingPathCache);
+            lastVisibleCount = visibleCount;
+        }
     }
 
     public void SetSpline(SplineContainer splineContainer)
@@ -110,15 +149,28 @@ public class RoadPathLine : MonoBehaviour
 
         fullPath = new Vector3[sampleCount];
 
+        // for (int i = 0; i < sampleCount; i++)
+        // {
+        //     float t = i / (float)(sampleCount - 1);
+
+        //     Vector3 localPos = currentSpline.Spline.EvaluatePosition(t);
+
+        //     Vector3 worldPos = currentSpline.transform.TransformPoint(localPos);
+
+        //     fullPath[i] = worldPos + Vector3.up * yOffset;
+        // }
+        Transform splineTransform = currentSpline.transform;
+        Vector3 yOffsetVector = Vector3.up * yOffset; // Cache calculation
+        float invSampleCount = 1f / (sampleCount - 1); // Cache division
+
         for (int i = 0; i < sampleCount; i++)
         {
-            float t = i / (float)(sampleCount - 1);
+            float t = i * invSampleCount; // Use multiplication instead of division
 
             Vector3 localPos = currentSpline.Spline.EvaluatePosition(t);
+            Vector3 worldPos = splineTransform.TransformPoint(localPos);
 
-            Vector3 worldPos = currentSpline.transform.TransformPoint(localPos);
-
-            fullPath[i] = worldPos + Vector3.up * yOffset;
+            fullPath[i] = worldPos + yOffsetVector;
         }
 
         line.positionCount = fullPath.Length;
@@ -127,22 +179,89 @@ public class RoadPathLine : MonoBehaviour
         LogHelper.Log($"SplinePathLine: Generated path with {sampleCount} samples (length: {totalPathLength:F2})");
     }
 
+    // private int GetClosestPointIndex(Vector3 carPos)
+    // {
+    //     if (fullPath == null || fullPath.Length == 0)
+    //         return 0;
+
+    //     float minDistSqr = float.MaxValue;
+    //     int index = 0;
+
+    //     int step = Mathf.Max(1, fullPath.Length / 200);
+
+    //     for (int i = 0; i < fullPath.Length; i += step)
+    //     {
+    //         float distSqr = (carPos - fullPath[i]).sqrMagnitude;
+    //         if (distSqr < minDistSqr)
+    //         {
+    //             minDistSqr = distSqr;
+    //             index = i;
+    //         }
+    //     }
+
+    //     int searchRange = step * 2;
+    //     int startSearch = Mathf.Max(0, index - searchRange);
+    //     int endSearch = Mathf.Min(fullPath.Length - 1, index + searchRange);
+
+    //     for (int i = startSearch; i <= endSearch; i++)
+    //     {
+    //         float distSqr = (carPos - fullPath[i]).sqrMagnitude;
+    //         if (distSqr < minDistSqr)
+    //         {
+    //             minDistSqr = distSqr;
+    //             index = i;
+    //         }
+    //     }
+
+    //     return index;
+    // }
+
     private int GetClosestPointIndex(Vector3 carPos)
     {
         if (fullPath == null || fullPath.Length == 0)
             return 0;
 
-        float minDist = float.MaxValue;
+        framesSinceLastSearch++;
+
+        // Only do full search every 3 frames, otherwise search near last position
+        if (framesSinceLastSearch < 3)
+        {
+            // Search only forward from last position (car moves forward)
+            int localSearchRange = 20;
+            int localStartSearch = Mathf.Max(0, lastClosestIndex - 5);
+            int localEndSearch = Mathf.Min(fullPath.Length - 1, lastClosestIndex + localSearchRange);
+
+            float localMinDistSqr = float.MaxValue;
+            int localIndex = lastClosestIndex;
+
+            for (int i = localStartSearch; i <= localEndSearch; i++)
+            {
+                float distSqr = (carPos - fullPath[i]).sqrMagnitude;
+                if (distSqr < localMinDistSqr)
+                {
+                    localMinDistSqr = distSqr;
+                    localIndex = i;
+                }
+            }
+
+            lastClosestIndex = localIndex;
+            return localIndex;
+        }
+
+        // Full search every 3rd frame
+        framesSinceLastSearch = 0;
+
+        float minDistSqr = float.MaxValue;
         int index = 0;
 
         int step = Mathf.Max(1, fullPath.Length / 200);
 
         for (int i = 0; i < fullPath.Length; i += step)
         {
-            float dist = Vector3.Distance(carPos, fullPath[i]);
-            if (dist < minDist)
+            float distSqr = (carPos - fullPath[i]).sqrMagnitude;
+            if (distSqr < minDistSqr)
             {
-                minDist = dist;
+                minDistSqr = distSqr;
                 index = i;
             }
         }
@@ -153,15 +272,15 @@ public class RoadPathLine : MonoBehaviour
 
         for (int i = startSearch; i <= endSearch; i++)
         {
-            float dist = Vector3.Distance(carPos, fullPath[i]);
-            if (dist < minDist)
+            float distSqr = (carPos - fullPath[i]).sqrMagnitude;
+            if (distSqr < minDistSqr)
             {
-                minDist = dist;
+                minDistSqr = distSqr;
                 index = i;
-
             }
         }
 
+        lastClosestIndex = index;
         return index;
     }
 
@@ -173,6 +292,9 @@ public class RoadPathLine : MonoBehaviour
         }
         fullPath = null;
         currentSpline = null;
+        lastClosestIndex = 0;
+        framesSinceLastSearch = 0;
+        lastVisibleCount = 0;
     }
 
     public float GetPathProgress(Vector3 position)

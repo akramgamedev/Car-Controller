@@ -80,12 +80,28 @@ public class SplineCarController : MonoBehaviour
     public GameObject mainMenuUI;
     private bool gameStarted = false;
 
+    // new added for reduce lag:
+    private Transform transformCache;
+    private EventSystem eventSystemCache;
+    private Vector3 cachedCurrentTangent;
+    private Vector3 cachedFutureTangent;
+    private float cachedLookAhead;
+    private Spline cachedSpline;
+    private Vector3 cachedRight;
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         skidMarks = GetComponent<CarSkidMarks>();
+
+        cachedSpline = splineContainer.Spline;
+
+        //new added:
+        transformCache = transform;
+        eventSystemCache = EventSystem.current;
+        //----------
 
         InitializeCarChild();
 
@@ -301,10 +317,10 @@ public class SplineCarController : MonoBehaviour
         {
             bool isOverUI = false;
 
-            if (EventSystem.current != null)
+            if (/*EventSystem.current*/ eventSystemCache != null)
             {
 #if UNITY_EDITOR || UNITY_STANDALONE
-                isOverUI = EventSystem.current.IsPointerOverGameObject();
+                isOverUI = eventSystemCache.IsPointerOverGameObject();
 #else
             isOverUI = EventSystem.current.IsPointerOverGameObject(-1);
             if (!isOverUI && Input.touchCount > 0)
@@ -423,9 +439,20 @@ public class SplineCarController : MonoBehaviour
 
         Vector3 splinePos = splineContainer.EvaluatePosition(splineProgress);
 
-        float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
-        Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
-        Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
+        // float lookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
+        // Vector3 currentTangent = splineContainer.EvaluateTangent(splineProgress);
+        // Vector3 futureTangent = splineContainer.EvaluateTangent(lookAhead);
+
+        if (Time.frameCount % 2 == 0)
+        {
+            cachedLookAhead = Mathf.Clamp01(splineProgress + rotationLookAhead);
+            cachedCurrentTangent = splineContainer.EvaluateTangent(splineProgress);
+            cachedFutureTangent = splineContainer.EvaluateTangent(cachedLookAhead);
+        }
+
+        Vector3 currentTangent = cachedCurrentTangent;
+        Vector3 futureTangent = cachedFutureTangent;
+
         currentTangent.y = 0;
         futureTangent.y = 0;
         currentTangent.Normalize();
@@ -448,20 +475,26 @@ public class SplineCarController : MonoBehaviour
                 baseRotation = Quaternion.Slerp(baseRotation, targetRot, Time.deltaTime * speedBasedRotation);
             }
 
+            // transform.rotation = baseRotation;
             transform.rotation = baseRotation;
+
         }
 
-        Vector3 rightDir = transform.right;
+        Vector3 rightDir = transformCache.right;
         Vector3 offsetPos = splinePos + (rightDir * sideDriftOffset);
-        transform.position = new Vector3(offsetPos.x, transform.position.y, offsetPos.z);
+        transformCache.position = new Vector3(offsetPos.x, transformCache.position.y, offsetPos.z);
     }
 
     void HandleDrift()
     {
         if (carChild == null) return;
 
+        // float lookAhead = Mathf.Clamp01(splineProgress + lookAheadDistance);
+        // Vector3 nowTan = splineContainer.EvaluateTangent(splineProgress);
+        // Vector3 futureTan = splineContainer.EvaluateTangent(lookAhead);
+
         float lookAhead = Mathf.Clamp01(splineProgress + lookAheadDistance);
-        Vector3 nowTan = splineContainer.EvaluateTangent(splineProgress);
+        Vector3 nowTan = cachedCurrentTangent; // Reuse cached value
         Vector3 futureTan = splineContainer.EvaluateTangent(lookAhead);
         nowTan.y = 0; futureTan.y = 0;
         nowTan.Normalize(); futureTan.Normalize();
@@ -475,8 +508,8 @@ public class SplineCarController : MonoBehaviour
         if (currentSpeed < minDriftSpeed)
         {
             targetDriftAngle = Mathf.Lerp(targetDriftAngle, 0f, Time.deltaTime * 4f);
-            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, sideDriftExitSpeed);
             currentDriftAngle = Mathf.SmoothDampAngle(currentDriftAngle, 0f, ref driftVelocity, driftExitSmoothTime);
+            sideDriftOffset = Mathf.SmoothDamp(sideDriftOffset, 0f, ref sideDriftVelocity, sideDriftExitSpeed);
 
             if (Mathf.Abs(sideDriftOffset) < 0.01f)
             {

@@ -217,20 +217,20 @@ public class CarCollision : MonoBehaviour
         carRigidbody.AddForce(Vector3.up * collision.relativeVelocity.magnitude * 50f, ForceMode.Impulse);
     }
 
-    void LateUpdate()
-    {
-        if (carRigidbody == null) return;
+//     void LateUpdate()
+//     {
+//         if (carRigidbody == null) return;
 
-#if UNITY_6000_0_OR_NEWER
-        float targetDamping = isPlayer ? linearDampingPlayer : linearDampingAI;
-        if (Mathf.Abs(carRigidbody.linearDamping - targetDamping) > 0.01f)
-            carRigidbody.linearDamping = targetDamping;
-#else
-        float targetDrag = isPlayer ? linearDampingPlayer : linearDampingAI;
-        if (Mathf.Abs(carRigidbody.drag - targetDrag) > 0.01f)
-            carRigidbody.drag = targetDrag;
-#endif
-    }
+// #if UNITY_6000_0_OR_NEWER
+//         float targetDamping = isPlayer ? linearDampingPlayer : linearDampingAI;
+//         if (Mathf.Abs(carRigidbody.linearDamping - targetDamping) > 0.01f)
+//             carRigidbody.linearDamping = targetDamping;
+// #else
+//         float targetDrag = isPlayer ? linearDampingPlayer : linearDampingAI;
+//         if (Mathf.Abs(carRigidbody.drag - targetDrag) > 0.01f)
+//             carRigidbody.drag = targetDrag;
+// #endif
+//     }
 }
 
 

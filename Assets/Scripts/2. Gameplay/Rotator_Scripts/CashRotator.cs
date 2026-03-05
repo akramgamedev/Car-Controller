@@ -1,9 +1,8 @@
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class CashRotator : MonoBehaviour
 {
-    public float rotationSpeed = 50f;
+    [SerializeField] private float rotationSpeed = 50f;
 
     void Update()
     {

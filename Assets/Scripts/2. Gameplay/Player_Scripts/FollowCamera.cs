@@ -19,24 +19,54 @@ public class FollowCamera : MonoBehaviour
 
     private Transform camTransform;
 
-    private Quaternion fixedRotation;
+    // private Quaternion fixedRotation;
+    private float smoothDampTime;
 
     void Awake()
     {
         camTransform = transform;
-        fixedRotation = camTransform.rotation;
+        // fixedRotation = camTransform.rotation;
+        smoothDampTime = 1f / followSmoothSpeed;
     }
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (!target) return;
 
         FollowPositionOnly();
     }
 
+    // private void FollowPositionOnly()
+    // {
+    //     Vector3 desiredPosition = target.position + worldOffset;
+
+    //     if (useSmoothDamp)
+    //     {
+    //         camTransform.position = Vector3.SmoothDamp(
+    //             camTransform.position,
+    //             desiredPosition,
+    //             ref velocity,
+    //             1f / followSmoothSpeed
+    //         );
+    //     }
+    //     else
+    //     {
+    //         camTransform.position = Vector3.Lerp(
+    //             camTransform.position,
+    //             desiredPosition,
+    //             followSmoothSpeed * Time.deltaTime
+    //         );
+    //     }
+    //     //   camTransform.rotation = fixedRotation;
+    // }
+
     private void FollowPositionOnly()
     {
-        Vector3 desiredPosition = target.position + worldOffset;
+        // Much faster & NO allocations
+        Vector3 desiredPosition = target.position;
+        desiredPosition.x += worldOffset.x;
+        desiredPosition.y += worldOffset.y;
+        desiredPosition.z += worldOffset.z;
 
         if (useSmoothDamp)
         {
@@ -44,18 +74,14 @@ public class FollowCamera : MonoBehaviour
                 camTransform.position,
                 desiredPosition,
                 ref velocity,
-                1f / followSmoothSpeed
+                smoothDampTime
             );
         }
         else
         {
-            camTransform.position = Vector3.Lerp(
-                camTransform.position,
-                desiredPosition,
-                followSmoothSpeed * Time.deltaTime
-            );
+            float t = followSmoothSpeed * Time.deltaTime;
+            camTransform.position = Vector3.Lerp(camTransform.position, desiredPosition, t);
         }
-     //   camTransform.rotation = fixedRotation;
     }
 
     public void SnapToTarget()
@@ -63,7 +89,7 @@ public class FollowCamera : MonoBehaviour
         if (target == null) return;
 
         camTransform.position = target.position + worldOffset;
-        camTransform.rotation = fixedRotation;
+        //camTransform.rotation = fixedRotation;
         velocity = Vector3.zero;
 
     }

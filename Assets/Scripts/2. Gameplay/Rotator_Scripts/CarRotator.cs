@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class CarRotator : MonoBehaviour
 {
-    public float rotationSpeed = 10f;
+    [SerializeField] private float rotationSpeed = 10f;
+    private Transform _transform;
+
+    private void Awake()
+    {
+        _transform = transform;
+    }
     void Update()
     {
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+        _transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.Self);
     }
 }

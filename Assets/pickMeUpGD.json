@@ -219,37 +219,37 @@
                 "pageIndex": 0
             },
             {
-                "isUnlocked": false,
+                "isUnlocked": true,
                 "unlockType": 2,
                 "identifier": "progression_car_0",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_1",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_2",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_3",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_4",
                 "pageIndex": 0
             },
             {
-                "isUnlocked": true,
+                "isUnlocked": false,
                 "unlockType": 2,
                 "identifier": "progression_car_5",
                 "pageIndex": 0
@@ -273,15 +273,15 @@
                 "pageIndex": 0
             }
         ],
-        "completedLevels": 13,
-        "progressionFillAmount": 0.5
+        "completedLevels": 4,
+        "progressionFillAmount": 0.0
     },
     "economy": {
-        "cash": 805,
+        "cash": 165,
         "keys": 2
     },
     "level": {
-        "unlockedLevelIndex": 0,
+        "unlockedLevelIndex": 4,
         "levelAttemptRate": 1,
         "unlockAllLevels": false
     },
